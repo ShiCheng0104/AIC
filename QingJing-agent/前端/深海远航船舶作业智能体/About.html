@@ -79,32 +79,13 @@
             padding: 3em 0;
         }
 
-        /* --- LOGO 样式及动画 --- */
+        /* --- LOGO 样式 --- */
         #logo {
             font-size: 1.3em;
             color: var(--main-cyan);
             text-shadow: 0 0 8px rgba(59, 179, 224, 0.5);
             letter-spacing: 2px;
             font-weight: 700;
-            display: inline-block; 
-            padding: 0.2em 0.5em; 
-            border-radius: 4px; 
-            -webkit-animation: 
-                fadeInUp 0.8s ease-out forwards 0.3s, 
-                logo-background-fade 1.5s ease-out forwards 0.8s; 
-            animation: 
-                fadeInUp 0.8s ease-out forwards 0.3s, 
-                logo-background-fade 1.5s ease-out forwards 0.8s; 
-        }
-
-        /* --- LOGO 样式及动画 End --- */
-
-        .byline {
-            color: var(--main-silver);
-            font-size: 1.1em;
-            font-weight: 400;
-            letter-spacing: 1px;
-            margin-top: 10px;
         }
 
         /* --- Navigation --- */
@@ -130,47 +111,7 @@
              color: var(--main-dark);
         }
         
-        /* --- Opening Animation --- */
-        @-webkit-keyframes fadeInUp {
-            from {
-                opacity: 0;
-                -webkit-transform: translateY(25px);
-                transform: translateY(25px);
-            }
-            to {
-                opacity: 1;
-                -webkit-transform: translateY(0);
-                transform: translateY(0);
-            }
-        }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(25px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        #header .inner .byline,
-        #header .inner hr {
-            opacity: 0; 
-            -webkit-animation: fadeInUp 0.8s ease-out forwards; 
-            animation: fadeInUp 0.8s ease-out forwards; 
-        }
-
-        #header .inner hr {
-            -webkit-animation-delay: 0.6s;
-            animation-delay: 0.6s;
-        }
-        #header .inner .byline {
-            -webkit-animation-delay: 0.9s;
-            animation-delay: 0.9s;
-        }
-
-        /* --- About Content Styling --- */
+        /* --- General Content Styling --- */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -212,11 +153,87 @@
             color: var(--main-cyan);
             border-bottom: 2px solid rgba(59, 179, 224, 0.3);
             padding-bottom: 0.3em;
-            margin-top: 2em;
+            margin-top: 2.5em;
+            margin-bottom: 1em;
         }
         .about-content p {
             line-height: 1.8;
             margin-bottom: 1.5em;
+        }
+
+        /* --- Usage Steps Section --- */
+        .steps-container {
+            position: relative;
+            padding: 2em 0;
+        }
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 20px;
+            bottom: 20px;
+            width: 4px;
+            background: rgba(59, 179, 224, 0.2);
+            border-radius: 2px;
+        }
+        .step-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            margin-bottom: 2.5em;
+            position: relative;
+            padding-left: 70px; /* Space for icon and line */
+        }
+        .step-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 60px;
+            height: 60px;
+            background: var(--bg-light);
+            border: 2px solid var(--main-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            color: var(--main-cyan);
+            box-shadow: 0 0 15px rgba(59, 179, 224, 0.3);
+        }
+        .step-content h4 {
+            font-size: 1.4em;
+            color: var(--main-gray);
+            margin: 0 0 0.5em 0;
+            font-weight: 600;
+        }
+        .step-content p {
+            margin: 0;
+            line-height: 1.7;
+            color: var(--main-silver);
+        }
+        
+        /* --- NEW: Download Button Style --- */
+        .button-download {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--main-cyan);
+            color: var(--main-dark);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1em;
+            border: 2px solid var(--main-cyan);
+            box-shadow: 0 0 15px rgba(59, 179, 224, 0.3);
+        }
+        .button-download:hover {
+            background-color: transparent;
+            color: var(--main-cyan);
+            box-shadow: 0 0 20px rgba(59, 179, 224, 0.6);
+            transform: translateY(-2px);
+        }
+        .button-download i {
+            margin-right: 8px;
         }
         
         .faq-grid {
@@ -261,7 +278,7 @@
             top: -2px;
         }
         
-        /* --- Footer (Keep the footer styles consistent) --- */
+        /* --- Footer --- */
         footer {
             background: linear-gradient(to top, var(--main-dark), var(--bg-light));
             color: var(--main-silver);
@@ -318,7 +335,7 @@
     <div id="header">
         <div class="inner">
             <header>
-                <h1><a href="#" id="logo">深海远航船舶作业智能体</a></h1>
+                <h1><a href="index.html" id="logo">深海远航船舶作业智能体</a></h1>
             </header>
         </div>
         
@@ -335,15 +352,61 @@
     <main class="container">
         <div class="section-header">
             <h2>项目介绍与目标</h2>
-            <p>我们致力于构建下一代船舶智能化解决方案，实现远洋作业的效率与安全双重升级。</p>
+            <p>本项目旨在为深海航运、科考与能源作业提供智能化决策支持。项目通过多角色智能体协同框架，融合大模型的语言理解、逻辑推理与多模态分析能力，实现对船舶设备数据的实时整合、状态识别与异常预警。系统采用“Planner–Actor–Critic”分工机制，通过任务分解树动态规划与自动经验提取机制，能够在复杂任务中保持高精度与高鲁棒性。依托领域专家知识库与工具池设计，智能体可处理来自推进系统、甲板机械等异构数据，实现从能耗计算、设备状态监测到安全预警的闭环管理。项目面向智能航运与智慧海洋应用，致力于推动我国深海船舶智能化水平迈向新阶段。</p>
         </div>
         <div class="about-content">
             <h3>项目愿景</h3>
-            <p>通过集成大型语言模型（LLM）、多模态数据分析、知识图谱及强化学习等前沿AI技术，为远洋船舶提供一个具备自主学习、智能决策和主动预警能力的“数字船员”。我们的目标是大幅降低人为操作失误，优化能源消耗，确保船舶在各种复杂海况下的稳定运行。</p>
+            <p>本项目构建了一个具备自学习、自适应与协同决策能力的智能化深海作业系统，成为未来智慧航运与海洋工程的“数字大脑”。我们希望通过该系统打破传统规则引擎和专家系统的局限，实现从被动监测到主动智能决策的跨越。项目将助力海上能源开采、远洋运输、极地科考等关键领域的安全与效率提升，减少人力依赖，提升系统自治性与响应速度。长远来看，我们致力于打造可迁移、可复用的智能体框架，使其成为“人工智能 + 海洋装备”融合创新的标准样板，为智慧港口、无人船舶、海上风电等场景提供技术支撑。最终目标是以智能化技术赋能海洋强国战略，让每一艘船舶都具备数据驱动的智慧思考能力。</p>
 
             <h3>核心价值</h3>
-            <p>本智能体不仅仅是一个数据查询工具，更是一个知识体系与决策支持系统。它能够实时处理和分析来自传感器、气象站、历史日志等海量数据，将经验知识数字化、模型化，并应用于实际操作指导，尤其是在人手不足或应急情况下，能提供快速、可靠的专业支持。</p>
+            <p>本项目的核心价值体现在“安全、智能、创新、可拓展”四个方面。安全层面上，系统可通过多源数据融合与动态风险评估，实现船舶关键设备状态的实时监测与多级预警，显著降低事故风险。智能层面上，依托讯飞星火大模型的推理能力与经验池机制，系统能够持续学习、自动提炼知识，逐步形成可演化的领域知识体系。创新层面上，多角色协同架构与层次分解树算法突破了单智能体在长链任务中的局限，实现复杂任务的自主规划与执行。可拓展性方面，系统模块化设计可快速迁移至航运、风电、石油钻井等多个场景，形成面向工业智能化的通用决策框架。通过技术创新与行业融合，项目为“智慧海洋”建设提供关键支撑，推动我国从“海洋大国”迈向“海洋强国”。</p>
 
+            <h3>使用步骤</h3>
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-clipboard-list"></i></div>
+                    <div class="step-content">
+                        <h4>第一步：记录船舶设备数据</h4>
+                        <p>要让智能体发挥作用，高质量的数据是基础。您需要系统性地记录来自船舶各类设备的数据，包括但不限于：主机与辅机的运行参数（如温度、压力、转速）、导航设备读数、货物状态监控以及维护保养日志。建议使用标准化的数据格式（如CSV）或连接船上的自动化数据采集系统，确保数据的准确性与完整性。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-magic-wand-sparkles"></i></div>
+                    <div class="step-content">
+                        <h4>第二步：数据清洗与整理</h4>
+                        <p>原始数据往往包含错误、缺失值或不一致的格式。在上传之前，必须进行数据清洗。此步骤包括：填充缺失数据、校正异常读数、统一测量单位以及对数据进行结构化整理。一个干净、规整的数据集是保证智能体分析和决策准确性的关键。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <div class="step-content">
+                        <h4>第三步：数据上传并配置API</h4>
+                        <p>将整理好的数据集通过我们提供的安全通道上传至云端平台。首次使用时，您需要在用户中心生成并配置您的专属API密钥。此密钥将作为您的数据与智能体服务连接的凭证，确保数据传输的安全与私密性。详细的API配置指南请参考我们的技术文档。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-robot"></i></div>
+                    <div class="step-content">
+                        <h4>第四步：使用智能问答和数据分析功能</h4>
+                        <p>完成以上步骤后，您就可以开始与智能体进行交互了。您可以像与专家对话一样，用自然语言提问（参考下方的FAQ示例），查询特定设备的状态、请求数据分析报告、或获取预测性维护建议。智能体将基于您上传的数据，提供即时、精准的回答与决策支持，成为您可靠的数字助手。</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>数据规范</h3>
+            <p>
+                为了保证智能体能够准确、高效地处理您的数据，请遵循我们的数据规范。高质量的输入数据是实现精准分析与决策的基础。核心规范包括：
+                <ul>
+                    <li><strong>数据来源与格式</strong>: 数据应来自船舶的关键子系统，如甲板机械、推进系统、发电机组等；所有数据必须以结构化的CSV或JSON时序格式存储。</li>
+                    <li><strong>文件编码与时间戳</strong>: 文件必须使用UTF-8编码。时间字段需统一为 "YYYY-MM-DD HH:MM:SS" 格式。</li>
+                    <li><strong>数据清洗</strong>: 上传前需进行预处理，例如处理缺失值与异常值，并根据规范进行单位换算。</li>
+                    <li><strong>文件命名</strong>: 文件命名需遵循 `设备名_编号.CSV` 的格式，例如 `Ajia_plc_1.csv`。</li>
+                </ul>
+                更详细的字段定义、数据标注规则及安全阈值等信息，请下载完整版规范文档。
+            </p>
+            <a href="深远海船舶作业智能体数据规范.pdf" class="button-download" download>
+                <i class="fas fa-download"></i>下载完整数据规范
+            </a>
             <h3>FAQ 示例</h3>
             <div class="faq-grid">
                 <div class="faq-card">

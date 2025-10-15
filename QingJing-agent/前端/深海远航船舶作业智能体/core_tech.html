@@ -1,0 +1,294 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>核心技术与思路 - 深海远航船舶作业智能体</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="深海远航船舶作业智能体核心技术与创新思路" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/skel-noscript.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style-desktop.css" />
+    <style>
+        /* --- 全局 CSS 重置 --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --main-blue: #183a54;
+            --main-cyan: #3bb3e0;
+            --light-cyan: #7fe7ff;
+            --main-gray: #e5e8ec;
+            --main-dark: #101820;
+            --bg-dark: #1a232c;
+            --bg-light: #232b33;
+            --main-silver: #bfc9d1;
+        }
+
+        /* --- General Body and Background --- */
+        body {
+            background-color: var(--bg-dark);
+            color: var(--main-silver);
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            position: relative;
+            overflow-x: hidden;
+            padding-top: 60px; /* 调整顶部填充以避开返回按钮 */
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-image: 
+                linear-gradient(to right, rgba(59, 179, 224, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(59, 179, 224, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            -webkit-animation: pan-background 60s linear infinite; 
+            animation: pan-background 60s linear infinite;
+        }
+        
+        @-webkit-keyframes pan-background {
+            0% { background-position: 0 0; }
+            100% { background-position: 400px 400px; }
+        }
+        @keyframes pan-background {
+            0% { background-position: 0 0; }
+            100% { background-position: 400px 400px; }
+        }
+        
+        /* --- 返回按钮样式 (新增) --- */
+        .back-to-function {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            text-decoration: none;
+            padding: 10px 15px;
+            background: var(--main-cyan);
+            color: var(--main-dark);
+            font-weight: 600;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(59, 179, 224, 0.5);
+            transition: transform 0.2s, background 0.2s;
+        }
+        .back-to-function:hover {
+            background: var(--light-cyan);
+            transform: translateY(-2px);
+        }
+        .back-to-function i {
+            margin-right: 5px;
+        }
+
+        /* --- Content/Layout Styling --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2em;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5em;
+            padding-top: 2em;
+        }
+        .section-header h2 {
+            font-size: 2.5em;
+            color: var(--main-gray);
+            letter-spacing: 2px;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5em;
+        }
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--main-cyan);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--main-cyan);
+        }
+
+        .tech-content {
+            padding-bottom: 5em;
+        }
+
+        .tech-section {
+            background: var(--bg-light);
+            padding: 2.5em;
+            border-radius: 12px;
+            margin-bottom: 3em;
+            border-left: 5px solid var(--main-cyan);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tech-section h3 {
+            font-size: 1.8em;
+            color: var(--main-cyan);
+            margin-bottom: 1em;
+            padding-bottom: 0.5em;
+            border-bottom: 1px dashed rgba(59, 179, 224, 0.2);
+        }
+
+        .tech-section p {
+            line-height: 1.7;
+            margin-bottom: 1em;
+        }
+        
+        .tech-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tech-section li {
+            position: relative;
+            padding-left: 1.5em;
+            margin-bottom: 0.8em;
+            line-height: 1.6;
+        }
+        .tech-section li::before {
+            content: "\f058"; /* Font Awesome check circle */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--main-cyan);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 1.1em;
+        }
+        
+        /* --- Footer (Keep the footer styles consistent) --- */
+        footer {
+            background: linear-gradient(to top, var(--main-dark), var(--bg-light));
+            color: var(--main-silver);
+            padding: 2em 0 1.5em 0;
+            border-top: 2px solid var(--main-cyan);
+            box-shadow: 0 -2px 15px rgba(24, 58, 84, 0.1);
+            border-radius: 12px 12px 0 0;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2em;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1em;
+        }
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+        }
+        .ship-icon {
+            font-size: 1.5em;
+            color: var(--main-cyan);
+        }
+        .footer-links a {
+            color: var(--main-silver);
+            margin: 0 10px;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 1em;
+            padding-bottom: 3px;
+            border-bottom: 1px dotted transparent;
+        }
+        .footer-links a:hover {
+            color: var(--main-cyan);
+            border-bottom-color: var(--main-cyan);
+        }
+        .footer-legal {
+            font-size: 0.8em;
+            color: #6c7a89;
+            width: 100%;
+            text-align: center;
+            margin-top: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <a href="function.html" class="back-to-function">
+        <i class="fas fa-arrow-left"></i> 返回核心功能
+    </a>
+
+    <main>
+        <div class="container">
+            <div class="section-header">
+                <h2>核心技术与创新思路</h2>
+                <p>构建智慧船舶大脑的基石：融合前沿AI与专业海事知识。</p>
+            </div>
+            <div class="tech-content">
+                <section class="tech-section">
+                    <h3>1. 多模态数据融合与知识图谱</h3>
+                    <p>通过集成来自传感器、历史日志、气象水文数据、以及专业海事规章制度的多源异构数据，构建全面的船舶知识图谱，为智能决策提供坚实基础。</p>
+                    <ul>
+                        <li><strong>LLM & RAG：</strong>基于大型语言模型构建检索增强生成（RAG）系统，实现自然语言到专业知识的高效转化。</li>
+                        <li><strong>知识图谱：</strong>将设备、流程、故障、操作规程等实体及其关系结构化，提升推理与溯源能力。</li>
+                        <li><strong>数据清洗与校验：</strong>确保海量时序数据的质量与可靠性。</li>
+                    </ul>
+                </section>
+
+                <section class="tech-section">
+                    <h3>2. 强化学习驱动的自主优化</h3>
+                    <p>利用强化学习（RL）算法，模拟实际操作环境，让智能体在虚拟环境中进行试错学习，自主发现最优的决策策略，尤其适用于能耗优化和复杂避碰场景。</p>
+                    <ul>
+                        <li><strong>数字孪生：</strong>构建高保真的船舶及海洋环境数字孪生模型，作为RL训练环境。</li>
+                        <li><strong>能耗优化：</strong>通过RL自主学习最佳动力配置与航速，提升作业效率与安全性。</li>
+                        <li><strong>可视化与人机交互：</strong>提供直观的可视化界面与交互体验，支持多终端访问与远程协同。</li>
+                    </ul>
+                </section>
+
+                <section class="tech-section">
+                    <h3>3. 系统功能与应用场景</h3>
+                    <ul>
+                        <li>智能问答与辅助决策</li>
+                        <li>设备状态监测与故障预警</li>
+                        <li>作业流程优化与能耗分析</li>
+                        <li>应急响应与安全保障</li>
+                        <li>远程协同与知识共享</li>
+                    </ul>
+                </section>
+
+                <section class="tech-section">
+                    <h3>4. 项目优势与未来展望</h3>
+                    <ul>
+                        <li>融合AI与行业知识，提升船舶作业智能化水平</li>
+                        <li>支持多场景、多角色协同，适应复杂远洋环境</li>
+                        <li>持续进化的智能体，具备自学习与自适应能力</li>
+                        <li>为行业数字化转型与智能航运提供坚实支撑</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="ship-icon">⚓</span>
+                <p>深海远航船舶作业智能体</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">回到首页</a>
+                <a href="Our_Team.html">技术支持</a>
+                <a href="About.html">使用指南</a>
+                <a href="interaction.html">智能问答</a>
+            </div>
+            <div class="footer-legal">
+                <p>©2025 版权所有 | 隐私保护 | 服务条款</p>
+                <p>技术支持：深海护航团队</p> 
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

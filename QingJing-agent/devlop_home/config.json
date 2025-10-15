@@ -1,0 +1,31 @@
+{
+    "api_configs": [
+        {
+            "config_name": "SPARK",
+            "type": "SPARK",
+            "base_url": "https://spark-api-open.xf-yun.com/v1/",
+            "api_key_env": "SPARKAI_API_KEY",
+            "model": "4.0Ultra",
+            "temperature": 0
+        }
+    ],
+    "data_config": {
+        "input_data_path": "devlop_data/assets/复赛数据",
+        "output_data_path": "devlop_home/data",
+        "file_mapping": {
+            "Ajia_plc_1.csv": "A架动作表.csv",
+            "device_13_11_meter_1311.csv": "折臂吊车与小艇动作表.csv",
+            "Port3_ksbg_9.csv": "艏侧推系统DP动作表.csv"
+        }
+    },
+    "module_config": {
+        "enable_update_decomposition": false,
+        "enable_summary": true,
+        "enable_correct": false,
+        "summary_only_answer": false,
+        "vote_times": 3,
+        "max_workers_main": 20,
+        "max_workers_subtask": 5,
+        "max_function_calling_iterations": 10
+    }
+}

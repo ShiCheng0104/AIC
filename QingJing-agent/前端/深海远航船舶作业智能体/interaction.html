@@ -1,0 +1,588 @@
+<!DOCTYPE HTML>
+<!--
+    Helios 1.5 by HTML5 UP
+    html5up.net | @n33co
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="zh-CN">
+
+<head>
+    <title>深海远航船舶作业智能体交互</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="An intelligent agent for deep sea vessel operations." />
+    <meta name="keywords" content="AI, Maritime, Shipping, Intelligent Agent, Deep Sea" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.dropotron.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/skel-panels.min.js"></script>
+    <script src="js/init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="css/skel-noscript.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/style-desktop.css" />
+    </noscript>
+    <style>
+        :root {
+            --main-blue: #183a54;
+            --main-cyan: #3bb3e0;
+            --light-cyan: #7fe7ff;
+            --main-gray: #e5e8ec;
+            --main-dark: #101820;
+            --bg-dark: #1a232c;
+            --bg-light: #232b33;
+            --main-silver: #bfc9d1;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            position: relative;
+            overflow-x: hidden;
+            font-family: 'Source Sans Pro', 'Segoe UI', 'Arial', sans-serif;
+            color: var(--main-silver);
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(to right, rgba(59, 179, 224, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(59, 179, 224, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            animation: pan-background 60s linear infinite;
+        }
+
+        @keyframes pan-background {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 400px 400px;
+            }
+        }
+
+        #header {
+            background: rgba(30, 41, 51, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--main-cyan);
+            box-shadow: 0 4px 20px rgba(24, 58, 84, 0.15);
+            border-radius: 0 0 12px 12px;
+        }
+
+        #header .inner {
+            padding: 3em 0;
+        }
+
+        #logo {
+            font-size: 1.5em;
+            color: var(--main-cyan);
+            text-shadow: 0 0 8px rgba(59, 179, 224, 0.5);
+            letter-spacing: 2px;
+            font-weight: 700;
+            border-left: 4px solid var(--main-cyan);
+            padding-left: 15px;
+        }
+
+        .byline {
+            color: var(--main-silver);
+            font-size: 1.1em;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        /* 统一导航栏样式，完全对齐首页 */
+        #nav {
+            margin-top: 0.5em;
+            display: flex;
+            justify-content: center;
+        }
+
+        #nav ul {
+            background: rgba(30, 41, 51, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(24, 58, 84, 0.04);
+            padding: 4px 0;
+            border: 1px solid rgba(59, 179, 224, 0.5);
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin: 0;
+        }
+
+        #nav ul li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+
+        #nav ul li a {
+            color: var(--main-silver);
+            font-weight: 600;
+            border-radius: 18px;
+            padding: 8px 32px;
+            margin: 0 6px;
+            background: none;
+            display: block;
+            font-size: 1.08em;
+            letter-spacing: 1px;
+            transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+            box-shadow: none;
+            text-decoration: none;
+            position: relative;
+        }
+
+        #nav ul li a:hover,
+        #nav ul li a:focus {
+            background: var(--main-cyan);
+            color: var(--main-dark);
+            box-shadow: 0 0 8px 0 rgba(59,179,224,0.18);
+            text-shadow: none;
+        }
+
+        #nav ul li a.active,
+        #nav ul li.active a {
+            background: linear-gradient(90deg, var(--main-cyan) 60%, var(--light-cyan) 100%);
+            color: var(--main-dark);
+            font-weight: 700;
+            box-shadow: 0 0 12px 0 rgba(59,179,224,0.22);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 3em auto 2em auto;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 18px;
+            box-shadow: 0 2px 16px rgba(59, 179, 224, 0.08);
+            padding: 2.5em 2em 2em 2em;
+        }
+
+        .chat-section-header {
+            text-align: center;
+            margin-bottom: 2.5em;
+        }
+
+        .chat-section-header h2 {
+            font-size: 2.2em;
+            color: var(--main-cyan);
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 0.5em;
+        }
+
+        .chat-section-header p {
+            color: var(--main-silver);
+            font-size: 1.1em;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        .chat-box {
+            background: linear-gradient(145deg, var(--bg-light), var(--bg-dark));
+            border-radius: 12px;
+            padding: 2em 1.5em;
+            border: 1px solid rgba(59, 179, 224, 0.2);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            min-height: 500px;
+        }
+
+        .chat-history {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1em 0;
+            margin-bottom: 1em;
+        }
+
+        .chat-message {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.2em;
+            animation: fadeInUp 0.5s;
+        }
+
+        .chat-message.user {
+            flex-direction: row-reverse;
+        }
+
+        .chat-message .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--main-cyan);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            margin: 0 1em;
+            box-shadow: 0 2px 8px rgba(59, 179, 224, 0.15);
+        }
+
+        .chat-message.user .avatar {
+            background: var(--main-blue);
+        }
+
+        .chat-bubble {
+            max-width: 70%;
+            padding: 1em 1.2em;
+            border-radius: 16px;
+            background: #fff;
+            color: var(--main-dark);
+            box-shadow: 0 2px 8px rgba(59, 179, 224, 0.08);
+            font-size: 1.05em;
+            line-height: 1.7;
+        }
+
+        .chat-message.user .chat-bubble {
+            background: var(--main-cyan);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-message.ai .chat-bubble {
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-input-area {
+            display: flex;
+            align-items: center;
+            gap: 1em;
+            margin-top: 1em;
+        }
+
+        .chat-input-area textarea {
+            flex: 1;
+            border-radius: 8px;
+            border: 1.5px solid #e5e8ec;
+            padding: 0.9em 1.2em;
+            font-size: 1em;
+            resize: none;
+            min-height: 44px;
+            max-height: 120px;
+            transition: border 0.2s;
+        }
+
+        .chat-input-area textarea:focus {
+            border: 1.5px solid var(--main-cyan);
+            outline: none;
+        }
+
+        .chat-input-area button {
+            background: var(--main-cyan);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.7em 1.5em;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(59, 179, 224, 0.12);
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .chat-input-area button:hover {
+            background: var(--main-blue);
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        footer {
+            background: linear-gradient(to top, var(--main-dark), var(--bg-light));
+            color: var(--main-silver);
+            padding: 2em 0 1.5em 0;
+            border-top: 2px solid var(--main-cyan);
+            box-shadow: 0 -2px 15px rgba(24, 58, 84, 0.1);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2em;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1em;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+        }
+
+        .ship-icon {
+            font-size: 1.5em;
+            color: var(--main-cyan);
+        }
+
+        .footer-links a {
+            color: var(--main-silver);
+            margin: 0 10px;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 1em;
+            padding-bottom: 3px;
+            border-bottom: 1px dotted transparent;
+        }
+
+        .footer-links a:hover {
+            color: var(--main-cyan);
+            border-bottom-color: var(--main-cyan);
+        }
+
+        .footer-legal {
+            font-size: 0.8em;
+            color: #6c7a89;
+            width: 100%;
+            text-align: center;
+            margin-top: 1.5em;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                max-width: 98vw;
+                padding: 1.2em 0.5em 1.2em 0.5em;
+            }
+
+            #header .inner {
+                padding: 2em 0 1em 0;
+            }
+
+            #logo {
+                font-size: 1.2em;
+                padding-left: 10px;
+            }
+
+            .chat-section-header h2 {
+                font-size: 1.3em;
+            }
+        }
+
+        @media (max-width: 600px) {
+            #header .inner {
+                padding: 1.2em 0 0.7em 0;
+            }
+
+            #logo {
+                font-size: 1em;
+                padding-left: 7px;
+            }
+
+            #nav ul li a {
+                padding: 7px 10px;
+                font-size: 0.98em;
+            }
+
+            .container {
+                padding: 0.7em 0.2em 0.7em 0.2em;
+            }
+        }
+    </style>
+</head>
+
+<body class="no-sidebar">
+
+    <!-- Header -->
+    <div id="header">
+        <div class="inner">
+            <header>
+                <h1><a href="index.html" id="logo">深海远航船舶作业智能体</a></h1>
+                <hr />
+                <p class="byline">融合尖端AI技术，赋能远洋船舶，提供全方位智能决策与安全保障</p>
+            </header>
+        </div>
+        <nav id="nav">
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="Our_Team.html">我们的团队</a></li>
+                <li><a href="About.html">关于我们</a></li>
+                <li><a href="interaction.html" class="active" aria-current="page">智能问答</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main -->
+    <main class="container">
+        <div class="chat-section-header">
+            <h2><i class="fas fa-robot"></i> 智能问答</h2>
+            <p>欢迎使用深海远航船舶作业智能体问答系统，输入您的问题，AI将为您提供专业解答与建议。</p>
+        </div>
+        <div class="chat-box">
+            <div class="chat-history" id="chat-history">
+                <!-- 聊天消息会动态插入 -->
+                <div class="chat-message ai">
+                    <div class="avatar"><i class="fas fa-robot"></i></div>
+                    <div class="chat-bubble">你好！有什么可以帮助你的吗？</div>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <textarea id="user-input" placeholder="输入问题..." rows="1"></textarea>
+                <button id="send-button"><i class="fas fa-paper-plane"></i> 发送</button>
+            </div>
+            <p style="font-size:0.95em;color:#7fe7ff;margin-top:0.5em;"><i class="fas fa-info-circle"></i> 按 Enter 发送，Shift+Enter 换行</p>
+        </div>
+    </main>
+
+    <!--footer-->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="ship-icon">⚓</span>
+                <p>深海远航船舶作业智能体</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">回到首页</a>
+                <a href="Our_Team.html">技术支持</a>
+                <a href="About.html">使用指南</a>
+                <a href="interaction.html">智能问答</a>
+            </div>
+            <div class="footer-legal">
+                <p>©2025 版权所有 | 隐私保护 | 服务条款</p>
+                <p>技术支持：深海护航团队</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM 元素
+        const chatHistory = document.getElementById('chat-history');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const socket = io('http://localhost:5000');
+
+        // 自动调整输入框高度
+        function adjustTextareaHeight() {
+            userInput.style.height = 'auto';
+            userInput.style.height = (userInput.scrollHeight > 38 ? userInput.scrollHeight : 38) + 'px';
+            if (userInput.scrollHeight > 120) {
+                userInput.style.overflowY = 'auto';
+                userInput.style.height = '120px';
+            } else {
+                userInput.style.overflowY = 'hidden';
+            }
+        }
+
+        // 发送消息
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            addMessageToChat('user', message);
+            userInput.value = '';
+            userInput.style.height = 'auto';
+            createLoadingMessage();
+            simulateApiRequest(message)
+                .then(response => {
+                    removeLoadingMessage();
+                    addMessageToChat('ai', response);
+                })
+                .catch(() => {
+                    removeLoadingMessage();
+                    addMessageToChat('ai', '抱歉，出现了错误，请稍后再试。');
+                });
+        }
+
+        // 添加消息到聊天历史
+        function addMessageToChat(sender, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message ' + sender;
+            messageDiv.innerHTML = `
+                <div class="avatar"><i class="fas fa-${sender === 'user' ? 'user' : 'robot'}"></i></div>
+                <div class="chat-bubble">${message}</div>
+            `;
+            chatHistory.appendChild(messageDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        // 创建等待动画
+        function createLoadingMessage() {
+            removeLoadingMessage();
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'chat-message ai loading';
+            loadingDiv.id = 'loading-message';
+            loadingDiv.innerHTML = `
+                <div class="avatar"><i class="fas fa-robot"></i></div>
+                <div class="chat-bubble">
+                    <span class="dot" style="animation: blink 1s infinite;">●</span>
+                    <span class="dot" style="animation: blink 1s infinite 0.2s;">●</span>
+                    <span class="dot" style="animation: blink 1s infinite 0.4s;">●</span>
+                </div>
+            `;
+            chatHistory.appendChild(loadingDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        function removeLoadingMessage() {
+            const loadingDiv = document.getElementById('loading-message');
+            if (loadingDiv) loadingDiv.remove();
+        }
+
+        // 模拟API请求（实际使用时替换为真实API调用）
+        async function simulateApiRequest(message) {
+            const response = await fetch('http://localhost:5000/process', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message })
+            });
+            const data = await response.json();
+            return data.result;
+        }
+
+        // 支持按Enter发送消息，Shift+Enter换行
+        userInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('input', adjustTextareaHeight);
+        adjustTextareaHeight();
+
+        // loading 动画
+        const style = document.createElement('style');
+        style.innerHTML = `
+        @keyframes blink {
+            0%, 80%, 100% { opacity: 0.2; }
+            40% { opacity: 1; }
+        }
+        .dot {
+            font-size: 1.5em;
+            color: #3bb3e0;
+            margin: 0 2px;
+        }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+
+</html>

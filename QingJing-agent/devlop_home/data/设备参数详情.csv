@@ -1,0 +1,355 @@
+Channel_Text,Channel_Text_CN,Alarm_Information_Range_Low,Alarm_Information_Range_High,Alarm_Information_Unit,Parameter_Information_Alarm,Parameter_Information_Inhibit,Parameter_Information_Delayed,Safety_Protection_Set_Value,Remarks,Function_code,Function_code_type
+DG1 Engine Load,一号柴油发电机组负载,,100.0,%,,,,,,3,int16
+DG1 Engine Speed,一号柴油发电机组转速,,2000.0,RPM,,,,,,3,int16
+DG1 Fuel Rate,一号柴油发电机组燃油消耗率,,800.0,L/h,,,,,,3,int16
+DG1 Battery Voltage,一号柴油发电机组蓄电池电压,,30.0,V,21V ↓,,,,Alarm state,3,int16
+DG1 Engine Jacket Water Temperature,一号柴油发电机组缸套水温度,,120.0,℃,102℃↑,,,,Alarm state,3,int16
+DG1 Engine Jacket Water Pressure,一号柴油发电机组缸套水压力,,500.0,kPa,41kPa↓,,,,Alarm state,3,int16
+DG1 Engine Jacket Water Level,一号柴油发电机组缸套水液位,,100.0,%,,,,,Alarm state,3,int16
+DG1 Left Exhaust Gas Temperature,一号柴油发电机组左排气温度,,1735.0,℃,730℃↑,,,,Alarm state,3,int16
+DG1 Right Exhaust Gas Temperature,一号柴油发电机组右排气温度,,1735.0,℃,730℃↑,,,,Alarm state,3,int16
+DG1 Engine LO Pressure,一号柴油发电机组滑油压力,,800.0,kPa,"
+210kPa↓",,,"
+180kPa↓",Alarm state,3,int16
+DG1 Engine LO Temperature,一号柴油发电机组滑油温度,,1735.0,℃,"
+110℃↑",,,,Alarm state,3,int16
+DG1 Engine Starting Air Pressure ,一号柴油发电机组启动空气压力,,1000.0,kPa,"
+400kPa↓",,,,Alarm state,3,int16
+DG1 Engine FO After Filter Pressure,一号柴油发电机组燃油压力,,800.0,kPa,,,,,Alarm state,3,int16
+DG1 Emergency Stop,一号柴油发电机组应急停止,,,,,,,,Alarm state,3,Bool
+DG1 Safety System  Failure,一号柴油发电机组安全系统故障,,,,,,,,Alarm state,3,Bool
+DG1 Control System Failure,一号柴油发电机组控制系统故障,,,,,,,,Alarm state,3,Bool
+DG1 ECM General Alarm,一号柴油发电机组发动机控制模块通用报警,,,,,,,,Alarm state,3,Bool
+DG1 Engine Start Failure,一号柴油发电机组启动故障,,,,,,,,Alarm state,3,Bool
+DG1 Engine After Coolant Temperature,一号柴油发电机组冷却液温度,0.0,120.0,℃,"
+60℃↑",,,,Alarm state,3,int16
+DG1 Engine Speed Sensor Fault,一号柴油发电机组转速传感器故障,,,,,,,,Alarm state,3,Bool
+G1 Engine Jacket Water Temperature Sensor Fault,一号柴油发电机组缸套水温度传感器故障,,,,,,,,Alarm state,3,Bool
+DG1 Engine LO Pressure Sensor Fault,一号柴油发电机组滑油压力传感器故障,,,,,,,,Alarm state,3,Bool
+DG1 Emergency Stop Sensor Fault,一号柴油发电机组应急停止传感器故障,,,,,,,,Alarm state,3,Bool
+DG1 Overspeed Shutdown,一号柴油发电机组超速停车,0.0,2000.0,RPM,,,,2070RPM,Shutdown,3,Bool
+DG1 Engine High Jacket Water Temperature Shutdown,一号柴油发电机组缸套水高温停车,0.0,120.0,℃,,,,107℃,Shutdown,3,Bool
+DG1 Engine Low LO Pressure Shutdown,一号柴油发电机组滑油压力低停车,0.0,800.0,kPa,,,,180kPa,Shutdown,3,Bool
+DG1 Engine Sea Water Pressure Low,一号柴油发电机组海水压力低,0.0,500.0,kPa,35kPa↓,,,,Alarm state,3,Bool
+DG1 Engine Lub Filter Pressure Diff.,一号柴油发电机组滑油滤器压差,0.0,200.0,kPa,105kPa↑,,,,Alarm state,3,int16
+DG1 Expansion Tank Level Low,一号柴油发电机组膨胀柜液位低,,,,,,,,Alarm state,3,Bool
+DG1 Engine MAC Panel 24V Power Failure,一号柴油发电机组MAC报警板24V电源故障,,,,,,,,Alarm state,3,Bool
+DG1 Cold Air Temperature,一号柴油发电机组冷风温度,0.0,200.0,℃,55℃↑,,,,Alarm state,3,int16
+DG1 Warm Air Temperature,一号柴油发电机组热风温度,0.0,200.0,℃,100℃↑,,,,Alarm state,3,int16
+DG1 Generator Bearing Temp NDE,一号柴油发电机组非驱动轴轴承温度,0.0,200.0,℃,90℃↑,,,100℃,Alarm state,3,int16
+DG1 Generator Bearing Temp DE,一号柴油发电机组驱动轴轴承温度,0.0,200.0,℃,90℃↑,,,100℃,Alarm state,3,int16
+DG1 Winding Temp Phase U,一号柴油发电机组U相绕组温度显示,0.0,200.0,℃,145℃↑,,,155℃,Alarm state,3,int16
+DG1 Winding Temp Phase V,一号柴油发电机组V相绕组温度显示,0.0,200.0,℃,145℃↑,,,155℃,Alarm state,3,int16
+DG1 Winding Temp Phase W,一号柴油发电机组W相绕组温度显示,0.0,200.0,℃,145℃↑,,,155℃,Alarm state,3,int16
+DG1 Water Leakage ,一号柴油发电机组冷却水泄漏报警,,,,,,,,Alarm state,3,Bool
+DG1 ALARM SYSTEM FAILIRE ,一号柴油发电机报警系统失效,,,,,,,,Alarm state,3,Bool
+DG1 Expansion Tank Level Low ,一号柴油发电机组膨胀水柜低位报警,,,,,,,,Alarm state,3,Bool
+DG2 Engine Load,二号柴油发电机组负载,0.0,100.0,%,,,,,,3,int16
+DG2 Engine Speed,二号柴油发电机组转速,0.0,2000.0,RPM,,,,,,3,int16
+DG2 Fuel Rate,二号柴油发电机组燃油消耗率,0.0,800.0,L/h,,,,,,3,int16
+DG2 Battery Voltage,二号柴油发电机组蓄电池电压,0.0,30.0,V,21V ↓,,,,Alarm state,3,int16
+DG2 Engine Jacket Water Temperature,二号柴油发电机组缸套水温度,0.0,120.0,℃,102℃↑,,,,Alarm state,3,int16
+DG2 Engine Jacket Water Pressure,二号柴油发电机组缸套水压力,0.0,500.0,kPa,41kPa↓,,,,Alarm state,3,int16
+DG2 Engine Jacket Water Level,二号柴油发电机组缸套水液位,0.0,100.0,%,,,,,Alarm state,3,int16
+DG2 Left Exhaust Gas Temperature,二号柴油发电机组左排气温度,-273.0,1735.0,℃,730℃↑,,,,Alarm state,3,int16
+DG2 Right Exhaust Gas Temperature,二号柴油发电机组右排气温度,-273.0,1735.0,℃,730℃↑,,,,Alarm state,3,int16
+DG2 Engine LO Pressure,二号柴油发电机组滑油压力,0.0,800.0,kPa,"
+210kPa↓",,,"
+180kPa↓",Alarm state,3,int16
+DG2 Engine LO Temperature,二号柴油发电机组滑油温度,-273.0,1735.0,℃,"
+110℃↑",,,,Alarm state,3,int16
+DG2 Engine Starting Air Pressure ,二号柴油发电机组启动空气压力,0.0,1000.0,kPa,"
+400kPa↓",,,,Alarm state,3,int16
+DG2 Engine FO After Filter Pressure,二号柴油发电机组燃油压力,0.0,800.0,kPa,,,,,Alarm state,3,int16
+DG2 Emergency Stop,二号柴油发电机组应急停止,,,,,,,,Alarm state,3,Bool
+DG2 Safety System  Failure,二号柴油发电机组安全系统故障,,,,,,,,Alarm state,3,Bool
+DG2 Control System Failure,二号柴油发电机组控制系统故障,,,,,,,,Alarm state,3,Bool
+DG2 ECM General Alarm,二号柴油发电机组发动机控制模块通用报警,,,,,,,,Alarm state,3,Bool
+DG2 Engine Start Failure,二号柴油发电机组启动故障,,,,,,,,Alarm state,3,Bool
+DG2 Engine After Coolant Temperature,二号柴油发电机组冷却液温度,0.0,120.0,℃,60℃↑,,,,Alarm state,3,int16
+DG2 Engine Speed Sensor Fault,二号柴油发电机组转速传感器故障,,,,,,,,Alarm state,3,Bool
+G1 Engine Jacket Water Temperature Sensor Fault,二号柴油发电机组缸套水温度传感器故障,,,,,,,,Alarm state,3,Bool
+DG2 Engine LO Pressure Sensor Fault,二号柴油发电机组滑油压力传感器故障,,,,,,,,Alarm state,3,Bool
+DG2 Emergency Stop Sensor Fault,二号柴油发电机组应急停止传感器故障,,,,,,,,Alarm state,3,Bool
+DG2 Overspeed Shutdown,二号柴油发电机组超速停车,0.0,2000.0,RPM,,,,2070RPM,Shutdown,3,Bool
+DG2 Engine High Jacket Water Temperature Shutdown,二号柴油发电机组缸套水高温停车,0.0,120.0,℃,,,,107℃,Shutdown,3,Bool
+DG2 Engine Low LO Pressure Shutdown,二号柴油发电机组滑油压力低停车,0.0,800.0,kPa,,,,82kPa,Shutdown,3,Bool
+DG2 Engine Sea Water Pressure Low,二号柴油发电机组海水压力低,0.0,500.0,kPa,35kPa↓,,,,Alarm state,3,Bool
+DG2 Engine Lub Filter Pressure Diff.,二号柴油发电机组滑油滤器压差,0.0,200.0,kPa,105kPa↑,,,,Alarm state,3,int16
+DG2 Expansion Tank Level Low,二号柴油发电机组膨胀柜液位低,,,,,,,,Alarm state,3,Bool
+DG2 Engine MAC Panel 24V Power Failure,二号柴油发电机组MAC报警板24V电源故障,,,,,,,,Alarm state,3,Bool
+DG2 Cold Air Temperature,二号柴油发电机组冷风温度,0.0,200.0,℃,55℃↑,,,,Alarm state,3,int16
+DG2 Warm Air Temperature,二号柴油发电机组热风温度,0.0,200.0,℃,100℃↑,,,,Alarm state,3,int16
+DG2 Generator Bearing Temp NDE,二号柴油发电机组非驱动轴轴承温度,0.0,200.0,℃,90℃↑,,,100℃,Alarm state,3,int16
+DG2 Generator Bearing Temp DE,二号柴油发电机组驱动轴轴承温度,0.0,200.0,℃,90℃↑,,,100℃,Alarm state,3,int16
+DG2 Winding Temp Phase U,二号柴油发电机组U相绕组温度显示,0.0,200.0,℃,145℃↑,,,155℃,Alarm state,3,int16
+DG2 Winding Temp Phase V,二号柴油发电机组V相绕组温度显示,0.0,200.0,℃,145℃↑,,,155℃,Alarm state,3,int16
+DG2 Winding Temp Phase W,二号柴油发电机组W相绕组温度显示,0.0,200.0,℃,145℃↑,,,155℃,Alarm state,3,int16
+DG2 Water Leakage ,二号柴油发电机组冷却水泄漏报警,,,,,,,,Alarm state,3,Bool
+DG2 ALARM SYSTEM FAILIRE ,二号柴油发电机报警系统失效,,,,,,,,Alarm state,3,Bool
+DG2 Expansion Tank Level Low ,二号柴油发电机组膨胀水柜低位报警,,,,,,,,Alarm state,3,Bool
+HG/EG Engine Load,停泊/应急发电机组负载,0.0,100.0,%,,,,,,3,int16
+HG/EG Engine Speed,停泊/应急发电机组转速,0.0,2000.0,RPM,75%↑,,,,Alarm state,3,int16
+HG/EG Fuel Rate,停泊/应急发电机组燃油消耗率,0.0,800.0,L/h,,,,,,3,int16
+HG/EG Battery Voltage,停泊/应急发电机组蓄电池电压,0.0,30.0,V,21V ↓,,,,Alarm state,3,int16
+HG/EG Engine Jacket Water Temperature,停泊/应急发电机组缸套水温度,0.0,120.0,℃,102℃↑,,,,Alarm state,3,int16
+HG/EG Engine Jacket Water Pressure,停泊/应急发电机组缸套水压力,0.0,500.0,kPa,41kPa↓,,,,Alarm state,3,int16
+HG/EG Engine Jacket Water Level,停泊/应急发电机组缸套水液位,0.0,100.0,%,,,,,Alarm state,3,int16
+HG/EG Engine LO Pressure,停泊/应急发电机组滑油压力,0.0,800.0,kPa,124kPa↓,,,,Alarm state,3,int16
+HG/EG Engine LO Temperature,停泊/应急发电机组滑油温度,-273.0,1735.0,℃,117℃↑,,,,Alarm state,3,int16
+HG/EG Engine FO Pressure,停泊/应急发电机组燃油压力,0.0,800.0,kPa,,,,,,3,int16
+HG/EG Emergency Stop,停泊/应急发电机组应急停止,,,,,,,,Alarm state,3,Bool
+HG/EG Engine Start Failure,停泊/应急发电机组启动故障,,,,,,,,Alarm state,3,Bool
+HG/EG Local / Remote,停泊/应急发电机组就地/遥控指示,,,,,,,,,3,Bool
+HG/EG Engine Running,停泊/应急发电机组运行,,,,,,,,,3,Bool
+HG/EG Engine After Coolant Level,停泊/应急发电机组冷却液液位,0.0,100.0,%,,,,,Alarm state,3,int16
+HG/EG Alarm System Failure,停泊/应急发电机组报警系统失效,,,,,,,,Alarm state,3,Bool
+DG1 Voltage-UV,一号柴油发电机组U-V相电压测量,0.0,800.0,V,,,0.0,,,3,int16
+DG1 Voltage-VW,一号柴油发电机组V-W相电压测量,0.0,800.0,V,,,0.0,,,3,int16
+DG1 Voltage-WU,一号柴油发电机组W-U相电压测量,0.0,800.0,V,,,0.0,,,3,int16
+DG1 U Phase Current,一号柴油发电机组U相电流测量,0.0,2500.0,A,,,0.0,,,3,int16
+DG1 V Phase Current,一号柴油发电机组V相电流测量,0.0,2500.0,A,,,0.0,,,3,int16
+DG1 W Phase Current,一号柴油发电机组W相电流测量,0.0,2500.0,A,,,0.0,,,3,int16
+DG1 Active Power,一号柴油发电机组有功功率测量,-250.0,2000.0,kW,,,0.0,,,3,int16
+DG1 Frequency,一号柴油发电机组频率测量,55.0,65.0,HZ,,,0.0,,,3,int16
+DG1 Excitation Current,一号柴油发电机组励磁电流,0.0,3.0,A,,,0.0,,,3,int16
+DG1 CB Close Status,一号柴油发电机组主开关闭合反馈,,,,,,0.0,,,3,Bool
+DG1 CB Open Status,一号柴油发电机组主开关开启反馈,,,,,,0.0,,,3,Bool
+DG1 CB Close Command,一号柴油发电机组主开关合闸命令,,,,,,0.0,,,3,Bool
+DG1 CB Open Command,一号柴油发电机组主开关分闸命令,,,,,,0.0,,,3,Bool
+DG1 CB Trip & Block,一号柴油发电机组主开关脱扣报警,,,,,,0.0,,Alarm state,3,Bool
+DG1 Remote Mode,一号柴油发电机组主开关远程控制反馈,,,,,,0.0,,,3,Bool
+DG1 Engine Remote,一号柴油发电机组远程控制,,,,,,0.0,,,3,Bool
+DG1 Engine Ready,一号柴油发电机组就绪,,,,,,0.0,,,3,Bool
+DG1 Engine Remote Start,一号柴油发电机组遥控启动,,,,,,0.0,,,3,Bool
+DG1 Engine Remote Stop,一号柴油发电机组遥控停止,,,,,,0.0,,,3,Bool
+DG1 Engine Speed Increase,一号柴油发电机组升速,,,,,,0.0,,,3,Bool
+DG1 Engine Speed Decrease,一号柴油发电机组减速,,,,,,0.0,,,3,Bool
+DG1 Unload,一号柴油发电机组卸载,,,,,,0.0,,,3,Bool
+DG1 ISO/Droop Mode,一号柴油发电机组功率分配模式转换,,,,,,0.0,,,3,Bool
+DG1 Engine Running,一号柴油发电机组额定转速运行,,,,,,0.0,,,3,Bool
+DG1 Engine Common Shutdown,一号柴油发电机组公共停车,,,,,,0.0,,,3,Bool
+DG1 Engine Remote,一号柴油发电机组就地/遥控指示,,,,,,0.0,,,3,Bool
+DG1 Engine Ready,一号柴油发电机组备车完毕,,,,,,0.0,,,3,Bool
+DG1 Engine Start Failure,一号柴油发电机组起动失败,,,,,,0.0,,Alarm state,3,Bool
+DG1 Woodward Sharing Line Wire Open,一号柴油发电机组负载分配线路故障,,,,,,0.0,,Alarm state,3,Bool
+DG1 Woodward Common Alarm,一号柴油发电机组负荷分配器公共报警,,,,,,0.0,,Alarm state,3,Bool
+DG1 AVR Power Monitor,一号柴油发电机组AVR功率监控,,,,,,0.0,,Alarm state,3,Bool
+DG2 Voltage-UV,二号柴油发电机组U-V相电压测量,0.0,800.0,V,,,0.0,,,3,int16
+DG2 Voltage-VW,二号柴油发电机组V-W相电压测量,0.0,800.0,V,,,0.0,,,3,int16
+DG2 Voltage-WU,二号柴油发电机组W-U相电压测量,0.0,800.0,V,,,0.0,,,3,int16
+DG2 U Phase Current,二号柴油发电机组U相电流测量,0.0,2500.0,A,,,0.0,,,3,int16
+DG2 V Phase Current,二号柴油发电机组V相电流测量,0.0,2500.0,A,,,0.0,,,3,int16
+DG2 W Phase Current,二号柴油发电机组W相电流测量,0.0,2500.0,A,,,0.0,,,3,int16
+DG2 Active Power,二号柴油发电机组有功功率测量,-250.0,2000.0,kW,,,0.0,,,3,int16
+DG2 Frequency,二号柴油发电机组频率测量,55.0,65.0,HZ,,,0.0,,,3,int16
+DG2 Excitation Current,二号柴油发电机组励磁电流,0.0,3.0,A,,,0.0,,,3,int16
+DG2 CB Close Status,二号柴油发电机组主开关闭合反馈,,,,,,0.0,,,3,Bool
+DG2 CB Open Status,二号柴油发电机组主开关开启反馈,,,,,,0.0,,,3,Bool
+DG2 CB Close Command,二号柴油发电机组主开关合闸命令,,,,,,0.0,,,3,Bool
+DG2 CB Open Command,二号柴油发电机组主开关分闸命令,,,,,,0.0,,,3,Bool
+DG2 CB Trip & Block,二号柴油发电机组主开关脱扣报警,,,,,,0.0,,Alarm state,3,Bool
+DG2 Remote Mode,二号柴油发电机组主开关远程控制反馈,,,,,,0.0,,,3,Bool
+DG2 Engine Remote,二号柴油发电机组远程控制,,,,,,0.0,,,3,Bool
+DG2 Engine Ready,二号柴油发电机组就绪,,,,,,0.0,,,3,Bool
+DG2 Engine Remote Start,二号柴油发电机组遥控启动,,,,,,0.0,,,3,Bool
+DG2 Engine Remote Stop,二号柴油发电机组遥控停止,,,,,,0.0,,,3,Bool
+DG2 Engine Speed Increase,二号柴油发电机组升速,,,,,,0.0,,,3,Bool
+DG2 Engine Speed Decrease,二号柴油发电机组减速,,,,,,0.0,,,3,Bool
+DG2 Unload,二号柴油发电机组卸载,,,,,,0.0,,,3,Bool
+DG2 ISO/Droop Mode,二号柴油发电机组功率分配模式转换,,,,,,0.0,,,3,Bool
+DG2 Engine Running,二号柴油发电机组额定转速运行,,,,,,0.0,,,3,Bool
+DG2 Engine Common Shutdown,二号柴油发电机组公共停车,,,,,,0.0,,,3,Bool
+DG2 Engine Remote,二号柴油发电机组就地/遥控指示,,,,,,0.0,,,3,Bool
+DG2 Engine Ready,二号柴油发电机组备车完毕,,,,,,0.0,,,3,Bool
+DG2 Engine Start Failure,二号柴油发电机组起动失败,,,,,,0.0,,Alarm state,3,Bool
+DG2 Woodward Sharing Line Wire Open,二号柴油发电机组负载分配线路故障,,,,,,0.0,,Alarm state,3,Bool
+DG2 Woodward Common Alarm,二号柴油发电机组负荷分配器公共报警,,,,,,0.0,,Alarm state,3,Bool
+DG2 AVR Power Monitor,二号柴油发电机组AVR功率监控,,,,,,0.0,,Alarm state,3,Bool
+EG/HG CB Close Command,停泊/应急发电机开关合闸命令,,,,,,0.0,,,3,Bool
+EG/HG CB Open Command,停泊/应急发电机开关分闸命令,,,,,,0.0,,,3,Bool
+Harbor Engine Remote Start,停泊/应急发电机遥控起动,,,,,,0.0,,,3,Bool
+Harbor Engine Remote Stop,停泊/应急发电机遥控停止,,,,,,0.0,,,3,Bool
+HG Speed Decrease,停泊/应急发电机减速,,,,,,0.0,,,3,Bool
+HG Speed Increase,停泊/应急发电机升速,,,,,,0.0,,,3,Bool
+EG/HG Voltage,停泊/应急发电机电压测量,0.0,600.0,V,,,0.0,,,3,int16
+EG/HG Current,停泊/应急发电机电流测量,0.0,800.0,A,,,0.0,,,3,int16
+EG/HG CB Closed Status,停泊/应急发电机开关合闸反馈,,,,,,0.0,,,3,Bool
+EG/HG CB Open Status,停泊/应急发电机开关分闸反馈,,,,,,0.0,,,3,Bool
+EG/HG CB Remote Mode,停泊/应急发电机开关远程控制模式反馈,,,,,,0.0,,,3,Bool
+EG/HG CB Tripped,停泊/应急发电机开关脱扣报警,,,,,,0.0,,Alarm state,3,Bool
+Emergency/harbor Indication,停泊/应急模式指示,,,,,,0.0,,,3,Bool
+EG/HG Engine Common Shutdown,停泊/应急发电机公共停车,,,,,,0.0,,,3,Bool
+EG/HG Engine Remote & Ready,停泊/应急发电机遥控备车完毕,,,,,,0.0,,,3,Bool
+EG/HG Engine Running,停泊/应急发电机运行指示,,,,,,0.0,,,3,Bool
+EG/HG ESD Power Failure,停泊/应急发电机应急切断电源故障,,,,,,0.0,,Alarm state,3,Bool
+EG/HG ESD Wire Loose,停泊/应急发电机应急切断断线报警,,,,,,0.0,,Alarm state,3,Bool
+External Fi-Fi System Power Request System 1,一号外消防功率请求,,,,,,0.0,,,3,Bool
+BT CB Close Command,艏推主开关合闸命令,,,,,,0.0,,,3,Bool
+BT CB Open Command,艏推主开关分闸命令,,,,,,0.0,,,3,Bool
+BT CB Closed Status,艏推主开关闭合反馈,,,,,,0.0,,,3,Bool
+BT CB Opened Status,艏推主开关开启反馈,,,,,,0.0,,,3,Bool
+BT Current,艏推主开关电流,0.0,1000.0,A,,,0.0,,,3,int16
+BT Remote Mode,艏推主开关远程控制模式反馈,,,,,,0.0,,,3,Bool
+BT CB Tripped,艏推主开关脱扣报警,,,,,,0.0,,Alarm state,3,Bool
+Port AZ CB Tripped,左舵桨开关脱扣,,,,,,0.0,,Alarm state,3,Bool
+Port AZ CB closed status,左舵桨开关闭合反馈,,,,,,0.0,,,3,Bool
+Port AZ CB opened status,左舵桨开关开启反馈,,,,,,0.0,,,3,Bool
+Port AZ ESD control Power Failure,左舵桨应急切断电源故障,,,,,,0.0,,Alarm state,3,Bool
+Port AZ ESD wire loose,左舵桨应急切断断线报警,,,,,,0.0,,Alarm state,3,Bool
+Port AZ Current,左舵桨主开关电流,0.0,2500.0,A,,,0.0,,,3,int16
+MCC/DP Port CB Close Command,MCC左屏主开关合闸命令,,,,,,0.0,,,3,Bool
+MCC/DP Port CB Open Command,MCC左屏主开关分闸命令,,,,,,0.0,,,3,Bool
+MCC/DP Port CB tripped,MCC左屏主开关脱扣报警,,,,,,0.0,,Alarm state,3,Bool
+MCC/DP Port CB closed status,MCC左屏主开关闭合反馈,,,,,,0.0,,,3,Bool
+MCC/DP Port CB opened status,MCC左屏主开关开启反馈,,,,,,0.0,,,3,Bool
+MCC/DP Port Remote mode,MCC左屏主开关远程控制模式反馈,,,,,,0.0,,,3,Bool
+MCC/DP Port Current,MCC左屏主开关电流,0.0,800.0,A,,,0.0,,,3,int16
+ROV1 CB Close Command,ROV1主开关合闸命令,,,,,,0.0,,,3,Bool
+ROV1 CB Open Command,ROV1主开关分闸命令,,,,,,0.0,,,3,Bool
+ROV1 CB tripped,ROV1主开关脱扣报警,,,,,,0.0,,Alarm state,3,Bool
+ROV1 CB closed status,ROV1主开关闭合反馈,,,,,,0.0,,,3,Bool
+ROV1 CB opened status,ROV1主开关开启反馈,,,,,,0.0,,,3,Bool
+ROV1 Current,ROV1主开关电流,0.0,1000.0,A,,,0.0,,,3,int16
+ROV1 Remote mode,ROV1主开关远程控制模式反馈,,,,,,0.0,,,3,Bool
+FIFI 1 CB Close Command,一号外消防主开关合闸命令,,,,,,0.0,,,3,Bool
+FIFI 1 CB Open Command,一号外消防主开关分闸命令,,,,,,0.0,,,3,Bool
+FIFI 1 CB tripped,一号外消防主开关脱扣报警,,,,,,0.0,,Alarm state,3,Bool
+FIFI 1 CB closed status,一号外消防主开关闭合反馈,,,,,,0.0,,,3,Bool
+FIFI 1 CB opened status,一号外消防主开关开启反馈,,,,,,0.0,,,3,Bool
+FIFI 1 Remote mode,一号外消防主开关远程控制模式反馈,,,,,,0.0,,,3,Bool
+FIFI 1 Current,一号外消防主开关电流,0.0,1000.0,A,,,0.0,,,3,int16
+690V BUSTIE CB close command,690V主配电板联络开关合闸命令,,,,,,0.0,,,3,Bool
+690V BUSTIE CB open command,690V主配电板联络开关分闸命令,,,,,,0.0,,,3,Bool
+690V BUSTIE CB closed status,690V主配电板联络开关合闸反馈,,,,,,0.0,,,3,Bool
+690V BUSTIE CB open status,690V主配电板联络开关分闸反馈,,,,,,0.0,,,3,Bool
+690V BUSTIE CB remote mode,690V主配电板联络开关远程控制反馈,,,,,,0.0,,,3,Bool
+690V BUSTIE CB tripped,690V主配电板联络开关脱扣报警,,,,,,0.0,,Alarm state,3,Bool
+690V BUSTIE ESD power failure,690V主配电板联络开关应急切断电源故障,,,,,,0.0,,Alarm state,3,Bool
+690V BUSTIE ESD wire loose,690V主配电板联络开关应急切断断线报警,,,,,,0.0,,Alarm state,3,Bool
+690V BUSTIE 24VDC control voltage fault,690V主配电板联络开关24V控制电压故障,,,,,,0.0,,Alarm state,3,Bool
+690V MSB busA Voltage measure,690V主配电板A排电压测量,0.0,800.0,V,,,0.0,,,3,int16
+690V MSB busA Frequency measure,690V主配电板A排频率测量,55.0,65.0,HZ,,,0.0,,,3,int16
+690V MSB busA Insulation failure,690V主配电板A排绝缘故障,,,,,,0.0,,Alarm state,3,Bool
+690V MSB busA power failure,690V主配电板A排电源故障,,,,,,0.0,,Alarm state,3,Bool
+690V BUSTIE PT1 for bus-A,690V主配电板联络开关A汇流排一级设备优先脱扣,,,,,,0.0,,Alarm state,3,Bool
+690V BUSTIE PT2 for bus-A,690V主配电板联络开关A汇流排二级设备优先脱扣,,,,,,0.0,,Alarm state,3,Bool
+No.1 AC690V/230V Transformer Primary CB Closed,一号690V/230V主变压器原边开关合闸反馈,,,,,,0.0,,,3,Bool
+No.1 AC690V/230V Transformer Primary CB Opened,一号690V/230V主变压器原边开关分闸反馈,,,,,,0.0,,,3,Bool
+ESB Transfer CB PS closed,主应配左舷联络开关（应配侧）合闸反馈,,,,,,0.0,,,3,Bool
+ESB Transfer CB PS opened,主应配左舷联络开关（应配侧）分闸反馈,,,,,,0.0,,,3,Bool
+MSB incoming CB PS closed,主应配左舷联络开关（主配侧）合闸反馈,,,,,,0.0,,,3,Bool
+MSB incoming CB PS opened,主应配左舷联络开关（主配侧）分闸反馈,,,,,,0.0,,,3,Bool
+MSB incoming CB PS tripped,主应配左舷联络开关（主配侧）脱扣报警,,,,,,0.0,,Alarm state,3,Bool
+No.1 AC690V/230V Transformer Secondary CB Close Command,一号690V/230V主变压器副边开关合闸命令,,,,,,0.0,,,3,Bool
+No.1 AC690V/230V Transformer Secondary CB Open Command,一号690V/230V主变压器副边开关分闸命令,,,,,,0.0,,,3,Bool
+No.1 AC690V/230V Transformer Secondary CB Closed,一号690V/230V主变压器副边开关合闸反馈,,,,,,0.0,,,3,Bool
+No.1 AC690V/230V Transformer Secondary CB Opened,一号690V/230V主变压器副边开关分闸反馈,,,,,,0.0,,,3,Bool
+No.1 AC690V/230V Transformer Secondary CB Remote,一号690V/230V主变压器副边开关远程遥控反馈,,,,,,0.0,,,3,Bool
+No.1 AC690V/230V Transformer Secondary CB Tripped,一号690V/230V主变压器副边开关脱扣报警,,,,,,0.0,,Alarm state,3,Bool
+230V BUSTIE CB close command,230V主配电板联络开关合闸命令,,,,,,0.0,,,3,Bool
+230V BUSTIE CB open command,230V主配电板联络开关分闸命令,,,,,,0.0,,,3,Bool
+230V BUSTIE CB closed status,230V主配电板联络开关合闸反馈,,,,,,0.0,,,3,Bool
+230V BUSTIE CB open status,230V主配电板联络开关分闸反馈,,,,,,0.0,,,3,Bool
+230V BUSTIE CB remote mode,230V主配电板联络开关远程遥控反馈,,,,,,0.0,,,3,Bool
+230V BUSTIE CB tripped,230V主配电板联络开关脱扣报警,,,,,,0.0,,Alarm state,3,Bool
+230V BUSTIE Emcy stop source fault,230V主配电板联络开关应急切断电源故障,,,,,,0.0,,Alarm state,3,Bool
+230V BUSTIE Emcy stop wire break,230V主配电板联络开关应急切断断线故障,,,,,,0.0,,Alarm state,3,Bool
+230V MSB busA Insulation Failure,230V主配电板A排绝缘故障,,,,,,0.0,,Alarm state,3,Bool
+230V MSB busB Insulation Failure,230V主配电板B排绝缘故障,,,,,,0.0,,Alarm state,3,Bool
+No.1 Em_cy Transformer Primary CB Tripped,一号应急变压器原边开关脱扣报警,,,,,,0.0,,Alarm state,3,Bool
+No.1 Em_cy Transformer Primary CB Closed,一号应急变压器原边开关合闸反馈,,,,,,0.0,,,3,Bool
+No.1 Em_cy Transformer Primary CB Opened,一号应急变压器原边开关分闸反馈,,,,,,0.0,,,3,Bool
+No.1 Em_cy Transf Secondary CB Closed,一号应急变压器副边开关合闸反馈,,,,,,0.0,,,3,Bool
+No.1 Em_cy Transf Secondary CB Opened,一号应急变压器副边开关分闸反馈,,,,,,0.0,,,3,Bool
+690V ESB Voltage,690V应急配电板电压测量,0.0,800.0,V,,,0.0,,,3,int16
+690V ESB Insulation Fail alarm,690V应急配电板绝缘故障,,,,,,0.0,,Alarm state,3,Bool
+230V ESB busbar Insulation Faillure,230V应急配电板汇流排绝缘故障,,,,,,0.0,,Alarm state,3,Bool
+DG3 Engine Load,三号柴油发电机组负载,0.0,100.0,%,,,,,,3,int16
+DG3 Engine Speed,三号柴油发电机组转速,0.0,2000.0,RPM,,,,,,3,int16
+DG3 Fuel Rate,三号柴油发电机组燃油消耗率,0.0,800.0,L/h,,,,,,3,int16
+DG3 Battery Voltage,三号柴油发电机组蓄电池电压,0.0,30.0,V,21V ↓,,,,Alarm state,3,int16
+DG3 Engine Jacket Water Temperature,三号柴油发电机组缸套水温度,0.0,120.0,℃,102℃↑,,,,Alarm state,3,int16
+DG3 Engine Jacket Water Pressure,三号柴油发电机组缸套水压力,0.0,500.0,kPa,41kPa↓,,,,Alarm state,3,int16
+DG3 Engine Jacket Water Level,三号柴油发电机组缸套水液位,0.0,100.0,%,,,,,Alarm state,3,int16
+DG3 Left Exhaust Gas Temperature,三号柴油发电机组左排气温度,-273.0,1735.0,℃,730℃↑,,,,Alarm state,3,int16
+DG3 Right Exhaust Gas Temperature,三号柴油发电机组右排气温度,-273.0,1735.0,℃,730℃↑,,,,Alarm state,3,int16
+DG3 Engine LO Pressure,三号柴油发电机组滑油压力,0.0,800.0,kPa,"
+210kPa↓",,,"
+180kPa↓",Alarm state,3,int16
+DG3 Engine LO Temperature,三号柴油发电机组滑油温度,-273.0,1735.0,℃,"
+110℃↑",,,,Alarm state,3,int16
+DG3 Engine Starting Air Pressure ,三号柴油发电机组启动空气压力,0.0,1000.0,kPa,"
+400kPa↓",,,,Alarm state,3,int16
+DG3 Engine FO After Filter Pressure,三号柴油发电机组燃油压力,0.0,800.0,kPa,,,,,Alarm state,3,int16
+DG3 Emergency Stop,三号柴油发电机组应急停止,,,,,,,,Alarm state,3,Bool
+DG3 Safety System  Failure,三号柴油发电机组安全系统故障,,,,,,,,Alarm state,3,Bool
+DG3 Control System Failure,三号柴油发电机组控制系统故障,,,,,,,,Alarm state,3,Bool
+DG3 ECM General Alarm,三号柴油发电机组发动机控制模块通用报警,,,,,,,,Alarm state,3,Bool
+DG3 Engine Start Failure,三号柴油发电机组启动故障,,,,,,,,Alarm state,3,Bool
+DG3 Engine After Coolant Temperature,三号柴油发电机组冷却液温度,0.0,120.0,℃,60℃↑,,,,Alarm state,3,int16
+DG3 Engine Speed Sensor Fault,三号柴油发电机组转速传感器故障,,,,,,,,Alarm state,3,Bool
+G1 Engine Jacket Water Temperature Sensor Fault,三号柴油发电机组缸套水温度传感器故障,,,,,,,,Alarm state,3,Bool
+DG3 Engine LO Pressure Sensor Fault,三号柴油发电机组滑油压力传感器故障,,,,,,,,Alarm state,3,Bool
+DG3 Emergency Stop Sensor Fault,三号柴油发电机组应急停止传感器故障,,,,,,,,Alarm state,3,Bool
+DG3 Overspeed Shutdown,三号柴油发电机组超速停车,0.0,2000.0,RPM,,,,2070RPM,Shutdown,3,Bool
+DG3 Engine High Jacket Water Temperature Shutdown,三号柴油发电机组缸套水高温停车,0.0,120.0,℃,,,,107℃,Shutdown,3,Bool
+DG3 Engine Low LO Pressure Shutdown,三号柴油发电机组滑油压力低停车,0.0,800.0,kPa,,,,82kPa,Shutdown,3,Bool
+DG3 Engine Sea Water Pressure Low,三号柴油发电机组海水压力低,0.0,500.0,kPa,35kPa↓,,,,Alarm state,3,Bool
+DG3 Engine Lub Filter Pressure Diff.,三号柴油发电机组滑油滤器压差,0.0,200.0,kPa,105kPa↑,,,,Alarm state,3,int16
+DG3 Expansion Tank Level Low,三号柴油发电机组膨胀柜液位低,,,,,,,,Alarm state,3,Bool
+DG3 Engine MAC Panel 24V Power Failure,三号柴油发电机组MAC报警板24V电源故障,,,,,,,,Alarm state,3,Bool
+DG3 Cold Air Temperature,三号柴油发电机组冷风温度,0.0,200.0,℃,55℃↑,,,,Alarm state,3,int16
+DG3 Warm Air Temperature,三号柴油发电机组热风温度,0.0,200.0,℃,100℃↑,,,,Alarm state,3,int16
+DG3 Generator Bearing Temp NDE,三号柴油发电机组非驱动轴轴承温度,0.0,200.0,℃,90℃↑,,,100℃,Alarm state,3,int16
+DG3 Generator Bearing Temp DE,三号柴油发电机组驱动轴轴承温度,0.0,200.0,℃,90℃↑,,,100℃,Alarm state,3,int16
+DG3 Winding Temp Phase U,三号柴油发电机组U相绕组温度显示,0.0,200.0,℃,145℃↑,,,155℃,Alarm state,3,int16
+DG3 Winding Temp Phase V,三号柴油发电机组V相绕组温度显示,0.0,200.0,℃,145℃↑,,,155℃,Alarm state,3,int16
+DG3 Winding Temp Phase W,三号柴油发电机组W相绕组温度显示,0.0,200.0,℃,145℃↑,,,155℃,Alarm state,3,int16
+DG3 Water Leakage ,三号柴油发电机组冷却水泄漏报警,,,,,,,,Alarm state,3,Bool
+DG3 ALARM SYSTEM FAILIRE ,三号柴油发电机报警系统失效,,,,,,,,Alarm state,3,Bool
+DG3 Expansion Tank Level Low ,三号柴油发电机组膨胀水柜低位报警,,,,,,,,Alarm state,3,Bool
+DG4 Engine Load,四号柴油发电机组负载,0.0,100.0,%,,,,,,3,int16
+DG4 Engine Speed,四号柴油发电机组转速,0.0,2000.0,RPM,,,,,,3,int16
+DG4 Fuel Rate,四号柴油发电机组燃油消耗率,0.0,800.0,L/h,,,,,,3,int16
+DG4 Battery Voltage,四号柴油发电机组蓄电池电压,0.0,30.0,V,21V ↓,,,,Alarm state,3,int16
+DG4 Engine Jacket Water Temperature,四号柴油发电机组缸套水温度,0.0,120.0,℃,102℃↑,,,,Alarm state,3,int16
+DG4 Engine Jacket Water Pressure,四号柴油发电机组缸套水压力,0.0,500.0,kPa,41kPa↓,,,,Alarm state,3,int16
+DG4 Engine Jacket Water Level,四号柴油发电机组缸套水液位,0.0,100.0,%,,,,,Alarm state,3,int16
+DG4 Left Exhaust Gas Temperature,四号柴油发电机组左排气温度,-273.0,1735.0,℃,730℃↑,,,,Alarm state,3,int16
+DG4 Right Exhaust Gas Temperature,四号柴油发电机组右排气温度,-273.0,1735.0,℃,730℃↑,,,,Alarm state,3,int16
+DG4 Engine LO Pressure,四号柴油发电机组滑油压力,0.0,800.0,kPa,"
+210kPa↓",,,"
+180kPa↓",Alarm state,3,int16
+DG4 Engine LO Temperature,四号柴油发电机组滑油温度,-273.0,1735.0,℃,"
+110℃↑",,,,Alarm state,3,int16
+DG4 Engine Starting Air Pressure ,四号柴油发电机组启动空气压力,0.0,1000.0,kPa,"
+400kPa↓",,,,Alarm state,3,int16
+DG4 Engine FO After Filter Pressure,四号柴油发电机组燃油压力,0.0,800.0,kPa,,,,,Alarm state,3,int16
+DG4 Emergency Stop,四号柴油发电机组应急停止,,,,,,,,Alarm state,3,Bool
+DG4 Safety System  Failure,四号柴油发电机组安全系统故障,,,,,,,,Alarm state,3,Bool
+DG4 Control System Failure,四号柴油发电机组控制系统故障,,,,,,,,Alarm state,3,Bool
+DG4 ECM General Alarm,四号柴油发电机组发动机控制模块通用报警,,,,,,,,Alarm state,3,Bool
+DG4 Engine Start Failure,四号柴油发电机组启动故障,,,,,,,,Alarm state,3,Bool
+DG4 Engine After Coolant Temperature,四号柴油发电机组冷却液温度,0.0,120.0,℃,60℃↑,,,,Alarm state,3,int16
+DG4 Engine Speed Sensor Fault,四号柴油发电机组转速传感器故障,,,,,,,,Alarm state,3,Bool
+G1 Engine Jacket Water Temperature Sensor Fault,四号柴油发电机组缸套水温度传感器故障,,,,,,,,Alarm state,3,Bool
+DG4 Engine LO Pressure Sensor Fault,四号柴油发电机组滑油压力传感器故障,,,,,,,,Alarm state,3,Bool
+DG4 Emergency Stop Sensor Fault,四号柴油发电机组应急停止传感器故障,,,,,,,,Alarm state,3,Bool
+DG4 Overspeed Shutdown,四号柴油发电机组超速停车,0.0,2000.0,RPM,,,,2070RPM,Shutdown,3,Bool
+DG4 Engine High Jacket Water Temperature Shutdown,四号柴油发电机组缸套水高温停车,0.0,120.0,℃,,,,107℃,Shutdown,3,Bool
+DG4 Engine Low LO Pressure Shutdown,四号柴油发电机组滑油压力低停车,0.0,800.0,kPa,,,,82kPa,Shutdown,3,Bool
+DG4 Engine Sea Water Pressure low,四号柴油发电机组海水压力低,0.0,500.0,kPa,35kPa↓,,,,Alarm state,3,Bool
+DG4 Engine Lub Filter Pressure Diff.,四号柴油发电机组滑油滤器压差,0.0,200.0,kPa,105kPa↑,,,,Alarm state,3,int16
+DG4 Expansion Tank Level Low,四号柴油发电机组膨胀柜液位低,,,,,,,,Alarm state,3,Bool
+DG4 Engine MAC Panel 24V Power Failure,四号柴油发电机组MAC报警板24V电源故障,,,,,,,,Alarm state,3,Bool
+DG4 Cold Air Temperature,四号柴油发电机组冷风温度,0.0,200.0,℃,55℃↑,,,,Alarm state,3,int16
+DG4 Warm Air Temperature,四号柴油发电机组热风温度,0.0,200.0,℃,100℃↑,,,,Alarm state,3,int16
+DG4 Generator Bearing Temp NDE,四号柴油发电机组非驱动轴轴承温度,0.0,200.0,℃,90℃↑,,,100℃,Alarm state,3,int16
+DG4 Generator Bearing Temp DE,四号柴油发电机组驱动轴轴承温度,0.0,200.0,℃,90℃↑,,,100℃,Alarm state,3,int16
+DG4 Winding Temp Phase U,四号柴油发电机组U相绕组温度显示,0.0,200.0,℃,145℃↑,,,155℃,Alarm state,3,int16
+DG4 Winding Temp Phase V,四号柴油发电机组V相绕组温度显示,0.0,200.0,℃,145℃↑,,,155℃,Alarm state,3,int16
+DG4 Winding Temp Phase W,四号柴油发电机组W相绕组温度显示,0.0,200.0,℃,145℃↑,,,155℃,Alarm state,3,int16
+DG4 Water Leakage ,四号柴油发电机组冷却水泄漏报警,,,,,,,,Alarm state,3,Bool
+DG4 ALARM SYSTEM FAILIRE ,四号柴油发电机报警系统失效,,,,,,,,Alarm state,3,Bool
+DG4 Expansion Tank Level Low ,四号柴油发电机组膨胀水柜低位报警,,,,,,,,Alarm state,3,Bool

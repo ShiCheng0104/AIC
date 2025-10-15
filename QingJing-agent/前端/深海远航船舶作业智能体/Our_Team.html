@@ -1,0 +1,441 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Our Team - 深海远航船舶作业智能体</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="深海远航船舶作业智能体团队介绍" />
+    <meta name="keywords" content="AI, Maritime, Team, Shipping, Deep Sea" />
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.dropotron.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/skel-panels.min.js"></script>
+    <script src="js/init.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="css/skel-noscript.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/style-desktop.css" />
+    </noscript>
+    <style>
+        /* --- 全局 CSS 重置 --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --main-blue: #183a54;
+            --main-cyan: #3bb3e0;
+            --light-cyan: #7fe7ff;
+            --main-gray: #e5e8ec;
+            --main-dark: #101820;
+            --bg-dark: #1a232c;
+            --bg-light: #232b33;
+            --main-silver: #bfc9d1;
+        }
+        
+        /* --- General Body and Background --- */
+        body {
+            background-color: var(--bg-dark);
+            position: relative;
+            overflow-x: hidden;
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            color: var(--main-silver);
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-image: 
+                linear-gradient(to right, rgba(59, 179, 224, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(59, 179, 224, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            -webkit-animation: pan-background 60s linear infinite; 
+            animation: pan-background 60s linear infinite;
+        }
+        
+        @-webkit-keyframes pan-background {
+            0% { background-position: 0 0; }
+            100% { background-position: 400px 400px; }
+        }
+        @keyframes pan-background {
+            0% { background-position: 0 0; }
+            100% { background-position: 400px 400px; }
+        }
+
+        /* --- Header --- */
+        #header {
+            background: rgba(30, 41, 51, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--main-cyan);
+            box-shadow: 0 4px 20px rgba(24, 58, 84, 0.15);
+            border-radius: 0 0 12px 12px;
+        }
+
+        #header .inner {
+            padding: 3em 0;
+        }
+
+        /* --- LOGO 样式及动画 --- */
+        #logo {
+            font-size: 1.3em;
+            color: var(--main-cyan);
+            text-shadow: 0 0 8px rgba(59, 179, 224, 0.5);
+            letter-spacing: 2px;
+            font-weight: 700;
+            display: inline-block; 
+            padding: 0.2em 0.5em; 
+            border-radius: 4px; 
+            -webkit-animation: 
+                fadeInUp 0.8s ease-out forwards 0.3s, 
+                logo-background-fade 1.5s ease-out forwards 0.8s; 
+            animation: 
+                fadeInUp 0.8s ease-out forwards 0.3s, 
+                logo-background-fade 1.5s ease-out forwards 0.8s; 
+        }
+
+        .byline {
+            color: var(--main-silver);
+            font-size: 1.1em;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        /* --- Navigation --- */
+        #nav ul {
+            background: rgba(30, 41, 51, 0.9);
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(24, 58, 84, 0.04);
+            padding: 4px 0;
+            border: 1px solid rgba(59, 179, 224, 0.5);
+        }
+        #nav ul li a {
+            color: var(--main-silver);
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        #nav ul li a:hover {
+            background: var(--main-cyan);
+            color: var(--main-dark);
+            text-shadow: none;
+        }
+        #nav > ul > li.active > a {
+             background: var(--main-cyan);
+             color: var(--main-dark);
+        }
+        
+        /* --- Opening Animation --- */
+        @-webkit-keyframes fadeInUp {
+            from {
+                opacity: 0;
+                -webkit-transform: translateY(25px);
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                -webkit-transform: translateY(0);
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #header .inner .byline,
+        #header .inner hr {
+            opacity: 0; 
+            -webkit-animation: fadeInUp 0.8s ease-out forwards; 
+            animation: fadeInUp 0.8s ease-out forwards; 
+        }
+
+        #header .inner hr {
+            -webkit-animation-delay: 0.6s;
+            animation-delay: 0.6s;
+        }
+        #header .inner .byline {
+            -webkit-animation-delay: 0.9s;
+            animation-delay: 0.9s;
+        }
+
+        /* --- Team Content Styling --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2em;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5em;
+            padding-top: 4em;
+        }
+        .section-header h2 {
+            font-size: 2.5em;
+            color: var(--main-gray);
+            letter-spacing: 2px;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5em;
+        }
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--main-cyan);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--main-cyan);
+        }
+
+        .team-grid {
+            padding-bottom: 5em;
+        }
+        .team-member {
+            display: flex;
+            align-items: center;
+            background: var(--bg-light);
+            padding: 2.5em;
+            border-radius: 12px;
+            margin-bottom: 2em;
+            border-left: 5px solid var(--main-cyan);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .member-icon {
+            font-size: 4em;
+            color: var(--main-cyan);
+            margin-right: 1.5em;
+            min-width: 70px;
+            text-align: center;
+        }
+        .team-info h3 {
+            font-size: 1.5em;
+            color: var(--main-gray);
+            margin-bottom: 0.5em;
+        }
+        .team-info .tag {
+            font-size: 0.9em;
+            background: var(--main-cyan);
+            color: var(--main-dark);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+            font-weight: 600;
+        }
+        .team-info p {
+            line-height: 1.6;
+            margin-bottom: 0.8em;
+            font-size: 0.95em;
+        }
+        .tags .tag {
+            background: rgba(59, 179, 224, 0.1);
+            color: var(--main-cyan);
+            border: 1px solid rgba(59, 179, 224, 0.5);
+            margin-right: 8px;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 400;
+        }
+
+        .team-mission {
+            background: rgba(59, 179, 224, 0.05);
+            border: 1px solid rgba(59, 179, 224, 0.2);
+            padding: 3em;
+            border-radius: 12px;
+            margin-top: 3em;
+            text-align: center;
+        }
+        .team-mission h3 {
+            color: var(--main-cyan);
+            font-size: 2em;
+            margin-bottom: 1em;
+        }
+        .team-mission p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .team-mission i {
+            margin-right: 10px;
+        }
+        
+        /* Media Queries for responsiveness */
+        @media screen and (max-width: 768px) {
+            .team-member {
+                flex-direction: column;
+                text-align: center;
+            }
+            .member-icon {
+                margin: 0 0 1em 0;
+            }
+            .team-info {
+                text-align: left;
+            }
+        }
+        
+        /* --- Footer (Keep the footer styles consistent) --- */
+        footer {
+            background: linear-gradient(to top, var(--main-dark), var(--bg-light));
+            color: var(--main-silver);
+            padding: 2em 0 1.5em 0;
+            border-top: 2px solid var(--main-cyan);
+            box-shadow: 0 -2px 15px rgba(24, 58, 84, 0.1);
+            border-radius: 12px 12px 0 0;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2em;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1em;
+        }
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+        }
+        .ship-icon {
+            font-size: 1.5em;
+            color: var(--main-cyan);
+        }
+        .footer-links a {
+            color: var(--main-silver);
+            margin: 0 10px;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 1em;
+            padding-bottom: 3px;
+            border-bottom: 1px dotted transparent;
+        }
+        .footer-links a:hover {
+            color: var(--main-cyan);
+            border-bottom-color: var(--main-cyan);
+        }
+        .footer-legal {
+            font-size: 0.8em;
+            color: #6c7a89;
+            width: 100%;
+            text-align: center;
+            margin-top: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div class="inner">
+            <header>
+                <h1><a href="#" id="logo">深海远航船舶作业智能体</a></h1>
+            </header>
+        </div>
+        
+        <nav id="nav">
+            <ul>
+                <li><a href="index.html">整体展示</a></li>
+                <li><a href="function.html">核心功能</a></li>
+                <li><a href="About.html">项目介绍</a></li>
+                <li class="active"><a href="Our_Team.html">我们的团队</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main class="container">
+        <div class="section-header">
+            <h2>我们的团队</h2>
+            <p>一群跨越海洋工程、人工智能和软件开发的专业人士，共同致力于航运智能化。</p>
+        </div>
+
+        <div class="team-grid">
+            
+            <div class="team-member">
+                <span class="member-icon"><i class="fas fa-microchip"></i></span>
+                <div class="team-info">
+                    <h3>张航宇 <span class="tag">AI模型与算法负责人</span></h3>
+                    <p>核心算法的奠基人，专注于强化学习和多模态数据融合技术。致力于将最前沿的AI理论应用于远洋船舶的复杂决策环境，实现真正的自主智能。</p>
+                    <p>曾主导多个大型工业AI项目，拥有深厚的学术背景和工程经验。</p>
+                    <div class="tags">
+                        <span class="tag">强化学习</span>
+                        <span class="tag">多模态AI</span>
+                        <span class="tag">知识图谱</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <span class="member-icon"><i class="fas fa-ship"></i></span>
+                <div class="team-info">
+                    <h3>李明 <span class="tag">海事工程专家</span></h3>
+                    <p>拥有超过20年的远洋船舶操作经验，是智能体“海事知识”的权威来源。确保智能体提供的决策建议符合行业规范和实际操作需求，连接AI与海洋工程的桥梁。</p>
+                    <p>对船舶设备故障诊断和应急响应流程有深入理解。</p>
+                    <div class="tags">
+                        <span class="tag">海事安全</span>
+                        <span class="tag">船舶运维</span>
+                        <span class="tag">故障诊断</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <span class="member-icon"><i class="fas fa-laptop-code"></i></span>
+                <div class="team-info">
+                    <h3>王舒逸 <span class="tag">前端架构工程师</span></h3>
+                    <p>负责交互界面与可视化系统开发，注重用户体验与数据可视化。擅长前端架构设计与现代Web技术，致力于让复杂的船舶数据“开口说话”。</p>
+                    <p>通过创新设计提升作业效率，让技术成果更易用、更美观。</p>
+                    <div class="tags">
+                        <span class="tag">前端开发</span>
+                        <span class="tag">UI/UX</span>
+                        <span class="tag">数据可视化</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="team-mission">
+            <h3><i class="fas fa-bullseye"></i> 我们的使命</h3>
+            <p>
+                以智能科技重构远洋作业模式，让船舶作业数据更加精准，减少专业人员缺少带来的阻碍。我们相信，技术的温度能穿越海洋的广度，每一次算法迭代、每一个交互优化，都在为“更智慧的航海时代”铺就基石，助力实现“海洋强国”之梦。
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="ship-icon">⚓</span>
+                <p>深海远航船舶作业智能体</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">回到首页</a>
+                <a href="Our_Team.html">技术支持</a>
+                <a href="About.html">使用指南</a>
+                <a href="interaction.html">智能问答</a>
+            </div>
+            <div class="footer-legal">
+                <p>©2025 版权所有 | 隐私保护 | 服务条款</p>
+                <p>技术支持：深海护航团队</p> 
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

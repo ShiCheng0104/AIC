@@ -1,0 +1,422 @@
+<!DOCTYPE HTML>
+<!--
+	Helios 1.5 by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Right Sidebar - Helios by HTML5 UP</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet" type="text/css" />
+		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-panels.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel-noscript.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-desktop.css" />
+			<link rel="stylesheet" href="css/style-noscript.css" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
+		
+	</head>
+	<body class="About">
+
+		<!-- Header -->
+			<div id="header">
+
+				<!-- Inner -->
+					<div class="inner">
+						<header>
+							<h1><a href="#" id="logo">深海远航船舶作业智能体</a></h1>
+						</header>
+					</div>
+				
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							
+							<li><a href="Our_Team.html">Our Team</a></li>
+							<li><a href="About.html">About</a></li>
+							<li><a href="interaction.html">Q&A</a></li>
+						</ul>
+					</nav>
+
+			</div>
+			
+		<!-- Main -->
+		<main class="flex-1 container mx-auto px-4 py-6">
+			<div
+				class="max-w-4xl mx-auto bg-white rounded-2xl shadow-soft overflow-hidden flex flex-col transform transition-all duration-300 hover:shadow-hover">
+				<!-- 关于页面头部 -->
+				<div class="p-6 bg-gradient-primary text-white">
+					
+					<p class="mt-2 text-primary-100 opacity-90">
+						为远洋船舶提供智能化数据分析，提升作业准确率。
+					</p>
+				</div>
+		
+				<!-- 系统介绍 -->
+				<div class="p-6 border-b border-gray-100">
+					<h3 class="text-xl font-semibold text-dark mb-4">系统概述</h3>
+					<p class="text-gray-600 leading-relaxed">
+						基于科大讯飞大模型的多角色协同、
+						基于层次分解树的任务路径动态规划以及深远海船舶领域的经验自动提取，
+						我们构建了一个的具有稳定执行能力、螺旋式优化能力，并能快速泛化至新场景的多智能体系统框架。
+						系统可以帮助用户更好地“看见数据”，
+						帮助船舶运营企业降低成本、减少对人工依赖程度，实现智能化转型升级。
+					</p>
+				</div>
+		
+				<!-- 功能亮点 -->
+				<div class="p-6 border-b border-gray-100">
+					<h3 class="text-xl font-semibold text-dark mb-6">核心方式</h3>
+		
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<!-- 功能卡片 1 -->
+						<div
+							class="bg-white rounded-xl shadow-message border border-neutralDark p-5 hover:shadow-hover transition-all duration-300 transform hover:-translate-y-1">
+							<div class="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+								<i class="fa fa-bell-o text-primary text-xl force-show"></i>
+							</div>
+							<h4 class="text-lg font-semibold text-dark">多角色协同</h4>
+							<p class="text-gray-600 mt-2">
+								共划分为3个角色：
+								规划智能体结合领域知识，拆分用户的任务派发给执行智能体；
+								执行智能体接收到子任务后，就会调用工具进行数据分析，然后返回子任务结果；
+								监督智能体会回顾整个任务执行过程，进行纠错和总结。
+								
+								这三者之间紧密配合，共同提高任务完成的准确性。
+
+							</p>
+						</div>
+		
+						<!-- 功能卡片 2 -->
+						<div
+							class="bg-white rounded-xl shadow-message border border-neutralDark p-5 hover:shadow-hover transition-all duration-300 transform hover:-translate-y-1">
+							<div class="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+								<i class="fa fa-bell-o text-primary text-xl force-show"></i>
+							</div>
+							<h4 class="text-lg font-semibold text-dark">层次化任务分解</h4>
+							<p class="text-gray-600 mt-2">
+								将一个完整的任务划分为多个原子任务，
+								基于原子问题，定制一系列对应粒度的通用工具函数，
+								包括数据检索、数学运算和代码生成运行等，
+								通过自顶向下地调用每个节点对应的原子操作，最终完成整个复杂任务。
+							</p>
+						</div>
+		
+						<!-- 功能卡片 3 -->
+						<div
+							class="bg-white rounded-xl shadow-message border border-neutralDark p-5 hover:shadow-hover transition-all duration-300 transform hover:-translate-y-1">
+							<div class="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+								<i class="fa fa-bell-o text-primary text-xl force-show"></i>
+							</div>
+							<h4 class="text-lg font-semibold text-dark">经验提取</h4>
+							<p class="text-gray-600 mt-2">
+								每次任务求解的过程都会生成一条完整的交互轨迹，
+								通过多条交互轨迹，归纳出可迁移的经验知识，
+								将经验证的高质量经验纳入经验池，
+								系统在后续任务中自动调用这些已有的经验，来指导新的交互过程。从而增强系统的泛化能力。
+							</p>
+						</div>
+		
+						
+					</div>
+				</div>
+		
+				<!-- 使用指南 -->
+				<div class="p-6 border-b border-gray-100">
+					<h3 class="text-xl font-semibold text-dark mb-6">使用指南</h3>
+		
+					<div class="space-y-6">
+						<!-- 步骤 1 -->
+						<div class="flex">
+							<div
+								class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mr-4">
+								1</div>
+							<div>
+								<h4 class="text-lg font-semibold text-dark">登录系统</h4>
+								<p class="text-gray-600 mt-1">
+									使用科大讯飞API，根据权限访问对应功能模块。
+								</p>
+							</div>
+						</div>
+		
+						<!-- 步骤 2 -->
+						<div class="flex">
+							<div
+								class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mr-4">
+								2</div>
+							<div>
+								<h4 class="text-lg font-semibold text-dark">设置船舶信息</h4>
+								<p class="text-gray-600 mt-1">
+									在系统中完善船舶基本信息、设备参数和历史记录等。
+								</p>
+							</div>
+						</div>
+		
+						<!-- 步骤 3 -->
+						<div class="flex">
+							<div
+								class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mr-4">
+								3</div>
+							<div>
+								<h4 class="text-lg font-semibold text-dark">获取数据分析</h4>
+								<p class="text-gray-600 mt-1">
+									通过向系统提问，可以检索数据，获得相应的信息。
+								</p>
+							</div>
+						</div>
+		
+						
+					</div>
+				</div>
+				
+				<!-- 常见问题 -->
+				<div class="p-6">
+					<h3 class="text-xl font-semibold text-dark mb-6">问题示例</h3>
+				
+					<div class="space-y-4">
+
+					<!-- FAQ1 -->
+					<div class="border border-neutralDark rounded-lg overflow-hidden max-w-xl mx-auto my-8">
+						<!-- 按钮 -->
+						<button
+							class="w-full px-6 py-4 text-left font-medium text-dark flex justify-between items-center hover:bg-gray-50 transition-colors"
+							onclick="toggleContent(this)">
+							<span>能耗查询</span>
+							<i class="fa fa-chevron-down text-gray-400 transition-transform"></i>
+						</button>
+					
+						<!-- 新增：固定显示的描述文字（在按钮下方，始终可见） -->
+						<div class="px-6 py-3 bg-gray-50 border-t border-neutralDark text-sm text-gray-500">
+							支持计算设备能耗、燃油消耗转化、作业过程中的能量损耗等数据，以下为常见能耗查询示例：
+						</div>
+					
+						<!-- 隐藏的多条示例内容（点击按钮才显示） -->
+						<div class="px-6 py-4 bg-gray-50 border-t border-neutralDark hidden" id="contentList2">
+							<div class="mb-4">
+								<p class="text-gray-600">
+									示例 1：假设柴油的密度为0.85kg/L，柴油热值为42.6MJ/kg。请根据提供的1~4号柴油发电机的燃油消耗量，计算2024年7月16日00:00:00至2024年7月20日00:00:00期间的理论发电量（单位转换为kWh，结果保留两位小数，四舍五入）
+								</p>
+							</div>
+							<div class="mb-4">
+								<p class="text-gray-600">
+									示例 2：2024/8/24 DP过程中，推进系统的总能耗是多少（单位化成kWh，保留2位小数）
+								</p>
+							</div>
+							<div>
+								<p class="text-gray-600">
+									示例 3：2024/08/23 深海作业A过程中，A架摆回到A架摆出期间，推进器的总做功是多少（单位为kWh，结果保留两位小数）
+								</p>
+							</div>
+						</div>
+					</div>
+					
+					
+
+					<!-- FAQ2 -->
+					<div class="border border-neutralDark rounded-lg overflow-hidden max-w-xl mx-auto my-8">
+						<!-- 按钮 -->
+						<button
+						class="w-full px-6 py-4 text-left font-medium text-dark flex justify-between items-center hover:bg-gray-50 transition-colors"
+						onclick="toggleContent(this)">
+						<span>时间点/段查询</span>
+						<i class="fa fa-chevron-down text-gray-400 transition-transform"></i>
+						</button>
+					
+						<!-- 新增：固定显示的描述文字（在按钮下方，始终可见） -->
+						<div class="px-6 py-3 bg-gray-50 border-t border-neutralDark text-sm text-gray-500">
+						支持查询特定状态的时间点、运行的时间段等，以下为常见查询示例：
+						</div>
+					
+						<!-- 隐藏的多条示例内容（点击按钮才显示） -->
+						<div class="px-6 py-4 bg-gray-50 border-t border-neutralDark hidden" id="contentList2">
+						<div class="mb-4">
+							<p class="text-gray-600">
+							示例 1：2024/8/19 下午A架的第一次开机时间（请以XX:XX输出）
+							</p>
+						</div>
+						<div class="mb-4">
+							<p class="text-gray-600">
+							示例 2：统计2024/8/23上午A架的运行时长（以整数分钟输出）
+							</p>
+						</div>
+						<div>
+							<p class="text-gray-600">
+							示例 3：2024/8/23 ~ 2024/8/25 哪一天上午A架的运行时长最长，运行了多久（以整数分钟输出）
+							</p>
+						</div>
+						</div>
+					</div>
+
+					<!-- FAQ3 -->
+					<div class="border border-neutralDark rounded-lg overflow-hidden max-w-xl mx-auto my-8">
+						<!-- 按钮 -->
+						<button
+							class="w-full px-6 py-4 text-left font-medium text-dark flex justify-between items-center hover:bg-gray-50 transition-colors"
+							onclick="toggleContent(this)">
+							<span>柴油发电机等设备的参数及报警</span>
+							<i class="fa fa-chevron-down text-gray-400 transition-transform"></i>
+						</button>
+					
+						<!-- 新增：固定显示的描述文字（在按钮下方，始终可见） -->
+						<div class="px-6 py-3 bg-gray-50 border-t border-neutralDark text-sm text-gray-500">
+							支持查询发电机等设备的参数信息（如各项指标的上下限阈值），并能判断特定条件下是否会触发报警。以下为常见的查询示例：
+						</div>
+					
+						<!-- 隐藏的多条示例内容（点击按钮才显示） -->
+						<div class="px-6 py-4 bg-gray-50 border-t border-neutralDark hidden" id="contentList2">
+							<div class="mb-4">
+								<p class="text-gray-600">
+									示例 1：一号柴油发电机组冷却液温度的上下限分别是多少（需要带单位，以整数输出，逗号隔开）
+								</p>
+							</div>
+							<div class="mb-4">
+								<p class="text-gray-600">
+									示例 2：假设某一时刻应急发电机组的滑油温度为 100℃，是否会触发报警？（Y：是；N：否。请回答 Y 或 N）
+								</p>
+							</div>
+							<div>
+								<p class="text-gray-600">
+									示例 3：假设某一时刻应急发电机组转速为 1800RPM，是否触发报警？（Y：是；N：否。请回答 Y 或 N）
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- FAQ4 -->
+					<div class="border border-neutralDark rounded-lg overflow-hidden max-w-xl mx-auto my-8">
+						<!-- 按钮 -->
+						<button
+							class="w-full px-6 py-4 text-left font-medium text-dark flex justify-between items-center hover:bg-gray-50 transition-colors"
+							onclick="toggleContent(this)">
+							<span>数据缺失状态查询</span>
+							<i class="fa fa-chevron-down text-gray-400 transition-transform"></i>
+						</button>
+					
+						<!-- 新增：固定显示的描述文字（在按钮下方，始终可见） -->
+						<div class="px-6 py-3 bg-gray-50 border-t border-neutralDark text-sm text-gray-500">
+							支持查询数据缺失情况，计算缺失比例等，以下为常见查询示例：
+						</div>
+					
+						<!-- 隐藏的多条示例内容（点击按钮才显示） -->
+						<div class="px-6 py-4 bg-gray-50 border-t border-neutralDark hidden" id="contentList2">
+							<div class="mb-4">
+								<p class="text-gray-600">
+									示例 1：20240517~20240530（含）哪一天 A 架数据缺失最多（以 MMDD 输出）
+								</p>
+							</div>
+							<div class="mb-4">
+								<p class="text-gray-600">
+									示例 2：理想情况下，Ajia_plc 一天的数据量为 1440 条，请计算 20240520 数据缺失比例（单位 %，保留两位小数）
+								</p>
+							</div>
+							<div>
+								<p class="text-gray-600">
+									示例 3：理想情况下，Jiaoche_plc 一天的数据量为 1440 条，20240520~20240525（含）数据缺失比例最高的一天是哪天，缺失比例为多少（日期以 MMDD 输出，比例单位 %，保留两位小数）
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<script>
+						function toggleContent(button) {
+							// 关键修正：找到"描述文字的下一个兄弟元素"（即示例内容容器）
+							const examplesDiv = button.nextElementSibling.nextElementSibling;
+							// 找到箭头图标
+							const icon = button.querySelector('i');
+
+							// 只切换示例内容的显示/隐藏，描述文字始终显示
+							examplesDiv.classList.toggle('hidden');
+							// 箭头旋转状态切换
+							icon.classList.toggle('rotate');
+						}  
+					</script>
+					
+					<!-- 引入 FontAwesome 图标 -->
+					<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+				</div>
+				</main>
+
+			
+
+		<!--footer-->
+		<footer>
+			<div class="footer-container">
+				<!-- 品牌+场景符号 -->
+				<div class="footer-brand">
+					<p>深海远航船舶作业智能体</p>
+					<span class="ship-icon">⚓</span> <!-- 船舶锚点符号，或替换成简约船舶SVG -->
+				</div>
+				<!-- 实用链接区 -->
+				<div class="footer-links">
+					<a href="index.html">回到首页</a>
+					<a href="Our_Team.html">技术支持</a>
+					<a href="About.html">使用指南</a>
+					<a href="interaction.html">智能问答</a>
+				</div>
+				<!-- 合规信息 -->
+				<div class="footer-legal">
+					<p>©2025 版权所有 | 隐私保护 | 服务条款</p>
+					<p>技术支持：深海护航团队</p>
+				</div>
+			</div>
+		</footer>
+		
+		<style>
+			footer {
+				background: linear-gradient(to bottom, #0a2b4b, #081e33);
+				/* 深海渐变，强化场景 */
+				color: #e0f3ff;
+				padding: 24px;
+			}
+		
+			.footer-container {
+				max-width: 1200px;
+				margin: 0 auto;
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				align-items: center;
+			}
+		
+			.footer-brand {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				font-weight: bold;
+			}
+		
+			.ship-icon {
+				font-size: 20px;
+				color: #6ccfff;
+			}
+		
+			.footer-links a {
+				color: #b9e1ff;
+				margin: 0 10px;
+				text-decoration: none;
+				transition: color 0.3s;
+			}
+		
+			.footer-links a:hover {
+				color: #6ccfff;
+			}
+		
+			.footer-legal {
+				font-size: 14px;
+				color: #99c8e9;
+			}
+		</style>
+
+	</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>功能模块 - 深海远航船舶作业智能体</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="深海远航船舶作业智能体功能模块" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --main-blue: #183a54;
+            --main-cyan: #3bb3e0;
+            --light-cyan: #7fe7ff;
+            --main-gray: #e5e8ec;
+            --main-dark: #101820;
+            --bg-dark: #1a232c;
+            --bg-light: #232b33;
+            --main-silver: #bfc9d1;
+        }
+        body {
+            background-color: var(--bg-dark);
+            position: relative;
+            overflow-x: hidden;
+            font-family: 'Source Sans Pro', 'Segoe UI', 'Arial', sans-serif;
+            color: var(--main-silver);
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-image: 
+                linear-gradient(to right, rgba(59, 179, 224, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(59, 179, 224, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            animation: pan-background 60s linear infinite;
+        }
+        @keyframes pan-background {
+            0% { background-position: 0 0; }
+            100% { background-position: 400px 400px; }
+        }
+        /* 返回首页按钮左上角样式 */
+        .back-btn-fixed {
+            position: fixed;
+            top: 28px;
+            left: 32px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            padding: 10px 22px;
+            border-radius: 8px;
+            background: rgba(24, 58, 84, 0.92);
+            color: #fff;
+            font-size: 1.08em;
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(59, 179, 224, 0.18);
+            border: 2px solid var(--main-cyan);
+            transition: all 0.3s;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+        .back-btn-fixed:hover {
+            background: var(--main-cyan);
+            color: var(--main-dark);
+            box-shadow: 0 0 25px rgba(59, 179, 224, 0.7);
+            transform: scale(1.05) translateY(-2px);
+        }
+        @media (max-width: 700px) {
+            .back-btn-fixed {
+                top: 12px;
+                left: 10px;
+                padding: 8px 14px;
+                font-size: 0.98em;
+            }
+            .modules-grid { grid-template-columns: 1fr; }
+            .section-header { padding-top: 2em; }
+        }
+        #header {
+            background: rgba(30, 41, 51, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--main-cyan);
+            box-shadow: 0 4px 20px rgba(24, 58, 84, 0.15);
+            border-radius: 0 0 12px 12px;
+        }
+        #header .inner {
+            padding: 3em 0;
+        }
+        #logo {
+            font-size: 2.2em;
+            color: var(--main-cyan);
+            text-shadow: 0 0 8px #3bb3e0cc;
+            letter-spacing: 2px;
+            font-weight: 700;
+            border-left: none;
+            padding-left: 0;
+            display: block;
+            text-align: center;
+            margin: 0 auto;
+        }
+        #header .inner header {
+            text-align: center;
+        }
+        .byline {
+            color: var(--main-silver);
+            font-size: 1.1em;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+        #nav ul {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: rgba(24, 58, 84, 0.98);
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(59,179,224,0.10);
+            border: 2px solid var(--main-cyan);
+            overflow: hidden;
+            padding: 0;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+        #nav ul li {
+            list-style: none;
+            flex: 1 1 0;
+            text-align: center;
+            position: relative;
+        }
+        #nav ul li:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 25%;
+            height: 50%;
+            width: 1.5px;
+            background: linear-gradient(to bottom, #3bb3e0 0%, #183a54 100%);
+            opacity: 0.5;
+            border-radius: 2px;
+        }
+        #nav ul li a {
+            display: block;
+            padding: 1em 0;
+            color: var(--main-silver);
+            font-weight: 700;
+            font-size: 1.15em;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            border-radius: 0;
+        }
+        #nav ul li a:hover, #nav > ul > li.active > a {
+            background: var(--main-cyan);
+            color: var(--main-dark);
+            box-shadow: 0 2px 8px rgba(59,179,224,0.15);
+            text-shadow: none;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2em;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5em;
+            padding-top: 4em;
+        }
+        .section-header h2 {
+            font-size: 2.5em;
+            color: var(--main-gray);
+            letter-spacing: 2px;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5em;
+        }
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--main-cyan);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--main-cyan);
+        }
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5em;
+            margin-bottom: 4em;
+        }
+        .module-card {
+            background: linear-gradient(145deg, var(--bg-light), var(--bg-dark));
+            border-radius: 14px;
+            padding: 2.5em 2em 2em 2em;
+            text-align: center;
+            border: 1.5px solid rgba(59, 179, 224, 0.22);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .module-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            border-color: var(--main-cyan);
+            box-shadow: 0 0 30px rgba(59, 179, 224, 0.25);
+        }
+        .module-icon {
+            font-size: 3.5em;
+            color: var(--main-cyan);
+            margin-bottom: 0.7em;
+            text-shadow: 0 0 18px rgba(59, 179, 224, 0.5);
+        }
+        .module-card h3 {
+            font-size: 1.6em;
+            color: var(--main-gray);
+            margin-bottom: 0.7em;
+        }
+        .module-card p {
+            color: var(--main-silver);
+            line-height: 1.7;
+            font-size: 1.08em;
+        }
+        .module-detail {
+            margin-top: 1.2em;
+            text-align: left;
+            color: var(--main-silver);
+            font-size: 0.98em;
+            background: rgba(59,179,224,0.07);
+            border-radius: 8px;
+            padding: 1em 1.2em;
+        }
+        footer {
+            background: linear-gradient(to top, var(--main-dark), var(--bg-light));
+            color: var(--main-silver);
+            padding: 2em 0 1.5em 0;
+            border-top: 2px solid var(--main-cyan);
+            box-shadow: 0 -2px 15px rgba(24, 58, 84, 0.1);
+            border-radius: 12px 12px 0 0;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2em;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1em;
+        }
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+        }
+        .ship-icon {
+            font-size: 1.5em;
+            color: var(--main-cyan);
+        }
+        .footer-links a {
+            color: var(--main-silver);
+            margin: 0 10px;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 1em;
+            padding-bottom: 3px;
+            border-bottom: 1px dotted transparent;
+        }
+        .footer-links a:hover {
+            color: var(--main-cyan);
+            border-bottom-color: var(--main-cyan);
+        }
+        .footer-legal {
+            font-size: 0.8em;
+            color: #6c7a89;
+            width: 100%;
+            text-align: center;
+            margin-top: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <!-- 左上角返回首页按钮 -->
+    <a href="index.html" class="back-btn-fixed"><i class="fas fa-arrow-left"></i>&nbsp;返回首页</a>
+    <main>
+        <section class="container">
+            <div class="section-header">
+                <h2>功能模块</h2>
+                <p>三大核心功能，助力船舶作业智能化升级。</p>
+            </div>
+            <div class="modules-grid">
+                <div class="module-card">
+                    <div class="module-icon"><i class="fas fa-robot"></i></div>
+                    <h3>智能问答与决策</h3>
+                    <p>基于大模型的智能问答系统，支持自然语言交互，快速响应船舶作业、设备管理等多场景问题。</p>
+                    <div class="module-detail">
+                        <ul>
+                            <li>· 智能解析复杂业务场景，提供专业建议</li>
+                            <li>· 支持多轮对话与上下文理解</li>
+                            <li>· 决策辅助，提升作业效率与安全性</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon"><i class="fas fa-chart-pie"></i></div>
+                    <h3>数据分析和预警</h3>
+                    <p>深度挖掘船舶与设备数据，智能识别风险，提前预警，保障航行安全。</p>
+                    <div class="module-detail">
+                        <ul>
+                            <li>· 实时监控关键参数，自动生成分析报告</li>
+                            <li>· 风险趋势预测与异常检测</li>
+                            <li>· 多维度数据可视化，辅助决策</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon"><i class="fas fa-cogs"></i></div>
+                    <h3>核心技术与思路</h3>
+                    <p>融合多模态数据、知识图谱与强化学习，打造自主进化的智能体核心。</p>
+                    <div class="module-detail">
+                        <ul>
+                            <li>· 多模态数据融合与知识推理</li>
+                            <li>· 强化学习驱动的自主优化</li>
+                            <li>· 持续学习与自适应能力</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="ship-icon">⚓</span>
+                <p>深海远航船舶作业智能体</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">回到首页</a>
+                <a href="Our_Team.html">技术支持</a>
+                <a href="About.html">使用指南</a>
+                <a href="interaction.html">智能问答</a>
+            </div>
+            <div class="footer-legal">
+                <p>©2025 版权所有 | 隐私保护 | 服务条款</p>
+                <p>技术支持：深海护航团队</p> 
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>船舶设备监控系统</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- PapaParse CDN (CSV解析) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .fade-in { animation: fadeIn 0.5s ease-out; }
+    .slide-up { animation: slideUp 0.3s ease-out; }
+    
+    .loading-spinner {
+      animation: spin 1s linear infinite;
+    }
+    
+    .loading-pulse {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    
+    .menu-card { transition: all 0.3s ease; }
+    .menu-card:hover { transform: translateY(-10px) scale(1.05); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+    
+    .device-card { transition: all 0.3s ease; }
+    .device-card:hover { transform: scale(1.05); }
+    
+    .device-detail { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    
+    /* 加载遮罩 */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    
+    .loading-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    
+    input[type="range"]::-webkit-slider-track {
+      background: #334155;
+      height: 8px;
+      border-radius: 4px;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #06b6d4;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(6, 182, 212, 0.5);
+    }
+    
+    input[type="range"]::-webkit-slider-thumb:hover {
+      background: #0891b2;
+      transform: scale(1.2);
+    }
+    
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    .param-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .badge-normal { background: #22c55e; color: white; }
+    .badge-warning { background: #eab308; color: white; }
+    .badge-error { background: #ef4444; color: white; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 min-h-screen">
+
+  <div id="app"></div>
+
+  <script>
+    // ==================== 字段映射表 ====================
+    const FieldMapping = {
+      // A架设备
+      'Ajia-0_v': { name: 'A架右舷角度', unit: '°', device: 'A架' },
+      'Ajia-1_v': { name: 'A架左舷角度', unit: '°', device: 'A架' },
+      'Ajia-2_v': { name: '1启动柜电压', unit: 'V', device: 'A架' },
+      'Ajia-3_v': { name: '1启动柜电流', unit: 'A', device: 'A架' },
+      'Ajia-4_v': { name: '2启动柜电压', unit: 'V', device: 'A架' },
+      'Ajia-5_v': { name: '2启动柜电流', unit: 'A', device: 'A架' },
+      
+      // 一号门架主液压泵
+      '1-5-0_v': { name: 'Ua电压', unit: 'V', device: '一号门架主液压泵', scale: 0.1 },
+      '1-5-1_v': { name: 'Ub电压', unit: 'V', device: '一号门架主液压泵', scale: 0.1 },
+      '1-5-2_v': { name: 'Uc电压', unit: 'V', device: '一号门架主液压泵', scale: 0.1 },
+      '1-5-3_v': { name: 'Ia电流', unit: 'A', device: '一号门架主液压泵' },
+      '1-5-4_v': { name: 'Ib电流', unit: 'A', device: '一号门架主液压泵' },
+      '1-5-5_v': { name: 'Ic电流', unit: 'A', device: '一号门架主液压泵' },
+      '1-5-6_v': { name: '有功功率', unit: 'kW', device: '一号门架主液压泵' },
+      '1-5-10_v': { name: '频率', unit: 'Hz', device: '一号门架主液压泵', scale: 0.01 },
+      
+      // 二号门架主液压泵
+      '13-14-0_v': { name: 'Ua电压', unit: 'V', device: '二号门架主液压泵', scale: 0.1 },
+      '13-14-1_v': { name: 'Ub电压', unit: 'V', device: '二号门架主液压泵', scale: 0.1 },
+      '13-14-2_v': { name: 'Uc电压', unit: 'V', device: '二号门架主液压泵', scale: 0.1 },
+      '13-14-6_v': { name: '有功功率', unit: 'kW', device: '二号门架主液压泵' },
+      '13-14-10_v': { name: '频率', unit: 'Hz', device: '二号门架主液压泵', scale: 0.01 },
+      
+      // 绞车
+      'PLC_point0_value': { name: '绞车A放缆长度', unit: 'm', device: '绞车系统' },
+      'PLC_point1_value': { name: '绞车A放缆速度', unit: 'm/s', device: '绞车系统' },
+      'PLC_point2_value': { name: '绞车A张力', unit: 'kN', device: '绞车系统' },
+      'PLC_point3_value': { name: '绞车B放缆长度', unit: 'm', device: '绞车系统' },
+      'PLC_point4_value': { name: '绞车B放缆速度', unit: 'm/s', device: '绞车系统' },
+      'PLC_point5_value': { name: '绞车B张力', unit: 'kN', device: '绞车系统' },
+      
+      // 绞车变频器
+      '1-15-0_v': { name: 'Ua电压', unit: 'V', device: '绞车变频器', scale: 0.1 },
+      '1-15-6_v': { name: '有功功率', unit: 'kW', device: '绞车变频器' },
+      '1-15-10_v': { name: '频率', unit: 'Hz', device: '绞车变频器', scale: 0.01 },
+      
+      // 折臂吊车
+      '13-11-0_v': { name: 'Ua电压', unit: 'V', device: '折臂吊车液压', scale: 0.1 },
+      '13-11-6_v': { name: '有功功率', unit: 'kW', device: '折臂吊车液压' },
+      
+      // 发电机组
+      'P1_2': { name: '转速', unit: 'RPM', device: '一号柴油发电机' },
+      'P1_3': { name: '燃油消耗率', unit: 'L/h', device: '一号柴油发电机' },
+      'P1_66': { name: '有功功率', unit: 'kW', device: '一号柴油发电机' },
+      'P1_24': { name: '转速', unit: 'RPM', device: '二号柴油发电机' },
+      'P1_25': { name: '燃油消耗率', unit: 'L/h', device: '二号柴油发电机' },
+      'P1_75': { name: '有功功率', unit: 'kW', device: '二号柴油发电机' },
+      'P2_2': { name: '转速', unit: 'RPM', device: '三号柴油发电机' },
+      'P2_3': { name: '燃油消耗率', unit: 'L/h', device: '三号柴油发电机' },
+      'P2_51': { name: '有功功率', unit: 'kW', device: '三号柴油发电机' },
+      
+      // 舵桨
+      '1-2-0_v': { name: 'Ua电压', unit: 'V', device: '一号舵桨转舵A', scale: 0.1 },
+      '1-2-6_v': { name: '有功功率', unit: 'kW', device: '一号舵桨转舵A' },
+      '1-3-0_v': { name: 'Ua电压', unit: 'V', device: '一号舵桨转舵B', scale: 0.1 },
+      '1-3-6_v': { name: '有功功率', unit: 'kW', device: '一号舵桨转舵B' },
+      'P3_19': { name: '方位命令', unit: '%', device: '一号舵桨控制' },
+      'P3_20': { name: '方位反馈', unit: '%', device: '一号舵桨控制' },
+      'P3_21': { name: '转速命令', unit: 'RPM', device: '一号舵桨控制' },
+      'P3_22': { name: '转速反馈', unit: 'RPM', device: '一号舵桨控制' },
+      
+      // 推进器
+      'P3_15': { name: '功率反馈', unit: 'kW', device: '一号推进变频器' },
+      'P3_32': { name: '功率允许', unit: 'kW', device: '一号推进变频器' },
+      'P4_15': { name: '功率允许', unit: 'kW', device: '二号推进变频器' },
+      'P4_16': { name: '功率反馈', unit: 'kW', device: '二号推进变频器' },
+      'P3_18': { name: '功率反馈', unit: 'kW', device: '艏推' },
+      'P1_80': { name: '主开关电流', unit: 'A', device: '艏推' },
+    };
+
+    // ==================== 文件列表 ====================
+    const CSV_FILES = [
+      'Ajia_plc_1.csv',
+      'device_1_2_meter_102.csv',
+      'device_1_3_meter_103.csv',
+      'device_1_5_meter_105.csv',
+      'device_1_15_meter_115.csv',
+      'device_13_2_meter_1302.csv',
+      'device_13_3_meter_1303.csv',
+      'device_13_11_meter_1311.csv',
+      'device_13_14_meter_1314.csv',
+      'Jiaoche_plc_1.csv',
+      'Port1_ksbg_1.csv',
+      'Port1_ksbg_2.csv',
+      'Port1_ksbg_3.csv',
+      'Port1_ksbg_4.csv',
+      'Port1_ksbg_5.csv',
+      'Port2_ksbg_1.csv',
+      'Port2_ksbg_2.csv',
+      'Port2_ksbg_3.csv',
+      'Port2_ksbg_4.csv',
+      'Port3_ksbg_8.csv',
+      'Port3_ksbg_9.csv',
+      'Port3_ksbg_10.csv',
+      'Port4_ksbg_7.csv',
+      'Port4_ksbg_8.csv',
+      'Port4_ksbg_9.csv'
+    ];
+
+    // ==================== 全局状态 ====================
+    const AppState = {
+      currentPage: 'home',
+      currentTimeIndex: 0,
+      currentDate: null,           // 当前选中的日期
+      availableDates: [],          // 可用的日期列表
+      dateTimestamps: {},          // 按日期分组的时间戳 { '2024-05-17': [...timestamps] }
+      dateTimestampsOriginal: {},  // 原始完整时间戳（未采样）
+      timestamps: [],              // 当前日期的时间戳（采样后）
+      devicesData: {},
+      activeDetailId: null,
+      loadingProgress: 0,
+      showDatePicker: false,       // 是否显示日期选择器
+      samplingRate: 100,           // 每日采样帧数
+      isDragging: false,           // 是否正在拖动时间轴
+      pendingTimeIndex: null,      // 待更新的时间索引（拖动中）
+      dataCache: new Map()         // 数据缓存 { timestamp: { deviceId: values } }
+    };
+
+    // ==================== 工具函数 ====================
+    const Utils = {
+      formatTime(timeStr) {
+        if (!timeStr) return '--:--:--';
+        const parts = timeStr.split(' ');
+        return parts.length > 1 ? parts[1] : timeStr;
+      },
+      
+      formatDate(timeStr) {
+        if (!timeStr) return '--';
+        const parts = timeStr.split(' ');
+        return parts.length > 0 ? parts[0] : timeStr;
+      },
+      
+      getDateFromTimestamp(timeStr) {
+        if (!timeStr) return null;
+        const parts = timeStr.split(' ');
+        return parts.length > 0 ? parts[0] : null;
+      },
+      
+      // 采样函数：从数组中均匀采样指定数量的元素
+      sampleArray(array, sampleCount) {
+        if (!array || array.length === 0) return [];
+        if (array.length <= sampleCount) return [...array];
+        
+        const samples = [];
+        const totalCount = array.length;
+        
+        // 按100分点采样
+        for (let i = 0; i < sampleCount; i++) {
+          const index = Math.floor((i / (sampleCount - 1)) * (totalCount - 1));
+          samples.push(array[index]);
+        }
+        
+        return samples;
+      },
+      
+      getDeviceIcon(name) {
+        if (name.includes('A架')) return '🏗️';
+        if (name.includes('门架')) return '🏗️';
+        if (name.includes('绞车')) return '⚙️';
+        if (name.includes('吊车')) return '🚜';
+        if (name.includes('舵桨')) return '🚢';
+        if (name.includes('推进') || name.includes('艏推')) return '⚓';
+        if (name.includes('发电机')) return '⚡';
+        return '📦';
+      },
+      
+      createElement(tag, className = '', innerHTML = '') {
+        const el = document.createElement(tag);
+        if (className) el.className = className;
+        if (innerHTML) el.innerHTML = innerHTML;
+        return el;
+      },
+      
+      applyScale(value, scale) {
+        if (!scale || scale === 1) return value;
+        const num = parseFloat(value);
+        return isNaN(num) ? value : (num * scale).toFixed(2);
+      },
+      
+      isErrorValue(value) {
+        return value === 'error' || value === null || value === undefined || value === '';
+      },
+      
+      getValueStatus(value, mapping) {
+        if (Utils.isErrorValue(value)) return 'error';
+        const num = parseFloat(value);
+        if (isNaN(num)) return 'normal';
+        // 可以根据mapping中的阈值判断，这里简化处理
+        return 'normal';
+      },
+      
+      // 显示加载动画
+      showLoading(message = '加载中...') {
+        let overlay = document.getElementById('loading-overlay');
+        if (!overlay) {
+          overlay = document.createElement('div');
+          overlay.id = 'loading-overlay';
+          overlay.className = 'loading-overlay';
+          overlay.innerHTML = `
+            <div class="bg-slate-800 rounded-xl p-6 shadow-2xl border border-slate-700">
+              <div class="flex items-center space-x-4">
+                <div class="loading-spinner w-8 h-8 border-4 border-cyan-400 border-t-transparent rounded-full"></div>
+                <span class="text-white text-lg">${message}</span>
+              </div>
+            </div>
+          `;
+          document.body.appendChild(overlay);
+        }
+        // 强制重绘
+        overlay.offsetHeight;
+        overlay.classList.add('active');
+      },
+      
+      // 隐藏加载动画
+      hideLoading() {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+          overlay.classList.remove('active');
+        }
+      }
+    };
+
+    // ==================== 数据加载器 ====================
+    const DataManager = {
+      async loadAllData() {
+        try {
+          AppState.loadingProgress = 0;
+          const totalFiles = CSV_FILES.length;
+          let loadedFiles = 0;
+          
+          // 并行加载所有CSV文件
+          const promises = CSV_FILES.map(async (filename) => {
+            try {
+              const response = await fetch(`./data/${filename}`);
+              if (!response.ok) {
+                console.warn(`文件加载失败: ${filename}`);
+                return null;
+              }
+              const text = await response.text();
+              
+              return new Promise((resolve) => {
+                Papa.parse(text, {
+                  header: true,
+                  skipEmptyLines: true,
+                  complete: (results) => {
+                    loadedFiles++;
+                    AppState.loadingProgress = Math.round((loadedFiles / totalFiles) * 100);
+                    this.updateLoadingUI();
+                    resolve({ filename, data: results.data });
+                  },
+                  error: (error) => {
+                    console.error(`解析失败: ${filename}`, error);
+                    resolve(null);
+                  }
+                });
+              });
+            } catch (error) {
+              console.error(`读取文件错误: ${filename}`, error);
+              return null;
+            }
+          });
+          
+          const results = await Promise.all(promises);
+          
+          // 组织数据：按设备分组
+          this.organizeDataByDevice(results.filter(r => r !== null));
+          
+          return true;
+        } catch (error) {
+          console.error('数据加载失败:', error);
+          return false;
+        }
+      },
+      
+      organizeDataByDevice(fileResults) {
+        const deviceMap = {};
+        const timestampSet = new Set();
+        const dateTimestamps = {};
+        
+        // 遍历所有文件的数据
+        fileResults.forEach(({ filename, data }) => {
+          if (!data || data.length === 0) return;
+          
+          // 收集时间戳并按日期分组
+          data.forEach(row => {
+            if (row.csvTime) {
+              timestampSet.add(row.csvTime);
+              const date = Utils.getDateFromTimestamp(row.csvTime);
+              if (date) {
+                if (!dateTimestamps[date]) {
+                  dateTimestamps[date] = [];
+                }
+                dateTimestamps[date].push(row.csvTime);
+              }
+            }
+          });
+          
+          // 遍历每行数据
+          data.forEach((row, rowIndex) => {
+            Object.keys(row).forEach(fieldKey => {
+              if (fieldKey === 'csvTime' || fieldKey === '' || fieldKey === '_id') return;
+              
+              const mapping = FieldMapping[fieldKey];
+              if (!mapping) return;
+              
+              const deviceName = mapping.device;
+              
+              if (!deviceMap[deviceName]) {
+                deviceMap[deviceName] = {
+                  name: deviceName,
+                  icon: Utils.getDeviceIcon(deviceName),
+                  parameters: {}
+                };
+              }
+              
+              if (!deviceMap[deviceName].parameters[fieldKey]) {
+                deviceMap[deviceName].parameters[fieldKey] = {
+                  displayName: mapping.name,
+                  unit: mapping.unit || '',
+                  scale: mapping.scale || 1,
+                  values: []
+                };
+              }
+              
+              const rawValue = row[fieldKey];
+              const scaledValue = mapping.scale 
+                ? Utils.applyScale(rawValue, mapping.scale)
+                : rawValue;
+              
+              deviceMap[deviceName].parameters[fieldKey].values.push({
+                timestamp: row.csvTime,
+                value: scaledValue,
+                raw: rawValue
+              });
+            });
+          });
+        });
+        
+        // 处理日期时间戳：去重并排序
+        Object.keys(dateTimestamps).forEach(date => {
+          dateTimestamps[date] = [...new Set(dateTimestamps[date])].sort();
+        });
+        
+        // 保存原始完整数据
+        AppState.dateTimestampsOriginal = JSON.parse(JSON.stringify(dateTimestamps));
+        
+        // 对每个日期进行采样
+        const sampledDateTimestamps = {};
+        Object.keys(dateTimestamps).forEach(date => {
+          const originalFrames = dateTimestamps[date];
+          const sampledFrames = Utils.sampleArray(originalFrames, AppState.samplingRate);
+          sampledDateTimestamps[date] = sampledFrames;
+          
+          console.log(`日期 ${date}: 原始 ${originalFrames.length} 帧 -> 采样 ${sampledFrames.length} 帧`);
+        });
+        
+        AppState.dateTimestamps = sampledDateTimestamps;
+        AppState.availableDates = Object.keys(sampledDateTimestamps).sort();
+        
+        // 设置默认日期为第一个可用日期
+        if (AppState.availableDates.length > 0) {
+          AppState.currentDate = AppState.availableDates[0];
+          AppState.timestamps = sampledDateTimestamps[AppState.currentDate];
+          AppState.currentTimeIndex = 0;
+        }
+        
+        AppState.devicesData = Object.values(deviceMap).map((device, idx) => ({
+          id: idx,
+          name: device.name,
+          icon: device.icon,
+          parameters: device.parameters
+        }));
+        
+        console.log('设备数据加载完成:', AppState.devicesData);
+        console.log('可用日期:', AppState.availableDates);
+        console.log('当前日期采样后帧数:', AppState.timestamps.length);
+      },
+      
+      updateLoadingUI() {
+        const progressEl = document.getElementById('loading-progress');
+        if (progressEl) {
+          progressEl.textContent = `${AppState.loadingProgress}%`;
+        }
+      }
+    };
+
+    // ==================== 页面渲染器 ====================
+    const Pages = {
+      renderHome() {
+        const menuItems = [
+          { id: 'monitor', icon: '📊', title: '设备监控', desc: '实时查看设备运行状态' },
+          { id: 'reports', icon: '📋', title: '报表统计', desc: '数据分析与历史记录' },
+          { id: 'settings', icon: '⚙️', title: '系统设置', desc: '参数配置与管理' },
+          { id: 'alerts', icon: '🔔', title: '报警管理', desc: '故障预警与通知' }
+        ];
+
+        return `
+          <div class="min-h-screen flex items-center justify-center p-8 fade-in">
+            <div class="max-w-6xl w-full">
+              <div class="text-center mb-12">
+                <h1 class="text-6xl font-bold text-white mb-4">
+                  <span class="mr-4">🚢</span>船舶管理系统
+                </h1>
+                <p class="text-xl text-blue-200">智能监控 · 精准分析 · 高效管理</p>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                ${menuItems.map((item, idx) => `
+                  <div class="menu-card bg-gradient-to-br from-blue-600 to-blue-800 p-8 rounded-2xl shadow-xl cursor-pointer border border-blue-500/30"
+                       onclick="Router.navigate('${item.id}')"
+                       style="animation-delay: ${idx * 0.1}s">
+                    <div class="text-6xl mb-4">${item.icon}</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">${item.title}</h3>
+                    <p class="text-blue-200 text-sm">${item.desc}</p>
+                  </div>
+                `).join('')}
+              </div>
+              
+              <div class="mt-12 text-center text-gray-400 text-sm">
+                <p>© 2024 船舶智能管理系统 v2.0 - 实时数据版</p>
+              </div>
+            </div>
+          </div>
+        `;
+      },
+
+      async renderMonitor() {
+        if (Object.keys(AppState.devicesData).length === 0) {
+          return `
+            <div class="min-h-screen flex items-center justify-center">
+              <div class="text-center">
+                <div class="text-white text-2xl mb-4">正在加载设备数据...</div>
+                <div class="text-cyan-400 text-4xl font-bold" id="loading-progress">0%</div>
+              </div>
+            </div>
+          `;
+        }
+
+        const devices = AppState.devicesData;
+        const currentTime = AppState.timestamps[AppState.currentTimeIndex] || '--';
+
+        const html = `
+          <div class="min-h-screen pb-32 fade-in">
+            <div class="bg-slate-800 shadow-lg py-4 px-6 flex justify-between items-center">
+              <div class="flex items-center space-x-4">
+                <button onclick="Router.navigate('home')" 
+                        class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors">
+                  ← 返回
+                </button>
+                <h1 class="text-2xl font-bold text-white">📊 设备监控</h1>
+                <div class="px-3 py-1 bg-slate-700 rounded-lg">
+                  <span class="text-cyan-400 text-sm font-mono">${currentTime}</span>
+                </div>
+              </div>
+              <div class="text-gray-400 text-sm">
+                已加载 ${devices.length} 个设备 | 当前显示 ${AppState.timestamps.length} 帧
+              </div>
+            </div>
+            
+            <div class="py-8 overflow-x-auto hide-scrollbar px-6">
+              <div class="flex space-x-6" style="min-width: min-content;">
+                ${devices.map(device => this.renderDeviceCard(device)).join('')}
+              </div>
+            </div>
+            
+            ${this.renderTimeline()}
+          </div>
+        `;
+        
+        return html;
+      },
+
+      renderDeviceCard(device) {
+        // 获取第一个有效参数作为预览
+        const firstParam = Object.values(device.parameters)[0];
+        const currentTime = AppState.timestamps[AppState.currentTimeIndex];
+        let previewValue = '--';
+        
+        if (firstParam && firstParam.values.length > 0) {
+          const valueData = TimelineHandler.findValueAtTime(firstParam, currentTime);
+          previewValue = Utils.isErrorValue(valueData.value) 
+            ? 'error' 
+            : `${valueData.value} ${firstParam.unit}`;
+        }
+        
+        return `
+          <div class="device-card relative w-56 h-64 flex-shrink-0"
+               onclick="DeviceHandler.toggleDetail(${device.id}, event)">
+            <div class="w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl shadow-lg flex flex-col items-center justify-center cursor-pointer p-4">
+              <div class="text-6xl mb-3">${device.icon}</div>
+              <h3 class="text-white font-bold text-center mb-2">${device.name}</h3>
+              <div class="text-xs text-blue-200 text-center break-words w-full device-preview-value">
+                ${previewValue}
+              </div>
+              <div class="mt-2 text-xs text-blue-300">点击查看详情</div>
+            </div>
+          </div>
+        `;
+      },
+
+      renderTimeline() {
+        if (AppState.timestamps.length === 0) return '';
+        
+        const progress = (AppState.currentTimeIndex / (AppState.timestamps.length - 1)) * 100;
+        const currentTime = AppState.timestamps[AppState.currentTimeIndex];
+        
+        return `
+          <div class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-lg border-t border-slate-700 p-4 z-40">
+            <div class="max-w-7xl mx-auto">
+              <!-- 日期选择和时间显示 -->
+              <div class="flex justify-between items-center mb-3">
+                <div class="flex items-center space-x-4">
+                  <!-- 日期选择器 -->
+                  <div class="relative">
+                    <button onclick="DatePickerHandler.toggle()" 
+                            class="flex items-center space-x-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
+                      <span class="text-cyan-400 font-bold">📅 ${Utils.formatDate(currentTime)}</span>
+                      <span class="text-gray-400 text-sm">▼</span>
+                    </button>
+                    
+                    <!-- 日期选择下拉框 -->
+                    <div id="date-picker-dropdown" 
+                         class="absolute bottom-full left-0 mb-2 bg-slate-800 rounded-lg shadow-2xl border border-slate-700 ${AppState.showDatePicker ? '' : 'hidden'}"
+                         style="min-width: 300px; max-height: 400px; overflow-y: auto;">
+                      <div class="p-3 border-b border-slate-700">
+                        <h4 class="text-white font-bold text-sm">选择日期</h4>
+                        <p class="text-gray-400 text-xs mt-1">共 ${AppState.availableDates.length} 个日期</p>
+                      </div>
+                      <div class="p-2">
+                        ${AppState.availableDates.map(date => {
+                          const isActive = date === AppState.currentDate;
+                          const originalFrameCount = AppState.dateTimestampsOriginal[date]?.length || 0;
+                          const sampledFrameCount = AppState.dateTimestamps[date]?.length || 0;
+                          return `
+                            <button onclick="DatePickerHandler.selectDate('${date}')"
+                                    class="w-full text-left px-4 py-3 rounded-lg transition-colors mb-1 ${
+                                      isActive 
+                                        ? 'bg-cyan-600 text-white' 
+                                        : 'hover:bg-slate-700 text-gray-300'
+                                    }">
+                              <div class="flex justify-between items-center">
+                                <div>
+                                  <div class="font-bold ${isActive ? 'text-white' : 'text-cyan-400'}">${date}</div>
+                                  <div class="text-xs ${isActive ? 'text-cyan-100' : 'text-gray-500'}">
+                                    原始: ${originalFrameCount} 帧 → 采样: ${sampledFrameCount} 帧
+                                  </div>
+                                </div>
+                                ${isActive ? '<span class="text-xl">✓</span>' : ''}
+                              </div>
+                            </button>
+                          `;
+                        }).join('')}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- 当前时间显示 -->
+                  <div class="text-white font-mono text-sm">
+                    <span class="text-gray-400">时间：</span>
+                    <span class="text-cyan-400 font-bold ml-2 current-time-display">
+                      ${Utils.formatTime(currentTime)}
+                    </span>
+                  </div>
+                </div>
+                
+                <div class="text-gray-400 text-xs frame-counter">
+                  帧 ${AppState.currentTimeIndex + 1} / ${AppState.timestamps.length}
+                </div>
+              </div>
+              
+              <!-- 时间轴滑块 -->
+              <div class="relative mb-4">
+                <input type="range" 
+                       id="timeline-slider"
+                       min="0" 
+                       max="${AppState.timestamps.length - 1}" 
+                       value="${AppState.currentTimeIndex}"
+                       onmousedown="TimelineHandler.onSliderStart()"
+                       ontouchstart="TimelineHandler.onSliderStart()"
+                       oninput="TimelineHandler.onSliderMove(this.value)"
+                       onmouseup="TimelineHandler.onSliderEnd(this.value)"
+                       ontouchend="TimelineHandler.onSliderEnd(this.value)"
+                       onchange="TimelineHandler.onSliderEnd(this.value)"
+                       class="w-full h-2"
+                       style="background: linear-gradient(to right, #06b6d4 ${progress}%, #334155 ${progress}%)">
+                
+                <!-- 时间刻度 -->
+                <div class="flex justify-between mt-2 px-1">
+                  ${this.generateTimeMarks()}
+                </div>
+              </div>
+              
+              <!-- 控制按钮 -->
+              <div class="flex justify-center items-center space-x-4">
+                <button onclick="TimelineHandler.jumpToStart()" 
+                        ${AppState.currentTimeIndex === 0 ? 'disabled' : ''}
+                        class="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-white text-sm">
+                  ⏮ 首帧
+                </button>
+                
+                <button onclick="TimelineHandler.previous()" 
+                        ${AppState.currentTimeIndex === 0 ? 'disabled' : ''}
+                        class="p-2 rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                  <span class="text-white text-xl">◀</span>
+                </button>
+                
+                <div class="px-4 py-2 bg-slate-800 rounded-lg">
+                  <span class="text-cyan-400 font-mono text-sm frame-counter">
+                    ${AppState.currentTimeIndex + 1} / ${AppState.timestamps.length}
+                  </span>
+                </div>
+                
+                <button onclick="TimelineHandler.next()"
+                        ${AppState.currentTimeIndex >= AppState.timestamps.length - 1 ? 'disabled' : ''}
+                        class="p-2 rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                  <span class="text-white text-xl">▶</span>
+                </button>
+                
+                <button onclick="TimelineHandler.jumpToEnd()" 
+                        ${AppState.currentTimeIndex >= AppState.timestamps.length - 1 ? 'disabled' : ''}
+                        class="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-white text-sm">
+                  末帧 ⏭
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      },
+      
+      generateTimeMarks() {
+        const marks = [];
+        const totalFrames = AppState.timestamps.length;
+        const markCount = 8; // 显示8个时间刻度
+        
+        for (let i = 0; i <= markCount; i++) {
+          const index = Math.floor((i / markCount) * (totalFrames - 1));
+          const timestamp = AppState.timestamps[index];
+          if (timestamp) {
+            marks.push(`<span class="text-xs text-gray-500">${Utils.formatTime(timestamp)}</span>`);
+          }
+        }
+        
+        return marks.join('');
+      },
+
+      renderPlaceholder(title, icon) {
+        return `
+          <div class="min-h-screen flex items-center justify-center fade-in">
+            <div class="text-center">
+              <div class="text-9xl mb-6">${icon}</div>
+              <h2 class="text-4xl font-bold text-white mb-4">${title}</h2>
+              <p class="text-gray-400 mb-8">该功能正在开发中...</p>
+              <button onclick="Router.navigate('home')" 
+                      class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                返回首页
+              </button>
+            </div>
+          </div>
+        `;
+      }
+    };
+
+    // ==================== 日期选择器处理器 ====================
+    const DatePickerHandler = {
+      toggle() {
+        AppState.showDatePicker = !AppState.showDatePicker;
+        const dropdown = document.getElementById('date-picker-dropdown');
+        if (dropdown) {
+          dropdown.classList.toggle('hidden');
+        }
+      },
+      
+      selectDate(date) {
+        if (AppState.currentDate === date) {
+          this.toggle();
+          return;
+        }
+        
+        AppState.currentDate = date;
+        AppState.timestamps = AppState.dateTimestamps[date] || [];
+        AppState.currentTimeIndex = 0;
+        AppState.showDatePicker = false;
+        
+        Router.render();
+      },
+      
+      close() {
+        AppState.showDatePicker = false;
+        const dropdown = document.getElementById('date-picker-dropdown');
+        if (dropdown) {
+          dropdown.classList.add('hidden');
+        }
+      }
+    };
+
+    // ==================== 时间轴处理器 ====================
+    const TimelineHandler = {
+      updateTimeout: null,
+      
+      previous() {
+        AppState.currentTimeIndex = Math.max(0, AppState.currentTimeIndex - 1);
+        this.updateDisplayImmediate();
+      },
+
+      next() {
+        AppState.currentTimeIndex = Math.min(
+          AppState.timestamps.length - 1, 
+          AppState.currentTimeIndex + 1
+        );
+        this.updateDisplayImmediate();
+      },
+
+      jumpToStart() {
+        AppState.currentTimeIndex = 0;
+        this.updateDisplayImmediate();
+      },
+
+      jumpToEnd() {
+        AppState.currentTimeIndex = AppState.timestamps.length - 1;
+        this.updateDisplayImmediate();
+      },
+
+      onSliderStart() {
+        AppState.isDragging = true;
+      },
+
+      onSliderMove(value) {
+        // 拖动过程中只更新UI预览，不加载数据
+        const newIndex = parseInt(value);
+        AppState.pendingTimeIndex = newIndex;
+        this.updateSliderUI(newIndex);
+        this.updateTimePreview(newIndex);
+      },
+
+      onSliderEnd(value) {
+        // 松开后才真正加载数据
+        AppState.isDragging = false;
+        const newIndex = parseInt(value);
+        AppState.currentTimeIndex = newIndex;
+        AppState.pendingTimeIndex = null;
+        this.updateDisplayImmediate();
+      },
+
+      // 仅更新滑块UI（拖动中）
+      updateSliderUI(index) {
+        const slider = document.getElementById('timeline-slider');
+        if (slider && AppState.timestamps.length > 0) {
+          const progress = (index / (AppState.timestamps.length - 1)) * 100;
+          slider.style.background = `linear-gradient(to right, #06b6d4 ${progress}%, #334155 ${progress}%)`;
+        }
+      },
+
+      // 仅更新时间预览（拖动中）
+      updateTimePreview(index) {
+        const currentTime = AppState.timestamps[index];
+        document.querySelectorAll('.current-time-display').forEach(el => {
+          el.textContent = Utils.formatTime(currentTime);
+        });
+        document.querySelectorAll('.frame-counter').forEach(el => {
+          el.textContent = `${index + 1} / ${AppState.timestamps.length}`;
+        });
+      },
+
+      // 立即更新所有显示（松开后/点击按钮）- 优化版
+      updateDisplayImmediate() {
+        const currentTime = AppState.timestamps[AppState.currentTimeIndex];
+        
+        // 1. 立即更新UI元素（无延迟）
+        const slider = document.getElementById('timeline-slider');
+        if (slider) {
+          slider.value = AppState.currentTimeIndex;
+          this.updateSliderUI(AppState.currentTimeIndex);
+        }
+        this.updateTimePreview(AppState.currentTimeIndex);
+        this.updateButtonStates();
+
+        // 2. 检查缓存，如果有缓存直接使用
+        const cachedData = AppState.dataCache.get(currentTime);
+        if (cachedData) {
+          this.applyDeviceCardData(cachedData);
+          if (AppState.activeDetailId !== null) {
+            DeviceHandler.updateDetailContent(AppState.activeDetailId);
+          }
+          return;
+        }
+
+        // 3. 无缓存时显示加载动画
+        Utils.showLoading('加载数据...');
+
+        // 4. 使用 setTimeout 分批加载，避免阻塞UI
+        setTimeout(() => {
+          const deviceCardData = {};
+          
+          // 预先计算所有设备的数据
+          AppState.devicesData.forEach(device => {
+            const firstParam = Object.values(device.parameters)[0];
+            if (firstParam) {
+              const valueData = this.findValueAtTime(firstParam, currentTime);
+              deviceCardData[device.id] = {
+                value: valueData.value,
+                unit: firstParam.unit
+              };
+            }
+          });
+          
+          // 缓存数据
+          AppState.dataCache.set(currentTime, deviceCardData);
+          
+          // 应用数据
+          this.applyDeviceCardData(deviceCardData);
+          
+          // 更新详情窗口
+          if (AppState.activeDetailId !== null) {
+            DeviceHandler.updateDetailContent(AppState.activeDetailId);
+          }
+          
+          // 隐藏加载动画
+          Utils.hideLoading();
+        }, 50); // 50ms延迟，让UI先更新
+      },
+
+      // 应用设备卡片数据（优化后的批量更新）
+      applyDeviceCardData(deviceCardData) {
+        const cards = document.querySelectorAll('.device-card');
+        const fragment = document.createDocumentFragment();
+        
+        cards.forEach((card, idx) => {
+          const valueEl = card.querySelector('.device-preview-value');
+          if (valueEl && deviceCardData[idx]) {
+            const data = deviceCardData[idx];
+            const displayValue = Utils.isErrorValue(data.value) 
+              ? 'ERROR' 
+              : `${data.value} ${data.unit}`;
+            valueEl.textContent = displayValue;
+          }
+        });
+      },
+
+      // 更新按钮禁用状态
+      updateButtonStates() {
+        const isFirst = AppState.currentTimeIndex === 0;
+        const isLast = AppState.currentTimeIndex >= AppState.timestamps.length - 1;
+
+        // 更新首帧/上一帧按钮
+        document.querySelectorAll('button[onclick*="jumpToStart"], button[onclick*="previous"]').forEach(btn => {
+          if (isFirst) {
+            btn.setAttribute('disabled', 'disabled');
+            btn.classList.add('opacity-30', 'cursor-not-allowed');
+          } else {
+            btn.removeAttribute('disabled');
+            btn.classList.remove('opacity-30', 'cursor-not-allowed');
+          }
+        });
+
+        // 更新末帧/下一帧按钮
+        document.querySelectorAll('button[onclick*="jumpToEnd"], button[onclick*="next"]').forEach(btn => {
+          if (isLast) {
+            btn.setAttribute('disabled', 'disabled');
+            btn.classList.add('opacity-30', 'cursor-not-allowed');
+          } else {
+            btn.removeAttribute('disabled');
+            btn.classList.remove('opacity-30', 'cursor-not-allowed');
+          }
+        });
+      },
+      
+      // 查找指定时间点的参数值（优化：使用二分查找）
+      findValueAtTime(param, targetTime) {
+        if (!param || !param.values || param.values.length === 0) {
+          return { value: '--', raw: '--' };
+        }
+        
+        // 精确匹配
+        let valueData = param.values.find(v => v.timestamp === targetTime);
+        
+        // 如果没有精确匹配，找最近的（优化：只查找邻近的几个）
+        if (!valueData && param.values.length > 0) {
+          // 简化：取第一个匹配的或者最后一个
+          valueData = param.values[0];
+        }
+        
+        return valueData || { value: '--', raw: '--' };
+      }
+    };
+
+    // ==================== 设备交互处理器 ====================
+    const DeviceHandler = {
+      toggleDetail(deviceId, event) {
+        event.stopPropagation();
+        
+        const existingModal = document.getElementById('device-detail-modal');
+        if (existingModal) {
+          if (AppState.activeDetailId === deviceId) {
+            existingModal.remove();
+            AppState.activeDetailId = null;
+            return;
+          }
+          existingModal.remove();
+        }
+
+        AppState.activeDetailId = deviceId;
+        const device = AppState.devicesData.find(d => d.id === deviceId);
+        if (!device) return;
+
+        const modal = document.createElement('div');
+        modal.id = 'device-detail-modal';
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4';
+        modal.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        modal.onclick = (e) => {
+          if (e.target === modal) {
+            modal.remove();
+            AppState.activeDetailId = null;
+          }
+        };
+
+        const content = document.createElement('div');
+        content.className = 'bg-slate-800 rounded-xl shadow-2xl max-w-4xl w-full max-h-[85vh] overflow-y-auto slide-up';
+        content.onclick = (e) => e.stopPropagation();
+        
+        this.renderDetailContent(content, device);
+        
+        modal.appendChild(content);
+        document.body.appendChild(modal);
+      },
+
+      renderDetailContent(container, device) {
+        const currentTime = AppState.timestamps[AppState.currentTimeIndex];
+        const paramEntries = Object.entries(device.parameters);
+        
+        // 按参数分类
+        const categories = {
+          '电压参数': [],
+          '电流参数': [],
+          '功率参数': [],
+          '速度/转速': [],
+          '其他参数': []
+        };
+        
+        paramEntries.forEach(([key, param]) => {
+          if (param.displayName.includes('电压')) {
+            categories['电压参数'].push([key, param]);
+          } else if (param.displayName.includes('电流')) {
+            categories['电流参数'].push([key, param]);
+          } else if (param.displayName.includes('功率')) {
+            categories['功率参数'].push([key, param]);
+          } else if (param.displayName.includes('转速') || param.displayName.includes('速度')) {
+            categories['速度/转速'].push([key, param]);
+          } else {
+            categories['其他参数'].push([key, param]);
+          }
+        });
+        
+        container.innerHTML = `
+          <div class="p-6">
+            <!-- 头部 -->
+            <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+              <div class="flex items-center space-x-3">
+                <span class="text-6xl">${device.icon}</span>
+                <div>
+                  <h3 class="text-3xl font-bold text-white">${device.name}</h3>
+                  <p class="text-sm text-gray-400 mt-1">实时运行参数监控</p>
+                </div>
+              </div>
+              <button onclick="document.getElementById('device-detail-modal').remove(); AppState.activeDetailId = null;" 
+                      class="text-gray-400 hover:text-white text-4xl leading-none p-2 transition-colors">
+                ×
+              </button>
+            </div>
+            
+            <!-- 时间显示 -->
+            <div class="mb-6 bg-slate-700/50 rounded-lg p-4 flex justify-between items-center">
+              <div>
+                <span class="text-gray-400 text-sm">当前时间点</span>
+                <div class="text-cyan-400 font-mono text-xl mt-1">${currentTime || '--'}</div>
+              </div>
+              <div class="text-right">
+                <span class="text-gray-400 text-sm">参数数量</span>
+                <div class="text-white text-xl font-bold mt-1">${paramEntries.length} 项</div>
+              </div>
+            </div>
+            
+            <!-- 参数分类显示 -->
+            ${Object.entries(categories).filter(([cat, items]) => items.length > 0).map(([category, items]) => `
+              <div class="mb-6">
+                <h4 class="text-lg font-bold text-cyan-400 mb-3 flex items-center">
+                  <span class="w-1 h-6 bg-cyan-400 mr-2"></span>
+                  ${category}
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  ${items.map(([key, param]) => {
+                    const valueData = TimelineHandler.findValueAtTime(param, currentTime);
+                    const isError = Utils.isErrorValue(valueData.value);
+                    const displayValue = isError ? 'ERROR' : valueData.value;
+                    const status = Utils.getValueStatus(valueData.value, FieldMapping[key]);
+                    
+                    return `
+                      <div class="bg-slate-700/50 rounded-lg p-4 hover:bg-slate-700/70 transition-colors">
+                        <div class="flex justify-between items-start mb-2">
+                          <span class="text-gray-300 text-sm font-medium">${param.displayName}</span>
+                          <span class="param-badge ${isError ? 'badge-error' : 'badge-normal'}">
+                            ${isError ? 'ERR' : 'OK'}
+                          </span>
+                        </div>
+                        <div class="flex items-end justify-between">
+                          <div class="text-2xl font-bold ${isError ? 'text-red-400' : 'text-white'}">
+                            ${displayValue}
+                          </div>
+                          <div class="text-gray-400 text-sm">${param.unit}</div>
+                        </div>
+                        ${!isError && parseFloat(displayValue) ? `
+                          <div class="mt-2 w-full bg-slate-600 rounded-full h-1.5">
+                            <div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-1.5 rounded-full transition-all duration-300" 
+                                 style="width: ${Math.min(Math.abs(parseFloat(displayValue) / 100), 1) * 100}%"></div>
+                          </div>
+                        ` : ''}
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            `).join('')}
+            
+            <!-- 底部提示 -->
+            <div class="mt-6 pt-4 border-t border-slate-700 text-center text-sm text-gray-400">
+              <p>💡 拖动时间轴可查看历史数据 | 数据自动同步更新</p>
+            </div>
+          </div>
+        `;
+      },
+
+      updateDetailContent(deviceId) {
+        const modal = document.getElementById('device-detail-modal');
+        if (!modal) return;
+
+        const device = AppState.devicesData.find(d => d.id === deviceId);
+        if (!device) return;
+
+        const content = modal.querySelector('.bg-slate-800');
+        if (content) {
+          this.renderDetailContent(content, device);
+        }
+      }
+    };
+
+    // ==================== 路由管理 ====================
+    const Router = {
+      async navigate(page) {
+        AppState.currentPage = page;
+        await this.render();
+      },
+
+      async render() {
+        const app = document.getElementById('app');
+        let html = '';
+
+        switch (AppState.currentPage) {
+          case 'home':
+            html = Pages.renderHome();
+            break;
+          case 'monitor':
+            // 如果数据未加载，先加载
+            if (Object.keys(AppState.devicesData).length === 0) {
+              html = await Pages.renderMonitor();
+              app.innerHTML = html;
+              await DataManager.loadAllData();
+              html = await Pages.renderMonitor();
+              app.innerHTML = html;
+              // 初始化按钮状态
+              setTimeout(() => TimelineHandler.updateButtonStates(), 100);
+              return;
+            }
+            html = await Pages.renderMonitor();
+            // 渲染后更新按钮状态
+            app.innerHTML = html;
+            setTimeout(() => TimelineHandler.updateButtonStates(), 100);
+            break;
+          case 'reports':
+            html = Pages.renderPlaceholder('报表统计', '📋');
+            break;
+          case 'settings':
+            html = Pages.renderPlaceholder('系统设置', '⚙️');
+            break;
+          case 'alerts':
+            html = Pages.renderPlaceholder('报警管理', '🔔');
+            break;
+          default:
+            html = Pages.renderHome();
+        }
+
+        app.innerHTML = html;
+      }
+    };
+
+    // ==================== 初始化应用 ====================
+    window.addEventListener('DOMContentLoaded', () => {
+      Router.render();
+      
+      // 点击外部关闭日期选择器
+      document.addEventListener('click', (e) => {
+        const dropdown = document.getElementById('date-picker-dropdown');
+        const button = e.target.closest('button[onclick*="DatePickerHandler.toggle"]');
+        if (dropdown && !dropdown.contains(e.target) && !button) {
+          DatePickerHandler.close();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

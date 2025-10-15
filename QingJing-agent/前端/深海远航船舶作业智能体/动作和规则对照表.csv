@@ -1,0 +1,18 @@
+﻿动作,表名,字段,判断规则
+A架开机,Ajia_plc_1,"Ajia-3_v,Ajia-5_v",电流值从error变为0（取0）
+ON DP,Port3_ksbg_9,P3_33/P3_18,数值从0增加（取增加）
+征服者起吊,Ajia_plc_1,"Ajia-3_v,Ajia-5_v",电流从稳定值（50多），取高于50的点
+征服者入水,Ajia_plc_1,"Ajia-3_v,Ajia-5_v",缆绳解除的时间点往前推一分钟
+缆绳解除,Ajia_plc_1,"Ajia-3_v,Ajia-5_v",电流从高值回落至稳定值（50多），取50
+A架摆回,Ajia_plc_1,"Ajia-3_v,Ajia-5_v",征服者入水后，电流重新增加到峰值（最大值点）
+小艇落座,device_13_11_meter_1311,13-11-6_v,数值增加（回落前的最后一个值）
+A架关机,Ajia_plc_1,"Ajia-3_v,Ajia-5_v",电流值变为error（取error）
+OFF DP,Port3_ksbg_9,P3_33/P3_18,数值归零（取0）
+折臂吊车开机,device_13_11_meter_1311,13-11-6_v,数值从0增加（取增加）
+A架摆出,Ajia_plc_1,"Ajia-3_v,Ajia-5_v",征服者起吊前，电流到达峰值（取峰值）
+小艇检查完毕,device_13_11_meter_1311,13-11-6_v,数值增加（回落前的最后一个值）
+小艇入水,device_13_11_meter_1311,13-11-6_v,数值增加（回落前的最后一个值）
+缆绳挂妥,Ajia_plc_1,"Ajia-3_v,Ajia-5_v",征服者出水往前推一分钟
+征服者出水,Ajia_plc_1,"Ajia-3_v,Ajia-5_v",电流峰值（取峰值）
+折臂吊车关机,device_13_11_meter_1311,13-11-6_v,数值归零（取0）
+征服者落座,Ajia_plc_1,"Ajia-3_v,Ajia-5_v",电流从高值回落至稳定值（50多）（取50）

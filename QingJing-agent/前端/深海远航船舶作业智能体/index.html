@@ -357,7 +357,7 @@
         <main>
             <section id="features-section" class="container">
                 <div class="section-header">
-                    <h2>核心竞争力</h2>
+                    <h2>核心功能</h2>
                     <p>我们的智能体提供三大核心竞争力，旨在革新您的船舶作业与决策流程。</p>
                 </div>
                 <div class="features-grid">
@@ -379,24 +379,126 @@
                 </div>
             </section>
 
-            <section id="tech-core-section">
-                <div class="container">
-                    <div class="section-header">
-                        <h2>技术核心</h2>
-                        <p>我们的智能体构建于坚实的技术基石之上，融合多项尖端科技。</p>
-                    </div>
-                    <div class="tech-core-content">
-                        <div class="tech-core-text">
-                            <h3>数据驱动的智慧大脑</h3>
-                            <p>我们利用<strong>大数据技术</strong>处理来自全球的TB级海洋、气象及船舶历史数据。通过<strong>深度学习算法</strong>，智能体能够从中学习规律，实现精准预测。</p>
-                            <p>所有服务均部署在<strong>分布式云平台</strong>上，保证了系统的高可用性和弹性伸缩能力，无论您身在何处，都能获得稳定可靠的服务。</p>
-                        </div>
-                        <div class="tech-core-image">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                    </div>
+<section id="core-value-section" style="background: linear-gradient(180deg, #1a232c 0%, #101820 100%); padding: 6em 0;">
+    <div class="container">
+        <div class="section-header">
+            <h2>核心价值</h2>
+            <p>本项目的核心价值体现在“安全、智能、创新、可拓展”四个方面。</p>
+        </div>
+
+        <div class="core-value-grid">
+            <div class="core-value-item">
+                <div class="icon"><i class="fas fa-shield-halved"></i></div>
+                <div class="text">
+                    <h3>安全</h3>
+                    <p>通过多源数据融合与动态风险评估，实现船舶关键设备状态的实时监测与多级预警，显著降低事故风险。</p>
                 </div>
-            </section>
+            </div>
+
+            <div class="core-value-item">
+                <div class="icon"><i class="fas fa-brain"></i></div>
+                <div class="text">
+                    <h3>智能</h3>
+                    <p>依托讯飞星火大模型的推理能力与经验池机制，系统能够持续学习、自动提炼知识，逐步形成可演化的领域知识体系。</p>
+                </div>
+            </div>
+
+            <div class="core-value-item">
+                <div class="icon"><i class="fas fa-lightbulb"></i></div>
+                <div class="text">
+                    <h3>创新</h3>
+                    <p>多角色协同架构与层次分解树算法突破单智能体在长链任务中的局限，实现复杂任务的自主规划与执行。</p>
+                </div>
+            </div>
+
+            <div class="core-value-item">
+                <div class="icon"><i class="fas fa-diagram-project"></i></div>
+                <div class="text">
+                    <h3>可拓展</h3>
+                    <p>系统模块化设计可快速迁移至航运、风电、石油钻井等场景，形成面向工业智能化的通用决策框架。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="core-value-footer">
+            <p>通过技术创新与行业融合，项目为<strong>“智慧海洋”</strong>建设提供关键支撑，推动我国从
+                <strong>“海洋大国”</strong>迈向<strong>“海洋强国”</strong>。
+            </p>
+        </div>
+    </div>
+
+    <style>
+        .core-value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2.5em;
+            position: relative;
+        }
+
+        .core-value-item {
+            display: flex;
+            align-items: flex-start;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(59, 179, 224, 0.2);
+            border-left: 4px solid var(--main-cyan);
+            border-radius: 12px;
+            padding: 1.8em 1.6em;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .core-value-item:hover {
+            transform: translateY(-6px);
+            border-color: var(--light-cyan);
+            box-shadow: 0 0 25px rgba(59, 179, 224, 0.35);
+        }
+
+        .core-value-item .icon {
+            font-size: 2.8em;
+            color: var(--main-cyan);
+            margin-right: 1em;
+            flex-shrink: 0;
+            text-shadow: 0 0 10px rgba(59, 179, 224, 0.4);
+        }
+
+        .core-value-item h3 {
+            font-size: 1.5em;
+            color: var(--main-gray);
+            margin-bottom: 0.4em;
+        }
+
+        .core-value-item p {
+            color: var(--main-silver);
+            font-size: 1.05em;
+            line-height: 1.7;
+        }
+
+        .core-value-footer {
+            margin-top: 3em;
+            text-align: center;
+            color: var(--main-silver);
+            font-size: 1.1em;
+            line-height: 1.8;
+            max-width: 850px;
+            margin-left: auto;
+            margin-right: auto;
+            border-top: 1px solid rgba(59, 179, 224, 0.2);
+            padding-top: 2em;
+        }
+
+        @media (max-width: 600px) {
+            .core-value-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .core-value-item .icon {
+                margin-bottom: 0.8em;
+                margin-right: 0;
+            }
+        }
+    </style>
+</section>
             
             <section id="cta-section" class="container">
                 <h2>准备好开启智能航行新时代了吗？</h2>

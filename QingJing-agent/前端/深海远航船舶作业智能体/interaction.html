@@ -1,9 +1,4 @@
 <!DOCTYPE HTML>
-<!--
-    Helios 1.5 by HTML5 UP
-    html5up.net | @n33co
-    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html lang="zh-CN">
 
 <head>
@@ -43,6 +38,8 @@
             overflow-x: hidden;
             font-family: 'Source Sans Pro', 'Segoe UI', 'Arial', sans-serif;
             color: var(--main-silver);
+            /* Add padding to account for fixed button */
+            padding-top: 60px;
         }
 
         body::before {
@@ -70,6 +67,30 @@
             }
         }
 
+        /* NEW: Back Button Style */
+        .back-to-function {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            text-decoration: none;
+            padding: 10px 15px;
+            background: var(--main-cyan);
+            color: var(--main-dark);
+            font-weight: 600;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(59, 179, 224, 0.5);
+            transition: transform 0.2s, background 0.2s;
+        }
+        .back-to-function:hover {
+            background: var(--light-cyan);
+            transform: translateY(-2px);
+        }
+        .back-to-function i {
+            margin-right: 5px;
+        }
+        /* END NEW: Back Button Style */
+
         #header {
             background: rgba(30, 41, 51, 0.85);
             backdrop-filter: blur(10px);
@@ -77,6 +98,10 @@
             border-bottom: 2px solid var(--main-cyan);
             box-shadow: 0 4px 20px rgba(24, 58, 84, 0.15);
             border-radius: 0 0 12px 12px;
+            /* Fix header position */
+            position: sticky;
+            top: 0;
+            z-index: 999;
         }
 
         #header .inner {
@@ -101,63 +126,7 @@
             margin-top: 10px;
         }
 
-        /* 统一导航栏样式，完全对齐首页 */
-        #nav {
-            margin-top: 0.5em;
-            display: flex;
-            justify-content: center;
-        }
-
-        #nav ul {
-            background: rgba(30, 41, 51, 0.9);
-            border-radius: 8px;
-            box-shadow: 0 1px 4px rgba(24, 58, 84, 0.04);
-            padding: 4px 0;
-            border: 1px solid rgba(59, 179, 224, 0.5);
-            display: flex;
-            justify-content: center;
-            gap: 0;
-            margin: 0;
-        }
-
-        #nav ul li {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            border: none;
-        }
-
-        #nav ul li a {
-            color: var(--main-silver);
-            font-weight: 600;
-            border-radius: 18px;
-            padding: 8px 32px;
-            margin: 0 6px;
-            background: none;
-            display: block;
-            font-size: 1.08em;
-            letter-spacing: 1px;
-            transition: background 0.18s, color 0.18s, box-shadow 0.18s;
-            box-shadow: none;
-            text-decoration: none;
-            position: relative;
-        }
-
-        #nav ul li a:hover,
-        #nav ul li a:focus {
-            background: var(--main-cyan);
-            color: var(--main-dark);
-            box-shadow: 0 0 8px 0 rgba(59,179,224,0.18);
-            text-shadow: none;
-        }
-
-        #nav ul li a.active,
-        #nav ul li.active a {
-            background: linear-gradient(90deg, var(--main-cyan) 60%, var(--light-cyan) 100%);
-            color: var(--main-dark);
-            font-weight: 700;
-            box-shadow: 0 0 12px 0 rgba(59,179,224,0.22);
-        }
+        /* REMOVED: #nav styles were here */
 
         .container {
             max-width: 900px;
@@ -398,11 +367,14 @@
                 padding-left: 7px;
             }
 
-            #nav ul li a {
-                padding: 7px 10px;
-                font-size: 0.98em;
+            /* .back-to-function adjustment for small screens */
+            .back-to-function {
+                top: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 0.9em;
             }
-
+            
             .container {
                 padding: 0.7em 0.2em 0.7em 0.2em;
             }
@@ -411,8 +383,11 @@
 </head>
 
 <body class="no-sidebar">
+    
+    <a href="function.html" class="back-to-function">
+        <i class="fas fa-arrow-left"></i> 返回核心功能
+    </a>
 
-    <!-- Header -->
     <div id="header">
         <div class="inner">
             <header>
@@ -421,17 +396,8 @@
                 <p class="byline">融合尖端AI技术，赋能远洋船舶，提供全方位智能决策与安全保障</p>
             </header>
         </div>
-        <nav id="nav">
-            <ul>
-                <li><a href="index.html">首页</a></li>
-                <li><a href="Our_Team.html">我们的团队</a></li>
-                <li><a href="About.html">关于我们</a></li>
-                <li><a href="interaction.html" class="active" aria-current="page">智能问答</a></li>
-            </ul>
-        </nav>
-    </div>
+        </div>
 
-    <!-- Main -->
     <main class="container">
         <div class="chat-section-header">
             <h2><i class="fas fa-robot"></i> 智能问答</h2>
@@ -439,7 +405,6 @@
         </div>
         <div class="chat-box">
             <div class="chat-history" id="chat-history">
-                <!-- 聊天消息会动态插入 -->
                 <div class="chat-message ai">
                     <div class="avatar"><i class="fas fa-robot"></i></div>
                     <div class="chat-bubble">你好！有什么可以帮助你的吗？</div>
@@ -453,7 +418,6 @@
         </div>
     </main>
 
-    <!--footer-->
     <footer>
         <div class="footer-container">
             <div class="footer-brand">

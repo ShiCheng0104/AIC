@@ -1,56 +1,102 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>船舶设备监控系统</title>
-  
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
+
   <!-- PapaParse CDN (CSV解析) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  
+
   <style>
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    
+
     @keyframes slideUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    
+
     @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
-    
+
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
     }
-    
-    .fade-in { animation: fadeIn 0.5s ease-out; }
-    .slide-up { animation: slideUp 0.3s ease-out; }
-    
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .slide-up {
+      animation: slideUp 0.3s ease-out;
+    }
+
     .loading-spinner {
       animation: spin 1s linear infinite;
     }
-    
+
     .loading-pulse {
       animation: pulse 1.5s ease-in-out infinite;
     }
-    
-    .menu-card { transition: all 0.3s ease; }
-    .menu-card:hover { transform: translateY(-10px) scale(1.05); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-    
-    .device-card { transition: all 0.3s ease; }
-    .device-card:hover { transform: scale(1.05); }
-    
-    .device-detail { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-    
+
+    .menu-card {
+      transition: all 0.3s ease;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .device-card {
+      transition: all 0.3s ease;
+    }
+
+    .device-card:hover {
+      transform: scale(1.05);
+    }
+
+    .device-detail {
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
     /* 加载遮罩 */
     .loading-overlay {
       position: fixed;
@@ -68,25 +114,25 @@
       pointer-events: none;
       transition: opacity 0.2s ease;
     }
-    
+
     .loading-overlay.active {
       opacity: 1;
       pointer-events: all;
     }
-    
+
     input[type="range"] {
       -webkit-appearance: none;
       appearance: none;
       background: transparent;
       cursor: pointer;
     }
-    
+
     input[type="range"]::-webkit-slider-track {
       background: #334155;
       height: 8px;
       border-radius: 4px;
     }
-    
+
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -97,15 +143,21 @@
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(6, 182, 212, 0.5);
     }
-    
+
     input[type="range"]::-webkit-slider-thumb:hover {
       background: #0891b2;
       transform: scale(1.2);
     }
-    
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
-    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    
+
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
     .param-badge {
       display: inline-block;
       padding: 2px 8px;
@@ -113,13 +165,35 @@
       font-size: 0.75rem;
       font-weight: 600;
     }
-    
-    .badge-normal { background: #22c55e; color: white; }
-    .badge-warning { background: #eab308; color: white; }
-    .badge-error { background: #ef4444; color: white; }
+
+    .badge-normal {
+      background: #22c55e;
+      color: white;
+    }
+
+    .badge-warning {
+      background: #eab308;
+      color: white;
+    }
+
+    .badge-error {
+      background: #ef4444;
+      color: white;
+    }
   </style>
 </head>
+
 <body class="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 min-h-screen">
+  <!-- 返回核心功能按钮 -->
+  <a href="../function.html" class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-cyan-400/40 
+            text-cyan-200 bg-slate-800/70 hover:bg-slate-700/80 hover:text-white shadow-lg backdrop-blur"
+    title="返回核心功能">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      class="w-5 h-5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+    <span class="hidden sm:inline">返回核心功能</span>
+  </a>
 
   <div id="app"></div>
 
@@ -133,7 +207,7 @@
       'Ajia-3_v': { name: '1启动柜电流', unit: 'A', device: 'A架' },
       'Ajia-4_v': { name: '2启动柜电压', unit: 'V', device: 'A架' },
       'Ajia-5_v': { name: '2启动柜电流', unit: 'A', device: 'A架' },
-      
+
       // 一号门架主液压泵
       '1-5-0_v': { name: 'Ua电压', unit: 'V', device: '一号门架主液压泵', scale: 0.1 },
       '1-5-1_v': { name: 'Ub电压', unit: 'V', device: '一号门架主液压泵', scale: 0.1 },
@@ -143,14 +217,14 @@
       '1-5-5_v': { name: 'Ic电流', unit: 'A', device: '一号门架主液压泵' },
       '1-5-6_v': { name: '有功功率', unit: 'kW', device: '一号门架主液压泵' },
       '1-5-10_v': { name: '频率', unit: 'Hz', device: '一号门架主液压泵', scale: 0.01 },
-      
+
       // 二号门架主液压泵
       '13-14-0_v': { name: 'Ua电压', unit: 'V', device: '二号门架主液压泵', scale: 0.1 },
       '13-14-1_v': { name: 'Ub电压', unit: 'V', device: '二号门架主液压泵', scale: 0.1 },
       '13-14-2_v': { name: 'Uc电压', unit: 'V', device: '二号门架主液压泵', scale: 0.1 },
       '13-14-6_v': { name: '有功功率', unit: 'kW', device: '二号门架主液压泵' },
       '13-14-10_v': { name: '频率', unit: 'Hz', device: '二号门架主液压泵', scale: 0.01 },
-      
+
       // 绞车
       'PLC_point0_value': { name: '绞车A放缆长度', unit: 'm', device: '绞车系统' },
       'PLC_point1_value': { name: '绞车A放缆速度', unit: 'm/s', device: '绞车系统' },
@@ -158,16 +232,16 @@
       'PLC_point3_value': { name: '绞车B放缆长度', unit: 'm', device: '绞车系统' },
       'PLC_point4_value': { name: '绞车B放缆速度', unit: 'm/s', device: '绞车系统' },
       'PLC_point5_value': { name: '绞车B张力', unit: 'kN', device: '绞车系统' },
-      
+
       // 绞车变频器
       '1-15-0_v': { name: 'Ua电压', unit: 'V', device: '绞车变频器', scale: 0.1 },
       '1-15-6_v': { name: '有功功率', unit: 'kW', device: '绞车变频器' },
       '1-15-10_v': { name: '频率', unit: 'Hz', device: '绞车变频器', scale: 0.01 },
-      
+
       // 折臂吊车
       '13-11-0_v': { name: 'Ua电压', unit: 'V', device: '折臂吊车液压', scale: 0.1 },
       '13-11-6_v': { name: '有功功率', unit: 'kW', device: '折臂吊车液压' },
-      
+
       // 发电机组
       'P1_2': { name: '转速', unit: 'RPM', device: '一号柴油发电机' },
       'P1_3': { name: '燃油消耗率', unit: 'L/h', device: '一号柴油发电机' },
@@ -178,7 +252,7 @@
       'P2_2': { name: '转速', unit: 'RPM', device: '三号柴油发电机' },
       'P2_3': { name: '燃油消耗率', unit: 'L/h', device: '三号柴油发电机' },
       'P2_51': { name: '有功功率', unit: 'kW', device: '三号柴油发电机' },
-      
+
       // 舵桨
       '1-2-0_v': { name: 'Ua电压', unit: 'V', device: '一号舵桨转舵A', scale: 0.1 },
       '1-2-6_v': { name: '有功功率', unit: 'kW', device: '一号舵桨转舵A' },
@@ -188,7 +262,7 @@
       'P3_20': { name: '方位反馈', unit: '%', device: '一号舵桨控制' },
       'P3_21': { name: '转速命令', unit: 'RPM', device: '一号舵桨控制' },
       'P3_22': { name: '转速反馈', unit: 'RPM', device: '一号舵桨控制' },
-      
+
       // 推进器
       'P3_15': { name: '功率反馈', unit: 'kW', device: '一号推进变频器' },
       'P3_32': { name: '功率允许', unit: 'kW', device: '一号推进变频器' },
@@ -243,46 +317,65 @@
       samplingRate: 100,           // 每日采样帧数
       isDragging: false,           // 是否正在拖动时间轴
       pendingTimeIndex: null,      // 待更新的时间索引（拖动中）
-      dataCache: new Map()         // 数据缓存 { timestamp: { deviceId: values } }
+      dataCache: new Map(),        // 数据缓存 { timestamp: { deviceId: values } }
+      alertsCache: new Map()       // 报警缓存 { date: { deviceId: Alarm[] } }
     };
 
     // ==================== 工具函数 ====================
     const Utils = {
-      formatTime(timeStr) {
-        if (!timeStr) return '--:--:--';
+      // 将时间戳精确到“分钟”（返回格式：YYYY-MM-DD HH:MM）
+      toMinuteKey(timeStr) {
+        if (!timeStr || typeof timeStr !== 'string') return null;
         const parts = timeStr.split(' ');
-        return parts.length > 1 ? parts[1] : timeStr;
+        if (parts.length < 2) return timeStr;
+        const date = parts[0];
+        const time = parts[1];
+        const tparts = time.split(':');
+        if (tparts.length < 2) return `${date} ${time}`;
+        // 仅保留到分钟
+        const hh = tparts[0];
+        const mm = tparts[1];
+        return `${date} ${hh}:${mm}`;
       },
-      
+      formatTime(timeStr) {
+        if (!timeStr) return '--:--';
+        const parts = timeStr.split(' ');
+        const t = parts.length > 1 ? parts[1] : timeStr;
+        // 期望 timeStr 已是到分钟的键，仍然防御性截断到 HH:MM
+        const tp = t.split(':');
+        if (tp.length >= 2) return `${tp[0]}:${tp[1]}`;
+        return t;
+      },
+
       formatDate(timeStr) {
         if (!timeStr) return '--';
         const parts = timeStr.split(' ');
         return parts.length > 0 ? parts[0] : timeStr;
       },
-      
+
       getDateFromTimestamp(timeStr) {
         if (!timeStr) return null;
         const parts = timeStr.split(' ');
         return parts.length > 0 ? parts[0] : null;
       },
-      
+
       // 采样函数：从数组中均匀采样指定数量的元素
       sampleArray(array, sampleCount) {
         if (!array || array.length === 0) return [];
         if (array.length <= sampleCount) return [...array];
-        
+
         const samples = [];
         const totalCount = array.length;
-        
+
         // 按100分点采样
         for (let i = 0; i < sampleCount; i++) {
           const index = Math.floor((i / (sampleCount - 1)) * (totalCount - 1));
           samples.push(array[index]);
         }
-        
+
         return samples;
       },
-      
+
       getDeviceIcon(name) {
         if (name.includes('A架')) return '🏗️';
         if (name.includes('门架')) return '🏗️';
@@ -293,24 +386,24 @@
         if (name.includes('发电机')) return '⚡';
         return '📦';
       },
-      
+
       createElement(tag, className = '', innerHTML = '') {
         const el = document.createElement(tag);
         if (className) el.className = className;
         if (innerHTML) el.innerHTML = innerHTML;
         return el;
       },
-      
+
       applyScale(value, scale) {
         if (!scale || scale === 1) return value;
         const num = parseFloat(value);
         return isNaN(num) ? value : (num * scale).toFixed(2);
       },
-      
+
       isErrorValue(value) {
         return value === 'error' || value === null || value === undefined || value === '';
       },
-      
+
       getValueStatus(value, mapping) {
         if (Utils.isErrorValue(value)) return 'error';
         const num = parseFloat(value);
@@ -318,7 +411,7 @@
         // 可以根据mapping中的阈值判断，这里简化处理
         return 'normal';
       },
-      
+
       // 显示加载动画
       showLoading(message = '加载中...') {
         let overlay = document.getElementById('loading-overlay');
@@ -340,7 +433,7 @@
         overlay.offsetHeight;
         overlay.classList.add('active');
       },
-      
+
       // 隐藏加载动画
       hideLoading() {
         const overlay = document.getElementById('loading-overlay');
@@ -352,12 +445,14 @@
 
     // ==================== 数据加载器 ====================
     const DataManager = {
+      alarmRules: null, // { keyword: { low, high, unit } }
+
       async loadAllData() {
         try {
           AppState.loadingProgress = 0;
           const totalFiles = CSV_FILES.length;
           let loadedFiles = 0;
-          
+
           // 并行加载所有CSV文件
           const promises = CSV_FILES.map(async (filename) => {
             try {
@@ -367,7 +462,7 @@
                 return null;
               }
               const text = await response.text();
-              
+
               return new Promise((resolve) => {
                 Papa.parse(text, {
                   header: true,
@@ -389,52 +484,157 @@
               return null;
             }
           });
-          
+
           const results = await Promise.all(promises);
-          
+
           // 组织数据：按设备分组
           this.organizeDataByDevice(results.filter(r => r !== null));
-          
+
+          // 并行加载报警规则
+          await this.loadAlarmRules();
+
           return true;
         } catch (error) {
           console.error('数据加载失败:', error);
           return false;
         }
       },
-      
+
+      async loadAlarmRules() {
+        if (this.alarmRules) return this.alarmRules;
+        try {
+          const resp = await fetch('./data/设备参数详情.csv');
+          if (!resp.ok) throw new Error('设备参数详情.csv 加载失败');
+          const text = await resp.text();
+          return new Promise((resolve) => {
+            Papa.parse(text, {
+              header: true,
+              skipEmptyLines: true,
+              complete: (results) => {
+                const rules = {};
+                const keywords = [
+                  '有功功率', '频率', '转速', '燃油消耗率', '蓄电池电压', '电压', '电流', '温度', '压力', '液位'
+                ];
+                results.data.forEach(row => {
+                  const cn = row.Channel_Text_CN || '';
+                  const low = parseFloat(row.Alarm_Information_Range_Low);
+                  const high = parseFloat(row.Alarm_Information_Range_High);
+                  const unit = row.Alarm_Information_Unit || '';
+                  if (!isFinite(low) && !isFinite(high)) return;
+                  const kw = keywords.find(k => cn.includes(k));
+                  if (!kw) return;
+                  // 若同一关键词多次出现，优先保留已存在的（避免被非典型项覆盖）
+                  if (!rules[kw]) {
+                    rules[kw] = { low: isFinite(low) ? low : null, high: isFinite(high) ? high : null, unit };
+                  }
+                });
+                this.alarmRules = rules;
+                resolve(rules);
+              },
+              error: () => resolve({})
+            });
+          });
+        } catch (e) {
+          console.warn('报警规则加载失败:', e);
+          this.alarmRules = {};
+          return this.alarmRules;
+        }
+      },
+
+      // 根据参数名映射到规则关键词
+      getKeywordForParamName(name) {
+        if (!name) return null;
+        const map = [
+          { k: '有功功率', match: ['有功功率', '功率反馈'] },
+          { k: '频率', match: ['频率'] },
+          { k: '转速', match: ['转速'] },
+          { k: '燃油消耗率', match: ['燃油消耗率'] },
+          { k: '蓄电池电压', match: ['蓄电池电压'] },
+          { k: '电压', match: ['电压', 'Ua电压', 'Ub电压', 'Uc电压'] },
+          { k: '电流', match: ['电流'] },
+          { k: '温度', match: ['温度'] },
+          { k: '压力', match: ['压力'] },
+          { k: '液位', match: ['液位'] }
+        ];
+        for (const item of map) {
+          if (item.match.some(m => name.includes(m))) return item.k;
+        }
+        return null;
+      },
+
+      async getOrBuildDailyAlarms(date) {
+        if (!date) return {};
+        const cached = AppState.alertsCache.get(date);
+        if (cached) return cached;
+
+        // 确保规则加载
+        await this.loadAlarmRules();
+        const rules = this.alarmRules || {};
+        const minutes = (AppState.dateTimestampsOriginal && AppState.dateTimestampsOriginal[date]) || [];
+        const results = {}; // deviceId -> Alarm[]
+
+        AppState.devicesData.forEach(device => {
+          const deviceAlarms = [];
+          // 遍历该设备下的所有参数
+          Object.values(device.parameters).forEach(param => {
+            const kw = this.getKeywordForParamName(param.displayName);
+            const rule = kw ? rules[kw] : null;
+            if (!rule) return;
+            const { low, high } = rule;
+            // 遍历分钟
+            minutes.forEach(ts => {
+              const rec = param.valuesByTimestamp && param.valuesByTimestamp[ts];
+              if (!rec) return;
+              const val = parseFloat(rec.value);
+              if (!isFinite(val)) return;
+              let out = false;
+              if (low != null && val < low) out = true;
+              if (high != null && val > high) out = true;
+              if (out) {
+                deviceAlarms.push({
+                  minute: ts,
+                  paramName: param.displayName,
+                  value: val,
+                  unit: param.unit || '',
+                  low, high
+                });
+              }
+            });
+          });
+          // 按时间排序
+          deviceAlarms.sort((a, b) => (a.minute < b.minute ? -1 : a.minute > b.minute ? 1 : 0));
+          results[device.id] = deviceAlarms;
+        });
+
+        AppState.alertsCache.set(date, results);
+        return results;
+      },
+
       organizeDataByDevice(fileResults) {
         const deviceMap = {};
-        const timestampSet = new Set();
         const dateTimestamps = {};
-        
-        // 遍历所有文件的数据
+
+        // 第一遍：收集时间戳并把数据按字段按时间戳存入临时映射（valuesByTimestamp）
         fileResults.forEach(({ filename, data }) => {
           if (!data || data.length === 0) return;
-          
-          // 收集时间戳并按日期分组
+
           data.forEach(row => {
-            if (row.csvTime) {
-              timestampSet.add(row.csvTime);
-              const date = Utils.getDateFromTimestamp(row.csvTime);
+            const minuteKey = row.csvTime ? Utils.toMinuteKey(row.csvTime) : null;
+            if (minuteKey) {
+              const date = Utils.getDateFromTimestamp(minuteKey);
               if (date) {
-                if (!dateTimestamps[date]) {
-                  dateTimestamps[date] = [];
-                }
-                dateTimestamps[date].push(row.csvTime);
+                if (!dateTimestamps[date]) dateTimestamps[date] = [];
+                dateTimestamps[date].push(minuteKey);
               }
             }
-          });
-          
-          // 遍历每行数据
-          data.forEach((row, rowIndex) => {
+
             Object.keys(row).forEach(fieldKey => {
               if (fieldKey === 'csvTime' || fieldKey === '' || fieldKey === '_id') return;
-              
+
               const mapping = FieldMapping[fieldKey];
               if (!mapping) return;
-              
+
               const deviceName = mapping.device;
-              
               if (!deviceMap[deviceName]) {
                 deviceMap[deviceName] = {
                   name: deviceName,
@@ -442,70 +642,116 @@
                   parameters: {}
                 };
               }
-              
+
               if (!deviceMap[deviceName].parameters[fieldKey]) {
                 deviceMap[deviceName].parameters[fieldKey] = {
                   displayName: mapping.name,
                   unit: mapping.unit || '',
                   scale: mapping.scale || 1,
-                  values: []
+                  // 使用 map 存储原始按时间索引的数据，便于之后按采样时间点重建
+                  valuesByTimestamp: {}
                 };
               }
-              
+
               const rawValue = row[fieldKey];
-              const scaledValue = mapping.scale 
-                ? Utils.applyScale(rawValue, mapping.scale)
-                : rawValue;
-              
-              deviceMap[deviceName].parameters[fieldKey].values.push({
-                timestamp: row.csvTime,
-                value: scaledValue,
-                raw: rawValue
-              });
+              const scaledValue = mapping.scale ? Utils.applyScale(rawValue, mapping.scale) : rawValue;
+
+              // 记录到 valuesByTimestamp（如果同一 timestamp 有多个来源，后者覆盖前者）
+              if (minuteKey) {
+                deviceMap[deviceName].parameters[fieldKey].valuesByTimestamp[minuteKey] = {
+                  timestamp: minuteKey,
+                  value: scaledValue,
+                  raw: rawValue
+                };
+              }
             });
           });
         });
-        
-        // 处理日期时间戳：去重并排序
+
+        // 去重并排序每个日期的时间戳
         Object.keys(dateTimestamps).forEach(date => {
           dateTimestamps[date] = [...new Set(dateTimestamps[date])].sort();
         });
-        
+
         // 保存原始完整数据
         AppState.dateTimestampsOriginal = JSON.parse(JSON.stringify(dateTimestamps));
-        
-        // 对每个日期进行采样
+
+        // 采样：直接保留 AppState.samplingRate 帧（例如 100），丢弃其他数据
         const sampledDateTimestamps = {};
         Object.keys(dateTimestamps).forEach(date => {
           const originalFrames = dateTimestamps[date];
-          const sampledFrames = Utils.sampleArray(originalFrames, AppState.samplingRate);
+          const sampleCount = Math.min(AppState.samplingRate, originalFrames.length || 0);
+          const sampledFrames = Utils.sampleArray(originalFrames, sampleCount);
           sampledDateTimestamps[date] = sampledFrames;
-          
           console.log(`日期 ${date}: 原始 ${originalFrames.length} 帧 -> 采样 ${sampledFrames.length} 帧`);
         });
-        
+
         AppState.dateTimestamps = sampledDateTimestamps;
         AppState.availableDates = Object.keys(sampledDateTimestamps).sort();
-        
-        // 设置默认日期为第一个可用日期
+
+        // 设置默认日期与时间戳数组
         if (AppState.availableDates.length > 0) {
           AppState.currentDate = AppState.availableDates[0];
-          AppState.timestamps = sampledDateTimestamps[AppState.currentDate];
+          AppState.timestamps = sampledDateTimestamps[AppState.currentDate] || [];
           AppState.currentTimeIndex = 0;
         }
-        
-        AppState.devicesData = Object.values(deviceMap).map((device, idx) => ({
-          id: idx,
-          name: device.name,
-          icon: device.icon,
-          parameters: device.parameters
-        }));
-        
-        console.log('设备数据加载完成:', AppState.devicesData);
+
+        // 根据采样后的时间戳重建每个参数的 values 数组（只保留采样帧的数据）
+        const devicesData = [];
+        let idx = 0;
+        Object.values(deviceMap).forEach(device => {
+          const params = {};
+          Object.entries(device.parameters).forEach(([key, param]) => {
+            const values = [];
+            const sampledFramesForDate = AppState.timestamps || [];
+            sampledFramesForDate.forEach(ts => {
+              const v = param.valuesByTimestamp && param.valuesByTimestamp[ts];
+              if (v) values.push(v);
+              else values.push({ timestamp: ts, value: '--', raw: '--' });
+            });
+
+            params[key] = {
+              displayName: param.displayName,
+              unit: param.unit,
+              scale: param.scale,
+              values,
+              // 保留映射供切换日期时重建
+              valuesByTimestamp: param.valuesByTimestamp
+            };
+          });
+
+          devicesData.push({
+            id: idx,
+            name: device.name,
+            icon: device.icon,
+            parameters: params
+          });
+          idx++;
+        });
+
+        AppState.devicesData = devicesData;
+
+        // 暴露一个重建方法：在切换日期时用当前 AppState.timestamps 投影各参数值
+        this.projectValuesForCurrentDate = () => {
+          const frames = AppState.timestamps || [];
+          AppState.devicesData.forEach(device => {
+            Object.values(device.parameters).forEach(param => {
+              const arr = [];
+              frames.forEach(ts => {
+                const v = param.valuesByTimestamp && param.valuesByTimestamp[ts];
+                if (v) arr.push(v);
+                else arr.push({ timestamp: ts, value: '--', raw: '--' });
+              });
+              param.values = arr;
+            });
+          });
+        };
+
+        console.log('设备数据加载完成（仅保留采样帧）:', AppState.devicesData);
         console.log('可用日期:', AppState.availableDates);
         console.log('当前日期采样后帧数:', AppState.timestamps.length);
       },
-      
+
       updateLoadingUI() {
         const progressEl = document.getElementById('loading-progress');
         if (progressEl) {
@@ -519,8 +765,6 @@
       renderHome() {
         const menuItems = [
           { id: 'monitor', icon: '📊', title: '设备监控', desc: '实时查看设备运行状态' },
-          { id: 'reports', icon: '📋', title: '报表统计', desc: '数据分析与历史记录' },
-          { id: 'settings', icon: '⚙️', title: '系统设置', desc: '参数配置与管理' },
           { id: 'alerts', icon: '🔔', title: '报警管理', desc: '故障预警与通知' }
         ];
 
@@ -534,9 +778,9 @@
                 <p class="text-xl text-blue-200">智能监控 · 精准分析 · 高效管理</p>
               </div>
               
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 justify-items-center">
                 ${menuItems.map((item, idx) => `
-                  <div class="menu-card bg-gradient-to-br from-blue-600 to-blue-800 p-8 rounded-2xl shadow-xl cursor-pointer border border-blue-500/30"
+                  <div class="menu-card bg-gradient-to-br from-blue-600 to-blue-800 p-8 rounded-2xl shadow-xl cursor-pointer border border-blue-500/30 w-full"
                        onclick="Router.navigate('${item.id}')"
                        style="animation-delay: ${idx * 0.1}s">
                     <div class="text-6xl mb-4">${item.icon}</div>
@@ -596,8 +840,112 @@
             ${this.renderTimeline()}
           </div>
         `;
-        
+
         return html;
+      },
+
+      async renderAlerts() {
+        // 确保数据与规则已加载
+        if (Object.keys(AppState.devicesData).length === 0) {
+          return `
+            <div class="min-h-screen flex items-center justify-center">
+              <div class="text-center">
+                <div class="text-white text-2xl mb-4">正在加载数据...</div>
+                <div class="text-cyan-400 text-4xl font-bold" id="loading-progress">${AppState.loadingProgress || 0}%</div>
+              </div>
+            </div>
+          `;
+        }
+
+        const currentDate = AppState.currentDate || AppState.availableDates[0];
+        if (!currentDate) {
+          return `<div class="p-8 text-white">暂无可用日期</div>`;
+        }
+
+        const alarmsByDevice = await DataManager.getOrBuildDailyAlarms(currentDate);
+        const devices = AppState.devicesData;
+        const totalAlarms = Object.values(alarmsByDevice).reduce((sum, arr) => sum + (arr?.length || 0), 0);
+
+        const html = `
+          <div class="min-h-screen pb-8 fade-in">
+            <div class="bg-slate-800 shadow-lg py-4 px-6 flex justify-between items-center">
+              <div class="flex items-center space-x-4">
+                <button onclick="Router.navigate('home')" 
+                        class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors">
+                  ← 返回
+                </button>
+                <h1 class="text-2xl font-bold text-white">🔔 报警管理</h1>
+                <div class="px-3 py-1 bg-slate-700 rounded-lg">
+                  <span class="text-cyan-400 text-sm font-mono">${currentDate}</span>
+                </div>
+              </div>
+              <div class="text-gray-300 text-sm">当日报警合计：<span class="text-red-400 font-bold">${totalAlarms}</span> 条</div>
+            </div>
+
+            <!-- 日期选择器 -->
+            <div class="max-w-7xl mx-auto px-6 mt-4">
+              <div class="relative inline-block">
+                <button onclick="DatePickerHandler.toggle()" 
+                        class="flex items-center space-x-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
+                  <span class="text-cyan-400 font-bold">📅 ${currentDate}</span>
+                  <span class="text-gray-400 text-sm">▼</span>
+                </button>
+                <div id="date-picker-dropdown" 
+                     class="absolute mt-2 left-0 bg-slate-800 rounded-lg shadow-2xl border border-slate-700 ${AppState.showDatePicker ? '' : 'hidden'}"
+                     style="min-width: 300px; max-height: 400px; overflow-y: auto; z-index: 20;">
+                  <div class="p-3 border-b border-slate-700">
+                    <h4 class="text-white font-bold text-sm">选择日期</h4>
+                    <p class="text-gray-400 text-xs mt-1">共 ${AppState.availableDates.length} 个日期</p>
+                  </div>
+                  <div class="p-2">
+                    ${AppState.availableDates.map(date => {
+          const isActive = date === currentDate;
+          const originalFrameCount = AppState.dateTimestampsOriginal[date]?.length || 0;
+          return `
+                        <button onclick="DatePickerHandler.selectDate('${date}')"
+                                class="w-full text-left px-4 py-3 rounded-lg transition-colors mb-1 ${isActive ? 'bg-cyan-600 text-white' : 'hover:bg-slate-700 text-gray-300'}">
+                          <div class="flex justify-between items-center">
+                            <div>
+                              <div class="font-bold ${isActive ? 'text-white' : 'text-cyan-400'}">${date}</div>
+                              <div class="text-xs ${isActive ? 'text-cyan-100' : 'text-gray-500'}">分钟点：${originalFrameCount}</div>
+                            </div>
+                            ${isActive ? '<span class="text-xl">✓</span>' : ''}
+                          </div>
+                        </button>`;
+        }).join('')}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 设备报警卡片 -->
+            <div class="py-6 overflow-x-auto hide-scrollbar px-6">
+              <div class="flex space-x-6" style="min-width: min-content;">
+                ${devices.map(device => this.renderAlertDeviceCard(device, alarmsByDevice[device.id] || [])).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+        return html;
+      },
+
+      renderAlertDeviceCard(device, alarms) {
+        const alarmCount = alarms.length;
+        const badge = alarmCount > 0
+          ? `<span class="param-badge badge-error">${alarmCount} 条</span>`
+          : `<span class="param-badge badge-normal">无报警</span>`;
+        return `
+          <div class="device-card relative w-56 h-64 flex-shrink-0"
+               onclick="AlertsHandler.toggleDetail(${device.id}, event)">
+            <div class="w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl shadow-lg flex flex-col items-center justify-center cursor-pointer p-4">
+              <div class="text-6xl mb-3">${device.icon}</div>
+              <h3 class="text-white font-bold text-center mb-2">${device.name}</h3>
+              <div class="text-xs text-blue-200 text-center break-words w-full">当日报警</div>
+              <div class="mt-2">${badge}</div>
+              <div class="mt-2 text-xs text-blue-300">点击查看明细</div>
+            </div>
+          </div>
+        `;
       },
 
       renderDeviceCard(device) {
@@ -605,14 +953,14 @@
         const firstParam = Object.values(device.parameters)[0];
         const currentTime = AppState.timestamps[AppState.currentTimeIndex];
         let previewValue = '--';
-        
+
         if (firstParam && firstParam.values.length > 0) {
           const valueData = TimelineHandler.findValueAtTime(firstParam, currentTime);
-          previewValue = Utils.isErrorValue(valueData.value) 
-            ? 'error' 
+          previewValue = Utils.isErrorValue(valueData.value)
+            ? 'error'
             : `${valueData.value} ${firstParam.unit}`;
         }
-        
+
         return `
           <div class="device-card relative w-56 h-64 flex-shrink-0"
                onclick="DeviceHandler.toggleDetail(${device.id}, event)">
@@ -630,10 +978,11 @@
 
       renderTimeline() {
         if (AppState.timestamps.length === 0) return '';
-        
-        const progress = (AppState.currentTimeIndex / (AppState.timestamps.length - 1)) * 100;
+
+        const totalFrames = AppState.timestamps.length;
+        const progress = totalFrames <= 1 ? 0 : (AppState.currentTimeIndex / (totalFrames - 1)) * 100;
         const currentTime = AppState.timestamps[AppState.currentTimeIndex];
-        
+
         return `
           <div class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-lg border-t border-slate-700 p-4 z-40">
             <div class="max-w-7xl mx-auto">
@@ -658,16 +1007,15 @@
                       </div>
                       <div class="p-2">
                         ${AppState.availableDates.map(date => {
-                          const isActive = date === AppState.currentDate;
-                          const originalFrameCount = AppState.dateTimestampsOriginal[date]?.length || 0;
-                          const sampledFrameCount = AppState.dateTimestamps[date]?.length || 0;
-                          return `
+          const isActive = date === AppState.currentDate;
+          const originalFrameCount = AppState.dateTimestampsOriginal[date]?.length || 0;
+          const sampledFrameCount = AppState.dateTimestamps[date]?.length || 0;
+          return `
                             <button onclick="DatePickerHandler.selectDate('${date}')"
-                                    class="w-full text-left px-4 py-3 rounded-lg transition-colors mb-1 ${
-                                      isActive 
-                                        ? 'bg-cyan-600 text-white' 
-                                        : 'hover:bg-slate-700 text-gray-300'
-                                    }">
+                                    class="w-full text-left px-4 py-3 rounded-lg transition-colors mb-1 ${isActive
+              ? 'bg-cyan-600 text-white'
+              : 'hover:bg-slate-700 text-gray-300'
+            }">
                               <div class="flex justify-between items-center">
                                 <div>
                                   <div class="font-bold ${isActive ? 'text-white' : 'text-cyan-400'}">${date}</div>
@@ -679,7 +1027,7 @@
                               </div>
                             </button>
                           `;
-                        }).join('')}
+        }).join('')}
                       </div>
                     </div>
                   </div>
@@ -756,12 +1104,23 @@
           </div>
         `;
       },
-      
+
       generateTimeMarks() {
         const marks = [];
         const totalFrames = AppState.timestamps.length;
         const markCount = 8; // 显示8个时间刻度
-        
+
+        if (totalFrames === 0) return '';
+
+        // 如果帧数较少，则显示每帧的时间
+        if (totalFrames <= markCount) {
+          for (let i = 0; i < totalFrames; i++) {
+            const timestamp = AppState.timestamps[i];
+            if (timestamp) marks.push(`<span class="text-xs text-gray-500">${Utils.formatTime(timestamp)}</span>`);
+          }
+          return marks.join('');
+        }
+
         for (let i = 0; i <= markCount; i++) {
           const index = Math.floor((i / markCount) * (totalFrames - 1));
           const timestamp = AppState.timestamps[index];
@@ -769,7 +1128,7 @@
             marks.push(`<span class="text-xs text-gray-500">${Utils.formatTime(timestamp)}</span>`);
           }
         }
-        
+
         return marks.join('');
       },
 
@@ -780,13 +1139,92 @@
               <div class="text-9xl mb-6">${icon}</div>
               <h2 class="text-4xl font-bold text-white mb-4">${title}</h2>
               <p class="text-gray-400 mb-8">该功能正在开发中...</p>
-              <button onclick="Router.navigate('home')" 
+              <button onclick="window.location.href='../function.html'" 
                       class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
-                返回首页
+                返回核心功能
               </button>
             </div>
           </div>
         `;
+      }
+    };
+
+    // ==================== 报警交互处理器 ====================
+    const AlertsHandler = {
+      async toggleDetail(deviceId, event) {
+        event.stopPropagation();
+        const existingModal = document.getElementById('alert-detail-modal');
+        if (existingModal) existingModal.remove();
+
+        const device = AppState.devicesData.find(d => d.id === deviceId);
+        if (!device) return;
+        const currentDate = AppState.currentDate || AppState.availableDates[0];
+        const alarmsByDevice = await DataManager.getOrBuildDailyAlarms(currentDate);
+        const alarms = alarmsByDevice[deviceId] || [];
+
+        const modal = document.createElement('div');
+        modal.id = 'alert-detail-modal';
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4';
+        modal.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+
+        const content = document.createElement('div');
+        content.className = 'bg-slate-800 rounded-xl shadow-2xl max-w-5xl w-full max-h-[85vh] overflow-y-auto slide-up';
+        content.onclick = (e) => e.stopPropagation();
+
+        const grouped = alarms.reduce((acc, a) => {
+          (acc[a.minute] = acc[a.minute] || []).push(a);
+          return acc;
+        }, {});
+
+        const minutes = Object.keys(grouped).sort();
+
+        content.innerHTML = `
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+              <div class="flex items-center space-x-3">
+                <span class="text-6xl">${device.icon}</span>
+                <div>
+                  <h3 class="text-3xl font-bold text-white">${device.name}</h3>
+                  <p class="text-sm text-gray-400 mt-1">${currentDate} 报警明细（分钟粒度）</p>
+                </div>
+              </div>
+              <button onclick="document.getElementById('alert-detail-modal').remove();" 
+                      class="text-gray-400 hover:text-white text-4xl leading-none p-2 transition-colors">×</button>
+            </div>
+
+            ${minutes.length === 0 ? `<div class="text-center text-gray-400">当日无报警</div>` : ''}
+
+            ${minutes.map(min => `
+              <div class="mb-4 bg-slate-700/40 rounded-lg">
+                <div class="px-4 py-2 border-b border-slate-600 flex justify-between items-center">
+                  <div class="text-cyan-400 font-mono">${min}</div>
+                  <div class="param-badge badge-error">${grouped[min].length} 条</div>
+                </div>
+                <div class="p-4">
+                  <div class="space-y-2">
+                    ${grouped[min].map(a => `
+                      <div class="flex justify-between items-center bg-slate-800/70 rounded-md px-3 py-2">
+                        <div class="text-gray-200 text-sm">${a.paramName}</div>
+                        <div class="text-sm text-gray-400">
+                          <span class="text-red-400 font-bold mr-2">${a.value} ${a.unit}</span>
+                          <span>范围: ${a.low ?? '-'} ~ ${a.high ?? '-'} ${a.unit || ''}</span>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+
+            <div class="mt-6 pt-4 border-t border-slate-700 text-center text-sm text-gray-400">
+              <p>💡 报警以分钟为单位统计，阈值来源于设备参数详情配置</p>
+            </div>
+          </div>
+        `;
+
+        modal.appendChild(content);
+        document.body.appendChild(modal);
       }
     };
 
@@ -799,21 +1237,26 @@
           dropdown.classList.toggle('hidden');
         }
       },
-      
+
       selectDate(date) {
         if (AppState.currentDate === date) {
           this.toggle();
           return;
         }
-        
+
         AppState.currentDate = date;
         AppState.timestamps = AppState.dateTimestamps[date] || [];
         AppState.currentTimeIndex = 0;
         AppState.showDatePicker = false;
-        
+
+        // 切换日期后基于分钟级时间戳重建各参数的 values
+        if (typeof DataManager.projectValuesForCurrentDate === 'function') {
+          DataManager.projectValuesForCurrentDate();
+        }
+
         Router.render();
       },
-      
+
       close() {
         AppState.showDatePicker = false;
         const dropdown = document.getElementById('date-picker-dropdown');
@@ -826,7 +1269,7 @@
     // ==================== 时间轴处理器 ====================
     const TimelineHandler = {
       updateTimeout: null,
-      
+
       previous() {
         AppState.currentTimeIndex = Math.max(0, AppState.currentTimeIndex - 1);
         this.updateDisplayImmediate();
@@ -834,7 +1277,7 @@
 
       next() {
         AppState.currentTimeIndex = Math.min(
-          AppState.timestamps.length - 1, 
+          AppState.timestamps.length - 1,
           AppState.currentTimeIndex + 1
         );
         this.updateDisplayImmediate();
@@ -874,8 +1317,9 @@
       // 仅更新滑块UI（拖动中）
       updateSliderUI(index) {
         const slider = document.getElementById('timeline-slider');
-        if (slider && AppState.timestamps.length > 0) {
-          const progress = (index / (AppState.timestamps.length - 1)) * 100;
+        const total = AppState.timestamps.length;
+        if (slider && total > 0) {
+          const progress = total <= 1 ? 0 : (index / (total - 1)) * 100;
           slider.style.background = `linear-gradient(to right, #06b6d4 ${progress}%, #334155 ${progress}%)`;
         }
       },
@@ -894,7 +1338,7 @@
       // 立即更新所有显示（松开后/点击按钮）- 优化版
       updateDisplayImmediate() {
         const currentTime = AppState.timestamps[AppState.currentTimeIndex];
-        
+
         // 1. 立即更新UI元素（无延迟）
         const slider = document.getElementById('timeline-slider');
         if (slider) {
@@ -920,7 +1364,7 @@
         // 4. 使用 setTimeout 分批加载，避免阻塞UI
         setTimeout(() => {
           const deviceCardData = {};
-          
+
           // 预先计算所有设备的数据
           AppState.devicesData.forEach(device => {
             const firstParam = Object.values(device.parameters)[0];
@@ -932,18 +1376,18 @@
               };
             }
           });
-          
+
           // 缓存数据
           AppState.dataCache.set(currentTime, deviceCardData);
-          
+
           // 应用数据
           this.applyDeviceCardData(deviceCardData);
-          
+
           // 更新详情窗口
           if (AppState.activeDetailId !== null) {
             DeviceHandler.updateDetailContent(AppState.activeDetailId);
           }
-          
+
           // 隐藏加载动画
           Utils.hideLoading();
         }, 50); // 50ms延迟，让UI先更新
@@ -953,13 +1397,13 @@
       applyDeviceCardData(deviceCardData) {
         const cards = document.querySelectorAll('.device-card');
         const fragment = document.createDocumentFragment();
-        
+
         cards.forEach((card, idx) => {
           const valueEl = card.querySelector('.device-preview-value');
           if (valueEl && deviceCardData[idx]) {
             const data = deviceCardData[idx];
-            const displayValue = Utils.isErrorValue(data.value) 
-              ? 'ERROR' 
+            const displayValue = Utils.isErrorValue(data.value)
+              ? 'ERROR'
               : `${data.value} ${data.unit}`;
             valueEl.textContent = displayValue;
           }
@@ -993,23 +1437,54 @@
           }
         });
       },
-      
-      // 查找指定时间点的参数值（优化：使用二分查找）
+
+      // 查找指定时间点的参数值：对 param.values（按时间戳顺序）使用二分查找匹配 targetTime
       findValueAtTime(param, targetTime) {
         if (!param || !param.values || param.values.length === 0) {
           return { value: '--', raw: '--' };
         }
-        
-        // 精确匹配
-        let valueData = param.values.find(v => v.timestamp === targetTime);
-        
-        // 如果没有精确匹配，找最近的（优化：只查找邻近的几个）
-        if (!valueData && param.values.length > 0) {
-          // 简化：取第一个匹配的或者最后一个
-          valueData = param.values[0];
+
+        const values = param.values;
+
+        // 快速检查边界
+        if (values[0].timestamp === targetTime) return values[0];
+        const last = values[values.length - 1];
+        if (last.timestamp === targetTime) return last;
+
+        // 二分查找：定位与 targetTime 精确匹配的位置
+        let lo = 0;
+        let hi = values.length - 1;
+        while (lo <= hi) {
+          const mid = Math.floor((lo + hi) / 2);
+          const t = values[mid].timestamp;
+          if (t === targetTime) return values[mid];
+          if (t < targetTime) lo = mid + 1;
+          else hi = mid - 1;
         }
-        
-        return valueData || { value: '--', raw: '--' };
+
+        // 未找到精确匹配，使用最近的邻近值（hi 为小于 targetTime 的索引，lo 为大于 targetTime 的索引）
+        const choose = (idx) => (idx >= 0 && idx < values.length) ? values[idx] : null;
+        const left = choose(hi);
+        const right = choose(lo);
+
+        if (!left) return right || { value: '--', raw: '--' };
+        if (!right) return left || { value: '--', raw: '--' };
+
+        // 比较时间差（将 'YYYY-MM-DD HH:MM:SS' 转为可解析的 ISO 字符串）
+        const toMs = (ts) => {
+          try {
+            // 兼容把空格替换为 T
+            return Date.parse(ts.replace(' ', 'T')) || 0;
+          } catch (e) {
+            return 0;
+          }
+        };
+
+        const targetMs = toMs(targetTime);
+        const leftMs = toMs(left.timestamp);
+        const rightMs = toMs(right.timestamp);
+
+        return (Math.abs(targetMs - leftMs) <= Math.abs(rightMs - targetMs)) ? left : right;
       }
     };
 
@@ -1017,7 +1492,7 @@
     const DeviceHandler = {
       toggleDetail(deviceId, event) {
         event.stopPropagation();
-        
+
         const existingModal = document.getElementById('device-detail-modal');
         if (existingModal) {
           if (AppState.activeDetailId === deviceId) {
@@ -1046,9 +1521,9 @@
         const content = document.createElement('div');
         content.className = 'bg-slate-800 rounded-xl shadow-2xl max-w-4xl w-full max-h-[85vh] overflow-y-auto slide-up';
         content.onclick = (e) => e.stopPropagation();
-        
+
         this.renderDetailContent(content, device);
-        
+
         modal.appendChild(content);
         document.body.appendChild(modal);
       },
@@ -1056,7 +1531,7 @@
       renderDetailContent(container, device) {
         const currentTime = AppState.timestamps[AppState.currentTimeIndex];
         const paramEntries = Object.entries(device.parameters);
-        
+
         // 按参数分类
         const categories = {
           '电压参数': [],
@@ -1065,7 +1540,7 @@
           '速度/转速': [],
           '其他参数': []
         };
-        
+
         paramEntries.forEach(([key, param]) => {
           if (param.displayName.includes('电压')) {
             categories['电压参数'].push([key, param]);
@@ -1079,7 +1554,7 @@
             categories['其他参数'].push([key, param]);
           }
         });
-        
+
         container.innerHTML = `
           <div class="p-6">
             <!-- 头部 -->
@@ -1118,12 +1593,12 @@
                 </h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                   ${items.map(([key, param]) => {
-                    const valueData = TimelineHandler.findValueAtTime(param, currentTime);
-                    const isError = Utils.isErrorValue(valueData.value);
-                    const displayValue = isError ? 'ERROR' : valueData.value;
-                    const status = Utils.getValueStatus(valueData.value, FieldMapping[key]);
-                    
-                    return `
+          const valueData = TimelineHandler.findValueAtTime(param, currentTime);
+          const isError = Utils.isErrorValue(valueData.value);
+          const displayValue = isError ? 'ERROR' : valueData.value;
+          const status = Utils.getValueStatus(valueData.value, FieldMapping[key]);
+
+          return `
                       <div class="bg-slate-700/50 rounded-lg p-4 hover:bg-slate-700/70 transition-colors">
                         <div class="flex justify-between items-start mb-2">
                           <span class="text-gray-300 text-sm font-medium">${param.displayName}</span>
@@ -1145,7 +1620,7 @@
                         ` : ''}
                       </div>
                     `;
-                  }).join('')}
+        }).join('')}
                 </div>
               </div>
             `).join('')}
@@ -1204,14 +1679,17 @@
             app.innerHTML = html;
             setTimeout(() => TimelineHandler.updateButtonStates(), 100);
             break;
-          case 'reports':
-            html = Pages.renderPlaceholder('报表统计', '📋');
-            break;
-          case 'settings':
-            html = Pages.renderPlaceholder('系统设置', '⚙️');
-            break;
           case 'alerts':
-            html = Pages.renderPlaceholder('报警管理', '🔔');
+            // 如果数据未加载，先加载
+            if (Object.keys(AppState.devicesData).length === 0) {
+              html = await Pages.renderAlerts();
+              app.innerHTML = html;
+              await DataManager.loadAllData();
+              html = await Pages.renderAlerts();
+              app.innerHTML = html;
+              return;
+            }
+            html = await Pages.renderAlerts();
             break;
           default:
             html = Pages.renderHome();
@@ -1224,7 +1702,7 @@
     // ==================== 初始化应用 ====================
     window.addEventListener('DOMContentLoaded', () => {
       Router.render();
-      
+
       // 点击外部关闭日期选择器
       document.addEventListener('click', (e) => {
         const dropdown = document.getElementById('date-picker-dropdown');
@@ -1236,4 +1714,5 @@
     });
   </script>
 </body>
+
 </html>

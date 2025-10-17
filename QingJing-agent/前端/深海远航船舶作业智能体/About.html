@@ -107,8 +107,8 @@
             text-shadow: none;
         }
         #nav > ul > li.active > a {
-             background: var(--main-cyan);
-             color: var(--main-dark);
+             background: none;
+             color: var(--main-cyan);
         }
         
         /* --- General Content Styling --- */
@@ -418,25 +418,6 @@
         <i class="fas fa-file-csv"></i> 设备参数详情.csv
     </a>
 </div>
-            <h3>FAQ 示例</h3>
-            <div class="faq-grid">
-                <div class="faq-card">
-                    <div class="faq-title"><i class="fas fa-question-circle"></i> 设备参数查询</div>
-                    <ul>
-                        <li>一号柴油发电机组冷却液温度的上下限分别是多少（需要带单位，以整数输出，逗号隔开）</li>
-                        <li>假设某一时刻应急发电机组的滑油温度为 100℃，是否会触发报警？（Y：是；N：否。请回答 Y 或 N）</li>
-                        <li>假设某一时刻应急发电机组转速为 1800RPM，是否触发报警？（Y：是；N：否。请回答 Y 或 N）</li>
-                    </ul>
-                </div>
-                <div class="faq-card">
-                    <div class="faq-title"><i class="fas fa-database"></i> 数据缺失状态查询</div>
-                    <ul>
-                        <li>20240517~20240530（含）哪一天 A 架数据缺失最多（以 MMDD 输出）</li>
-                        <li>理想情况下，Ajia_plc 一天的数据量为 1440 条，请计算 20240520 数据缺失比例（单位 %，保留两位小数）</li>
-                        <li>理想情况下，Jiaoche_plc 一天的数据量为 1440 条，20240520~20240525（含）数据缺失比例最高的一天是哪天，缺失比例为多少（日期以 MMDD 输出，比例单位 %，保留两位小数）</li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </main>
 

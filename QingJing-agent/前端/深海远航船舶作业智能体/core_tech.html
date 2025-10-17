@@ -163,6 +163,98 @@
             top: 2px;
             font-size: 1.1em;
         }
+
+        .tech-section li strong {
+            color: var(--light-cyan);
+        }
+
+        .tech-section .icon {
+            float: right;
+            font-size: 4em;
+            color: var(--main-cyan);
+            opacity: 0.15;
+            margin-left: 0.5em;
+        }
+
+        .pain-points-grid, .design-ideas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5em;
+            margin-top: 2em;
+        }
+
+        .point-card {
+            background: rgba(0,0,0,0.15);
+            padding: 1.5em;
+            border-radius: 8px;
+            border: 1px solid rgba(59, 179, 224, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .point-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 179, 224, 0.4);
+        }
+
+        .point-card h4 {
+            font-size: 1.2em;
+            color: var(--light-cyan);
+            margin-bottom: 0.5em;
+        }
+
+        .point-card h4 i {
+            margin-right: 0.5em;
+            color: var(--main-cyan);
+        }
+
+        .multi-agent-diagram {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+            margin: 1.5em 0;
+            padding: 1em;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+
+        .agent {
+            flex: 1;
+            padding: 1em;
+        }
+
+        .agent i {
+            font-size: 2.5em;
+            color: var(--main-cyan);
+            margin-bottom: 0.5em;
+        }
+
+        .agent h5 {
+            font-size: 1.1em;
+            color: var(--main-gray);
+            margin-bottom: 0.3em;
+        }
+        
+        .agent p {
+            font-size: 0.9em;
+            color: var(--main-silver);
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+
+        .arrow {
+            font-size: 2em;
+            color: var(--main-cyan);
+        }
+
+        .experience-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            margin: 1.5em 0;
+            padding: 1em;
+        }
         
         /* --- Footer (Keep the footer styles consistent) --- */
         footer {
@@ -225,48 +317,92 @@
     <main>
         <div class="container">
             <div class="section-header">
-                <h2>核心技术与创新思路</h2>
-                <p>构建智慧船舶大脑的基石：融合前沿AI与专业海事知识。</p>
+                <h2>核心思路与功能实现</h2>
+                <p>基于讯飞星火大模型，构建多角色智能体协同系统，解决深远海船舶作业核心痛点。</p>
             </div>
             <div class="tech-content">
+
                 <section class="tech-section">
-                    <h3>1. 多模态数据融合与知识图谱</h3>
-                    <p>通过集成来自传感器、历史日志、气象水文数据、以及专业海事规章制度的多源异构数据，构建全面的船舶知识图谱，为智能决策提供坚实基础。</p>
-                    <ul>
-                        <li><strong>LLM & RAG：</strong>基于大型语言模型构建检索增强生成（RAG）系统，实现自然语言到专业知识的高效转化。</li>
-                        <li><strong>知识图谱：</strong>将设备、流程、故障、操作规程等实体及其关系结构化，提升推理与溯源能力。</li>
-                        <li><strong>数据清洗与校验：</strong>确保海量时序数据的质量与可靠性。</li>
-                    </ul>
+                    <h3><i class="fas fa-bullseye"></i> 1. 解决的核心痛点</h3>
+                    <p>传统船舶作业与监控方案面临四大挑战，本项目旨在逐一击破：</p>
+                    <div class="pain-points-grid">
+                        <div class="point-card">
+                            <h4><i class="fas fa-project-diagram"></i>设备数据异构</h4>
+                            <p>不同设备的数据协议、频率、格式各异，难以有效整合与分析。</p>
+                        </div>
+                        <div class="point-card">
+                            <h4><i class="fas fa-tasks"></i>任务流程复杂</h4>
+                            <p>长链任务（如状态分析）易导致单智能体记忆衰退、误差累积和方向发散。</p>
+                        </div>
+                        <div class="point-card">
+                            <h4><i class="fas fa-brain"></i>专家经验稀缺</h4>
+                            <p>大量隐性领域知识未文档化，模型难以学习，依赖人工构建静态知识库。</p>
+                        </div>
+                        <div class="point-card">
+                            <h4><i class="fas fa-code-branch"></i>复杂逻辑僵化</h4>
+                            <p>预定义规则难以适应任务变体，泛化能力差，相似任务需重构代码。</p>
+                        </div>
+                    </div>
                 </section>
 
                 <section class="tech-section">
-                    <h3>2. 强化学习驱动的自主优化</h3>
-                    <p>利用强化学习（RL）算法，模拟实际操作环境，让智能体在虚拟环境中进行试错学习，自主发现最优的决策策略，尤其适用于能耗优化和复杂避碰场景。</p>
-                    <ul>
-                        <li><strong>数字孪生：</strong>构建高保真的船舶及海洋环境数字孪生模型，作为RL训练环境。</li>
-                        <li><strong>能耗优化：</strong>通过RL自主学习最佳动力配置与航速，提升作业效率与安全性。</li>
-                        <li><strong>可视化与人机交互：</strong>提供直观的可视化界面与交互体验，支持多终端访问与远程协同。</li>
-                    </ul>
+                    <h3><i class="fas fa-lightbulb"></i> 2. 创新设计思路</h3>
+                    <p>为应对上述挑战，我们设计了四大核心技术思路，构成智能体的技术基石：</p>
+                    <div class="design-ideas-grid">
+                        <div class="point-card">
+                            <h4><i class="fas fa-tools"></i>原子化工具封装</h4>
+                            <p>建立标准化工具池，将数据清洗、状态标注、多源关联等功能封装为可组合调用的函数工具，实现功能的灵活复用。</p>
+                        </div>
+                        <div class="point-card">
+                            <h4><i class="fas fa-network-wired"></i>层次化任务分解</h4>
+                            <p>将复杂任务转化为树形结构的原子操作集，通过分支细化、剪枝等策略，解决长链推理难题，确保执行的稳定性与准确性。</p>
+                        </div>
+                    </div>
+                    <div class="point-card" style="margin-top: 1.5em;">
+                        <h4><i class="fas fa-users-cog"></i>多角色智能体协同</h4>
+                        <p>设计“规划-执行-监督”三位一体的智能体协同框架，各司其职，高效完成复杂任务。</p>
+                        <div class="multi-agent-diagram">
+                            <div class="agent">
+                                <i class="fas fa-map-signs"></i>
+                                <h5>Planner (规划)</h5>
+                                <p>任务解析、拆解<br>动态优化路径</p>
+                            </div>
+                            <div class="arrow">&rarr;</div>
+                            <div class="agent">
+                                <i class="fas fa-cogs"></i>
+                                <h5>Actor (执行)</h5>
+                                <p>调用工具<br>执行原子任务</p>
+                            </div>
+                            <div class="arrow">&rarr;</div>
+                            <div class="agent">
+                                <i class="fas fa-user-check"></i>
+                                <h5>Critic (监督)</h5>
+                                <p>监督、反思<br>纠错与反馈</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="point-card" style="margin-top: 1.5em;">
+                        <h4><i class="fas fa-sync-alt"></i>经验自动提取与复用</h4>
+                        <p>从智能体的历史交互中自动归纳三类经验知识（行为指导、世界建模、错误反思），经人工验证后沉淀为可迭代的经验池，实现智能体的持续学习与进化。</p>
+                        <div class="experience-flow">
+                            <div class="agent"><i class="fas fa-comments"></i><h5>交互</h5></div>
+                            <div class="arrow">&rarr;</div>
+                            <div class="agent"><i class="fas fa-file-export"></i><h5>提取经验</h5></div>
+                            <div class="arrow">&rarr;</div>
+                            <div class="agent"><i class="fas fa-check-double"></i><h5>验证</h5></div>
+                            <div class="arrow">&rarr;</div>
+                            <div class="agent"><i class="fas fa-recycle"></i><h5>复用</h5></div>
+                        </div>
+                    </div>
                 </section>
 
                 <section class="tech-section">
-                    <h3>3. 系统功能与应用场景</h3>
+                    <h3><i class="fas fa-anchor"></i> 3. 核心功能与应用场景</h3>
+                    <p>智能体系统旨在实现深远海船舶作业的智能化分析与决策支持，其核心功能体现在以下典型应用场景：</p>
                     <ul>
-                        <li>智能问答与辅助决策</li>
-                        <li>设备状态监测与故障预警</li>
-                        <li>作业流程优化与能耗分析</li>
-                        <li>应急响应与安全保障</li>
-                        <li>远程协同与知识共享</li>
-                    </ul>
-                </section>
-
-                <section class="tech-section">
-                    <h3>4. 项目优势与未来展望</h3>
-                    <ul>
-                        <li>融合AI与行业知识，提升船舶作业智能化水平</li>
-                        <li>支持多场景、多角色协同，适应复杂远洋环境</li>
-                        <li>持续进化的智能体，具备自学习与自适应能力</li>
-                        <li>为行业数字化转型与智能航运提供坚实支撑</li>
+                        <li><strong>船舶状态监控与设备知识管理:</strong> 实时检测关键动作（如A架摆动）、智能识别运行状态（如动力定位），并提供设备知识的即时问答。</li>
+                        <li><strong>设备运行指标统计分析:</strong> 精确计算各类设备的能耗、评估发电效率、监测燃油消耗，并支持多维度、自定义的统计分析。</li>
+                        <li><strong>安全状态判定与异常预警:</strong> 对滑油压力、冷却水温等关键参数进行实时阈值监控，并开发了提示、警告、严重三级预警机制，实现设备异常的提前预警。</li>
                     </ul>
                 </section>
             </div>

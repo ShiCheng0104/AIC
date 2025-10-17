@@ -91,43 +91,6 @@
         }
         /* END NEW: Back Button Style */
 
-        #header {
-            background: rgba(30, 41, 51, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--main-cyan);
-            box-shadow: 0 4px 20px rgba(24, 58, 84, 0.15);
-            border-radius: 0 0 12px 12px;
-            /* Fix header position */
-            position: sticky;
-            top: 0;
-            z-index: 999;
-        }
-
-        #header .inner {
-            padding: 3em 0;
-        }
-
-        #logo {
-            font-size: 1.5em;
-            color: var(--main-cyan);
-            text-shadow: 0 0 8px rgba(59, 179, 224, 0.5);
-            letter-spacing: 2px;
-            font-weight: 700;
-            border-left: 4px solid var(--main-cyan);
-            padding-left: 15px;
-        }
-
-        .byline {
-            color: var(--main-silver);
-            font-size: 1.1em;
-            font-weight: 400;
-            letter-spacing: 1px;
-            margin-top: 10px;
-        }
-
-        /* REMOVED: #nav styles were here */
-
         .container {
             max-width: 900px;
             margin: 3em auto 2em auto;
@@ -388,16 +351,6 @@
         <i class="fas fa-arrow-left"></i> 返回核心功能
     </a>
 
-    <div id="header">
-        <div class="inner">
-            <header>
-                <h1><a href="index.html" id="logo">深海远航船舶作业智能体</a></h1>
-                <hr />
-                <p class="byline">融合尖端AI技术，赋能远洋船舶，提供全方位智能决策与安全保障</p>
-            </header>
-        </div>
-        </div>
-
     <main class="container">
         <div class="chat-section-header">
             <h2><i class="fas fa-robot"></i> 智能问答</h2>
@@ -416,6 +369,55 @@
             </div>
             <p style="font-size:0.95em;color:#7fe7ff;margin-top:0.5em;"><i class="fas fa-info-circle"></i> 按 Enter 发送，Shift+Enter 换行</p>
         </div>
+
+        <!-- 示例问题模块 -->
+        <div class="example-questions" style="margin-top: 3em;">
+            <h3 style="color: var(--main-cyan); font-weight: 600; margin-bottom: 1.5em;">示例问题</h3>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>如何查看船舶的实时状态？</h4>
+                    <p>您可以询问“船舶状态”或“当前航速”等问题。</p>
+                </div>
+                <div class="faq-item">
+                    <h4>智能体的工作原理是什么？</h4>
+                    <p>智能体通过分析船舶传感器数据和历史记录，运用AI算法提供决策支持。</p>
+                </div>
+                <div class="faq-item">
+                    <h4>如何处理航行中的突发事件？</h4>
+                    <p>请描述事件，例如“引擎故障”或“碰撞预警”，智能体将提供应对建议。</p>
+                </div>
+                <div class="faq-item">
+                    <h4>智能体可以提供天气预报吗？</h4>
+                    <p>是的，询问“未来三天的天气”即可获取相关信息。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ from About page -->
+        <section id="faq-from-about">
+            <header>
+                <h3>FAQ 示例</h3>
+            </header>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>设备与能耗分析</h4>
+                    <p>2024/08/17 A架和折臂吊车的总开机时长分别是多少分钟（以整数输出，逗号隔开，当天没有开机/关机动作则为0）？</p>
+                </div>
+                <div class="faq-item">
+                    <h4>报警信号与规则</h4>
+                    <p>假设某一时刻三号柴油发电机组所有与压力相关的数值类型参数的值都低于500，至少会触发几个报警信号？（压差不算在内，以整数输出）</p>
+                </div>
+                <div class="faq-item">
+                    <h4>能耗占比计算</h4>
+                    <p>2024/05/18 00:00:00~2024/05/25 00:00:00 舵桨的能耗占发电机的总发电的比例（%，结果保留两位小数）？</p>
+                </div>
+                <div class="faq-item">
+                    <h4>数据缺失分析</h4>
+                    <p>理想情况下，Ajia_plc, Jiaoche_plc和Port1_ksbg_1一天的数据量均为1440条，请输出20240520~20240525（含）这三个数据集缺失比例最多的一天的缺失比例分别为多少（单位%，按照顺序输出，以逗号隔开保留两位小数）。</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer>

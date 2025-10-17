@@ -82,13 +82,16 @@
             box-shadow: 0 4px 15px rgba(59, 179, 224, 0.5);
             transition: transform 0.2s, background 0.2s;
         }
+
         .back-to-function:hover {
             background: var(--light-cyan);
             transform: translateY(-2px);
         }
+
         .back-to-function i {
             margin-right: 5px;
         }
+
         /* END NEW: Back Button Style */
 
         .container {
@@ -129,12 +132,21 @@
             transition: all 0.3s;
             display: flex;
             flex-direction: column;
-            min-height: 500px;
+            /* 固定问答窗口高度，避免随内容无限增长 */
+            height: 68vh;
+            max-height: 68vh;
+            overflow: hidden;
+            /* 仅聊天历史区滚动 */
         }
 
         .chat-history {
             flex: 1;
             overflow-y: auto;
+            /* 独立滚动条 */
+            min-height: 0;
+            /* 允许在 flex 容器中收缩以启用滚动 */
+            overscroll-behavior: contain;
+            /* 防止滚动穿透到页面 */
             padding: 1em 0;
             margin-bottom: 1em;
         }
@@ -231,6 +243,44 @@
             transform: scale(1.05);
         }
 
+        /* 日志气泡：保持新版风格 */
+        .log-bubble {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 0.95em;
+            background: rgba(59, 179, 224, 0.06);
+            color: var(--main-silver);
+            border: 1px solid rgba(59, 179, 224, 0.2);
+            border-left-width: 4px;
+        }
+
+        .log-info {
+            border-left-color: var(--main-cyan);
+        }
+
+        .log-success {
+            background: rgba(76, 175, 80, 0.08);
+            border-color: rgba(76, 175, 80, 0.25);
+            border-left-color: #4caf50;
+        }
+
+        .log-warning {
+            background: rgba(255, 179, 0, 0.08);
+            border-color: rgba(255, 179, 0, 0.25);
+            border-left-color: #ffb300;
+        }
+
+        .log-error {
+            background: rgba(255, 82, 82, 0.08);
+            border-color: rgba(255, 82, 82, 0.25);
+            border-left-color: #ff5252;
+        }
+
+        .log-debug {
+            background: rgba(158, 158, 158, 0.08);
+            border-color: rgba(158, 158, 158, 0.25);
+            border-left-color: #9e9e9e;
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -318,6 +368,12 @@
             .chat-section-header h2 {
                 font-size: 1.3em;
             }
+
+            /* 中屏下略微增大聊天框可视高度 */
+            .chat-box {
+                height: 70vh;
+                max-height: 70vh;
+            }
         }
 
         @media (max-width: 600px) {
@@ -337,16 +393,22 @@
                 padding: 8px 12px;
                 font-size: 0.9em;
             }
-            
+
             .container {
                 padding: 0.7em 0.2em 0.7em 0.2em;
+            }
+
+            /* 小屏下提高可用高度，便于查看 */
+            .chat-box {
+                height: 75vh;
+                max-height: 75vh;
             }
         }
     </style>
 </head>
 
 <body class="no-sidebar">
-    
+
     <a href="function.html" class="back-to-function">
         <i class="fas fa-arrow-left"></i> 返回核心功能
     </a>
@@ -367,7 +429,8 @@
                 <textarea id="user-input" placeholder="输入问题..." rows="1"></textarea>
                 <button id="send-button"><i class="fas fa-paper-plane"></i> 发送</button>
             </div>
-            <p style="font-size:0.95em;color:#7fe7ff;margin-top:0.5em;"><i class="fas fa-info-circle"></i> 按 Enter 发送，Shift+Enter 换行</p>
+            <p style="font-size:0.95em;color:#7fe7ff;margin-top:0.5em;"><i class="fas fa-info-circle"></i> 按 Enter
+                发送，Shift+Enter 换行</p>
         </div>
 
         <!-- 示例问题模块 -->
@@ -413,7 +476,9 @@
                 </div>
                 <div class="faq-item">
                     <h4>数据缺失分析</h4>
-                    <p>理想情况下，Ajia_plc, Jiaoche_plc和Port1_ksbg_1一天的数据量均为1440条，请输出20240520~20240525（含）这三个数据集缺失比例最多的一天的缺失比例分别为多少（单位%，按照顺序输出，以逗号隔开保留两位小数）。</p>
+                    <p>理想情况下，Ajia_plc,
+                        Jiaoche_plc和Port1_ksbg_1一天的数据量均为1440条，请输出20240520~20240525（含）这三个数据集缺失比例最多的一天的缺失比例分别为多少（单位%，按照顺序输出，以逗号隔开保留两位小数）。
+                    </p>
                 </div>
             </div>
         </section>
@@ -445,6 +510,8 @@
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
         const socket = io('http://localhost:5000');
+        // 仅提示一次连接错误，避免重复刷屏
+        let hasShownConnectError = false;
 
         // 自动调整输入框高度
         function adjustTextareaHeight() {
@@ -486,6 +553,43 @@
                 <div class="chat-bubble">${message}</div>
             `;
             chatHistory.appendChild(messageDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        // 安全转义文本，避免日志含有 HTML 时破坏页面
+        function escapeHtml(unsafe) {
+            return String(unsafe)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // 日志渲染（参考旧版协议：socket 事件 'log_message'，数据结构含 level 与 message）
+        function addLogMessage(data) {
+            const level = (data && data.level ? String(data.level) : 'INFO').toUpperCase();
+            const msg = data && data.message ? String(data.message) : '';
+
+            const levelClassMap = {
+                'INFO': 'log-info',
+                'SUCCESS': 'log-success',
+                'WARNING': 'log-warning',
+                'WARN': 'log-warning',
+                'ERROR': 'log-error',
+                'DEBUG': 'log-debug'
+            };
+            const levelClass = levelClassMap[level] || 'log-info';
+
+            const safeHtml = escapeHtml(msg).replace(/\n/g, '<br>');
+
+            const logDiv = document.createElement('div');
+            logDiv.className = 'chat-message ai';
+            logDiv.innerHTML = `
+                <div class="avatar"><i class="fas fa-terminal"></i></div>
+                <div class="chat-bubble log-bubble ${levelClass}">${safeHtml}</div>
+            `;
+            chatHistory.appendChild(logDiv);
             chatHistory.scrollTop = chatHistory.scrollHeight;
         }
 
@@ -533,6 +637,26 @@
         sendButton.addEventListener('click', sendMessage);
         userInput.addEventListener('input', adjustTextareaHeight);
         adjustTextareaHeight();
+
+        // 订阅后端日志事件（沿用旧版事件名）
+        if (typeof socket !== 'undefined' && socket) {
+            socket.on('log_message', (payload) => {
+                try {
+                    // 兼容字符串/对象两种形式
+                    const data = (typeof payload === 'string') ? { level: 'INFO', message: payload } : payload;
+                    addLogMessage(data);
+                } catch (e) {
+                    addLogMessage({ level: 'ERROR', message: '日志解析失败: ' + (e && e.message ? e.message : e) });
+                }
+            });
+
+            socket.on('connect_error', (err) => {
+                if (!hasShownConnectError) {
+                    addLogMessage({ level: 'WARNING', message: '日志通道连接失败，请确认后端 5000 端口服务是否可用。' });
+                    hasShownConnectError = true;
+                }
+            });
+        }
 
         // loading 动画
         const style = document.createElement('style');

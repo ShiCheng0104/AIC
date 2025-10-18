@@ -263,7 +263,7 @@ class DataFilter(BaseTool):
             output={
                 "result": result,
                 "length": len(filtered_data),
-                "column_desc": get_table_meta(table_name, columns),
+                "column_desc": get_table_meta(self.table_meta_filepath, table_name, columns),
             },
             
         )

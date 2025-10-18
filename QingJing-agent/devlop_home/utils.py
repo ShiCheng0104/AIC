@@ -22,7 +22,7 @@ api_config = None
 module_config = None
 
 
-def load_api_config(config_name: str = "SPARK") -> ApiConfig:
+def load_api_config(config_name: str = "DEEPSEEK") -> ApiConfig:
     """加载 API 配置"""
     global api_config
     with open(config_file, "r", encoding="utf-8") as file:

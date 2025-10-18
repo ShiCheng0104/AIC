@@ -17,12 +17,12 @@ config_file = "devlop_home/config.json"
 class LLM:
     """LLM API类"""
 
-    def __init__(self, config_name: str = "SPARK"):
+    def __init__(self, config_name: str = "DEEPSEEK"):
         self.config_name = config_name
         self.api_config = LLM.load_api_config(config_name)
 
     @staticmethod
-    def load_api_config(config_name: str = "SPARK") -> ApiConfig:
+    def load_api_config(config_name: str = "DEEPSEEK") -> ApiConfig:
         """加载 API 配置"""
         with open(config_file, "r", encoding="utf-8") as file:
             data = json.load(file)
@@ -66,7 +66,7 @@ class LLM:
     def ask(
         self,
         messages: list[dict],
-        tools: list[dict] = [],
+        tools: list[dict] | None = None,
     ):
         """
         获得对话结果
@@ -97,13 +97,17 @@ class LLM:
 
             logger.trace("【请求回答】", str(messages), "【工具】", str(tools))
 
-            response = client.chat.completions.create(
-                model=model,
-                stream=stream,
-                messages=messages,
-                tools=tools,
-                temperature=temperature,
-            )
+            create_kwargs = {
+                "model": model,
+                "stream": stream,
+                "messages": messages,
+                "temperature": temperature,
+            }
+            # DeepSeek 会在 tools=[] 时返回 400，只有在非空时才传参
+            if tools:
+                create_kwargs["tools"] = tools
+
+            response = client.chat.completions.create(**create_kwargs)
 
             logger.trace("【回答结果】", str(response))
 

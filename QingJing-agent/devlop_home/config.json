@@ -1,6 +1,14 @@
 {
     "api_configs": [
         {
+            "config_name": "DEEPSEEK",
+            "type": "DEEPSEEK",
+            "base_url": "https://api.deepseek.com",
+            "api_key_env": "DEEPSEEK_API_KEY",
+            "model": "deepseek-chat",
+            "temperature": 0
+        },
+        {
             "config_name": "SPARK",
             "type": "SPARK",
             "base_url": "https://spark-api-open.xf-yun.com/v1/",
@@ -23,7 +31,7 @@
         "enable_summary": true,
         "enable_correct": false,
         "summary_only_answer": false,
-        "vote_times": 3,
+        "vote_times": 2,
         "max_workers_main": 20,
         "max_workers_subtask": 5,
         "max_function_calling_iterations": 10
